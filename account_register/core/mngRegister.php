@@ -35,25 +35,30 @@ foreach (glob("../locale/$lang/*.php") as $row){
 }
 
 if(filter_input(INPUT_POST, "reg_form")){
+	$email=filter_input(INPUT_POST, "email");
 	
-    $email=filter_input(INPUT_POST, "reg_form");
-
 	$auth->email=$email;
 	$email_exists=$auth->emailExists();	
 	
 	if($email_exists){
+		print_r("exists");
+		exit;
 		header("Location: ../../login/auth-register.php?err=mailExists");
 		exit;
 	}
 	
     $register->email = filter_input(INPUT_POST,"email");
+	
+	$stmt = $register->showAllWhere('id',['email']);
+	$emailTmp="";
+	foreach($stmt as $row){
+		$emailTmp = $row['email'] ;
+	}
 
-	$emailTmp = $register->showAllWhere('id',['email']);
-		
-		if((!$emailTmp['email'])||(($emailTmp['email']) && ($expDate<$curDate))){
+	if((!$emailTmp)||(($emailTmp) && ($expDate<$curDate))){
 			$stmt=$register->delete('email');
 			if(!$stmt){
-				header("Location: ../../login.php?err=noRegDelete");
+				header("Location: ../../auth-register.php?err=noRegDelete");
 				exit;
 			}else {
 				$expFormat = mktime(date("H")+2, date("i"), date("s"), date("m") ,date("d"), date("Y"));
@@ -68,9 +73,9 @@ if(filter_input(INPUT_POST, "reg_form")){
                 $password=filter_input(INPUT_POST,"password");
                 $password_hash = password_hash($password, PASSWORD_BCRYPT);
                 $register->password = $password_hash ;
-
-			if($register->insert(['email','username','password','token','expDate'])){
-
+				
+				if($register->insert(['email','username','password','token','expDate'])){
+					
 				$url = $_SERVER['SERVER_NAME'];
 
 				$setting->name="noreply";
@@ -92,16 +97,16 @@ if(filter_input(INPUT_POST, "reg_form")){
 				'Reply-To: '.$from."\r\n" .
 				'X-Mailer: PHP/' . phpversion();
 
-				$output=$block1;
+				$output=$reg_block1;
 				$output.='<p><a href="http://'.$url.'/login/auth-register.php?email='.$email.'&token='.$token.'&op=reg" target="_blank">http://'.$url.'/login/auth-register.php?email='.$email.'&token='.$token.'&op=reg</a></p>';		
-				$output.=$block2;
+				$output.=$reg_block2;
 
 				$to= $email; 
-				$subject="Reset password Damares";
+				$subject=$reg_mail_subject ;
 
 				
 				if (mail ($to, $subject, $output, $headers)) {
-					header("Location: ../../login/auth-register.php?msg=sentMail");
+					header("Location: ../../login/auth-register.php?msg=sentRegMail");
 					exit;
 				} else {
 					header("Location: ../../login/auth-register.php?err=errSendMail");
@@ -109,6 +114,7 @@ if(filter_input(INPUT_POST, "reg_form")){
 				}
 			
 			}else{	
+				
 				header("Location: ../../login/auth-register.php?err=noReg");
 				exit;
 			}
@@ -117,6 +123,23 @@ if(filter_input(INPUT_POST, "reg_form")){
 			header("Location: ../../login/auth-register.php?err=errRegRequest");
 			exit;
 		}
+
+	}else if(filter_input(INPUT_POST, "reg_role")){
+
+		$role_id = filter_input(INPUT_POST, "role");
+		$role->id = $role_id ;
+		$rolename = $role->showRolenameById();
+
+		$setting->name = "reg_role" ;
+		$setting->value = $rolename ;
+		if(!$setting->updateValue()){
+			header("Location: ../index.php?p=setRegister&err=regRoleNotUpdated");
+			exit;
+		}else{
+			header("Location: ../index.php?p=setRegister&msg=regRoleUpdated");
+			exit;
+		}
+	
 
 	}else{
 header("Location: ../../login/auth-register.php?msg=errPost");

@@ -11,16 +11,17 @@ $link_parent = "settings" ;
 // REMEMBER: add all pages to section tables and also settings pages
 
 $query_create_table = "CREATE TABLE IF NOT EXISTS  ".$prefix."register_account_temp (
-   email VARCHAR(250) NOT NULL PRIMARY KEY,
+   id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   email VARCHAR(250) NOT NULL,
    username VARCHAR(250) NOT NULL,
    password VARCHAR(250) NOT NULL,
    token VARCHAR(250) NOT NULL,
    expDate DATETIME NOT NULL);
    INSERT INTO ".$prefix."settings
    (name,value)
-   VALUES ('reg_role','User');";
+   VALUES ('reg_role','Manager');";
 
-$child_table=[['link'=>'regSetting',
+$child_table=[['link'=>'setRegister',
                 'label'=>'Account register',
                 'icon'=>'person-badge']];
 
