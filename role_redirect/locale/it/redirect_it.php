@@ -8,4 +8,6 @@
 #                                          #
 ############################################
 
+$common_redirect = "Reindirizzamento" ;
+
 ?>

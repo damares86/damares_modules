@@ -1,6 +1,5 @@
 <?php
 
-
 ##############    Damares    ###############
 #                                          #
 #    A backend project by DM WebLab        #
@@ -9,12 +8,6 @@
 #                                          #
 ############################################
 
-
-require __DIR__."/coreConfig.php";
-
-
-
-
-
+$common_redirect = "Redirect" ;
 
 ?>
