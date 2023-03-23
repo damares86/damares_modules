@@ -41,8 +41,6 @@ if(filter_input(INPUT_POST, "reg_form")){
 	$email_exists=$auth->emailExists();	
 	
 	if($email_exists){
-		print_r("exists");
-		exit;
 		header("Location: ../../login/auth-register.php?err=mailExists");
 		exit;
 	}

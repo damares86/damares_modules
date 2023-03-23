@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 
 ##############    Damares    ###############
 #                                          #
@@ -9,12 +8,14 @@
 #                                          #
 ############################################
 
+class Verify extends Common{
 
-require __DIR__."/coreConfig.php";
+    public $table = "verify";
+    public $secret ;
+    public $public ;
+  
+    
 
-
-
-
-
+}
 
 ?>

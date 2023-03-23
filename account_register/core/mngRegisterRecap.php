@@ -35,7 +35,7 @@ foreach (glob("../locale/$lang/*.php") as $row){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])) {
-	$stmt=$verify->showAll();
+	$stmt=$verify->showAll('id');
 	$row=$stmt->fetch(PDO::FETCH_ASSOC);
 	$secret=$row['secret'];
 	// Costruire il POST request:      
@@ -60,8 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 			$email_exists=$auth->emailExists();	
 			
 			if($email_exists){
-				print_r("exists");
-				exit;
 				header("Location: ../../login/auth-register.php?err=mailExists");
 				exit;
 			}
