@@ -53,6 +53,11 @@ if(filter_input(INPUT_POST,"idToMod"))
     $idToMod = filter_input(INPUT_POST,"idToMod");
     $rsa->id = $idToMod ;
 
+    $url_tablePage = filter_input(INPUT_POST,'url_tablePage');
+    $url_pageName = filter_input(INPUT_POST,'url_pageName');
+
+    $url_data = "&tablePage=$url_tablePage&pageName=$url_pageName" ;
+
     $rsa->principio = filter_input(INPUT_POST,'principio') ;
     $rsa->cpr_box = filter_input(INPUT_POST,'cpr_box') ;
 
@@ -60,12 +65,12 @@ if(filter_input(INPUT_POST,"idToMod"))
 
     if( $rsa->update(['principio','cpr_box'],'id') )
     {
-        header("Location: ../index.php?p=allFarmaci&msg=farmaciEdit");
+        header("Location: ../index.php?p=allFarmaci&msg=farmaciEdit$url_data");
         exit;
     }
     else
     {
-        header("Location: ../index.php?p=allFarmaci&err=farmaciNoEdit");
+        header("Location: ../index.php?p=allFarmaci&err=farmaciNoEdit$url_data");
         exit;
     }
 
