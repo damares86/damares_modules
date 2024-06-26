@@ -36,7 +36,7 @@
 
 
 <section class="section">
-  <div class="card shadow">
+  <div class="card">
     <div class="card-header">
     </div>
     <div class="card-body">
@@ -90,7 +90,7 @@
               <?php
                 for($idx = 0 ; $idx<(count($dataArr[$i]['pazienti'])); $idx++)
                 {
-                  echo $dataArr[$i]['pazienti'][$idx].'<br>';
+                  echo $dataArr[$i]['pazienti'][$idx].', <br>';
                 }
               ?>
             </td>

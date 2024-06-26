@@ -48,6 +48,7 @@ while( $row = $stmt->fetch(PDO::FETCH_ASSOC) )
     extract($row);
 
     $nome_farmaco = $row['principio'] ;
+    echo "Farmaco: $nome_farmaco <br>";
 
     $rsa->table = 'pazientiFarmaci' ;
     $rsa->id_farmaci = $row['id'] ;
@@ -58,16 +59,20 @@ while( $row = $stmt->fetch(PDO::FETCH_ASSOC) )
     $pazienti = [] ;
     $cpr_mese = 0 ;
     $scatole_tot = 0 ;
-    $scatole_mag = 0 ;
     $cpr_mese_tot = 0 ;
-
+    $cpr_mese_tot_ordinare = 0 ;
+    
     while( $row1 = $stmt1->fetch(PDO::FETCH_ASSOC) )
     {
+        $scatole_mag = 0 ;
         $cpr_giorno = 0 ;
+        $cpr_mag = 0 ;
+        $cpr_ordine = 0 ;
+
         extract($row1);
         echo "---------------------<br>";
         echo 'id paziente '.$row1['id_pazienti'].'<br>';
-        echo 'id famraco '.$row1['id_farmaci'].'<br>';
+        echo 'id farmaco '.$row1['id_farmaci'].'<br>';
         // compresse al giorno del singolo farmaco
         $cpr_giorno += $row1['cpr'] ;
         echo 'cpr_giorno '.$cpr_giorno.'<br>';
@@ -76,6 +81,7 @@ while( $row = $stmt->fetch(PDO::FETCH_ASSOC) )
         $cpr_mese = $cpr_giorno * $giorni ;
         $cpr_mese_tot += $cpr_mese ;
         echo 'cpr_mese '.$cpr_mese.'<br>';
+        echo 'cpr_mese_tot '.$cpr_mese_tot.'<br>';
         
         // conto quante scatole servono al paziente
         $scatole = ceil($cpr_mese/$row['cpr_box'] ) ;
@@ -83,36 +89,44 @@ while( $row = $stmt->fetch(PDO::FETCH_ASSOC) )
         echo 'magazzino '.$row1['magazzino'].'<br>';
         
         // sottraggo le scatole della stanza
-        $scatole_mag += $scatole - $row1['magazzino'] ;
-        echo 'scatole_mag '.$scatole_mag.'<br>';
+        $scatole_mag = $scatole - $row1['magazzino'] ;
+        echo 'scatole necessarie '.$scatole_mag.'<br>';
         
         if($scatole_mag>0)
         {
-            $scatole_tot += $scatole_mag ;
-            echo 'scatole_tot '.$scatole_tot.'<br>';
 
+            $cpr_mag = $row1['magazzino']*$row['cpr_box'];
+            echo "cpr_mag: $cpr_mag<br>";
+            
+            $cpr_ordine = $cpr_mese_tot - $cpr_mag ;
+            echo "cpr_ordine: $cpr_ordine<br>";
+
+
+            $scatole_tot += $scatole_mag ;
+            
             $rsa->table = 'pazienti' ;
             $rsa->id = $row1['id_pazienti'] ;
             $stmt2 = $rsa->showAllWhere('id',['id']) ;
             $row2 = $stmt2->fetch(PDO::FETCH_ASSOC) ;
             extract($row2) ;
-
+            
             $pazienti[] = ''.$row2['cognome'].' '.$row2['nome'].'' ;
         }
-
+        echo 'scatole_tot '.$scatole_tot.'<br>';
     }
-
+    
     echo "---------------------<br>";
+    $cpr_mese_tot_ordinare += $scatole_tot*$row['cpr_box'];
     
     
     
-    if($scatole_mag>0)
+    if($scatole_tot>0)
     {
-        $ordine[] = array( 'farmaco' => $nome_farmaco, 'compresse'=> $cpr_mese_tot, 'scatole' => $scatole_tot, 'pazienti' =>$pazienti) ;
+        $ordine[] = array( 'farmaco' => $nome_farmaco, 'compresse'=> $cpr_mese_tot_ordinare, 'scatole' => $scatole_tot, 'pazienti' =>$pazienti) ;
     }
-    print_r($ordine) ;
-    
+    print_r($ordine) ; 
     echo "---------------------<br>";
+
 }
 
 $folder = '../inc/ordini';

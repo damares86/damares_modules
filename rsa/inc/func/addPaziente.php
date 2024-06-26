@@ -25,7 +25,7 @@
 <section class="section">
     <div class="row">
         <div class="col-12">
-            <div class="card shadow">
+            <div class="card">
                 <div class="card-header">
                 <h4 class="card-title">Paziente</h4>
                 </div>
@@ -79,11 +79,11 @@
                                 <div class="row" id="dynamic_field">
                                     <div class="row" id="row1">     
                                         <div class="col-md-2">
-                                            <label>Principio attivo <span class="text-danger">*</span></label>
+                                            <label>Principio attivo </label>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <div class="form-check mandatory">
+                                                <div class="form-check">
                                                     <div class="position-relative">
                                                     <fieldset class="form-group">
                                                         <select
@@ -110,14 +110,13 @@
                                         <div class="col-md-1">N° cpr die</div>
                                         <div class="col-md-1">
                                             <div class="form-group">
-                                                <div class="form-check mandatory">
+                                                <div class="form-check">
                                                     <div class="position-relative">
                                                         <input
                                                         type="text"
                                                         class="form-control"
                                                         placeholder="0"
                                                         name="cpr"
-                                                        data-parsley-required="true"
                                                         />
                                                     </div>
                                                 </div>
@@ -128,14 +127,13 @@
                                         </div>
                                         <div class="col-md-1">
                                             <div class="form-group">
-                                                <div class="form-check mandatory">
+                                                <div class="form-check">
                                                     <div class="position-relative">
                                                         <input
                                                         type="text"
                                                         class="form-control"
                                                         placeholder="0"
                                                         name="magazzino"
-                                                        data-parsley-required="true"
                                                         />
                                                     </div>
                                                 </div>
@@ -162,13 +160,13 @@
                         <div class="col-12 d-flex justify-content-end">
                             <button
                             type="submit"
-                            class="btn btn-primary me-1 mb-1 shadow"
+                            class="btn btn-primary me-1 mb-1"
                             >
                             <?=$common_submit?>
                             </button>
                             <button
                             type="reset"
-                            class="btn btn-light-secondary me-1 mb-1 shadow"
+                            class="btn btn-light-secondary me-1 mb-1"
                             >
                             <?=$common_reset?>
                             </button>

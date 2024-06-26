@@ -35,9 +35,9 @@ extract($row1) ;
 <section class="section">
     <div class="row">
         <div class="col-12">
-            <div class="card shadow">
+            <div class="card">
                 <div class="card-header">
-                <h4 class="card-title">FModifica farmaco: <b><?=$row1['principio']?></b></h4>
+                <h4 class="card-title">Modifica farmaco: <b><?=$row1['principio']?></b></h4>
                 </div>
                 <div class="card-content">
                 <div class="card-body">
@@ -95,13 +95,13 @@ extract($row1) ;
                         <div class="col-12 d-flex justify-content-end">
                             <button
                             type="submit"
-                            class="btn btn-primary me-1 mb-1 shadow"
+                            class="btn btn-primary me-1 mb-1"
                             >
                             <?=$common_submit?>
                             </button>
                             <button
                             type="reset"
-                            class="btn btn-light-secondary me-1 mb-1 shadow"
+                            class="btn btn-light-secondary me-1 mb-1"
                             >
                             <?=$common_reset?>
                             </button>
