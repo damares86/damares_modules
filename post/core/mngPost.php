@@ -37,6 +37,11 @@ if($operation=="edit"){
 
         $id = filter_input(INPUT_POST,"idToMod") ;        
 
+        $url_tablePage = filter_input(INPUT_POST,'url_tablePage');
+        $url_pageName = filter_input(INPUT_POST,'url_pageName');
+    
+        $url_data = "&tablePage=$url_tablePage&pageName=$url_pageName" ;
+    
         if( filter_input(INPUT_POST,"gall") )
         {
             $post->gall = filter_input(INPUT_POST,"gall");
@@ -61,7 +66,7 @@ if($operation=="edit"){
     
             if($file->countFile()>0){
                 
-                header("Location: ../index.php?p=allFiles&err=fileExists");
+                header("Location: ../index.php?p=allFiles&err=fileExists$url_data");
                 exit;
             }
             // set data for file uploading
@@ -92,13 +97,13 @@ if($operation=="edit"){
         if($post->update(['main_img','gall','title','author','content','created','category_id'],'id')){
     
             //success
-            header("Location: ../index.php?p=editPost&idToMod=$id&msg=postEditSucc$errImg");
+            header("Location: ../index.php?p=editPost$url_data&idToMod=$id&msg=postEditSucc$errImg");
             exit;
     
         }else{
     
             // fail
-            header("Location: ../index.php?p=editPost&idToMod=$id&err=postEditFail$errImg");
+            header("Location: ../index.php?p=editPost$url_data&idToMod=$id&err=postEditFail$errImg");
             exit;
         }
     

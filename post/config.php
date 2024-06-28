@@ -2,15 +2,15 @@
 
 // plugin information
 
-$pluginname = "post" ;
-$description = "Manage a blog, with custom categories" ;
-$link_parent = "post" ;
+$pluginname = "post";
+$description = "Manage a blog, with custom categories";
+$link_parent = "post";
 
 // query to create and drop the table
 
 // REMEMBER: add all pages to section tables and also settings pages
 
-$query_create_table = "CREATE TABLE IF NOT EXISTS ".$prefix."post
+$query_create_table = "CREATE TABLE IF NOT EXISTS " . $prefix . "post
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       main_img VARCHAR(255) NOT NULL,
       gall VARCHAR(255) DEFAULT NULL,
@@ -26,21 +26,27 @@ $query_create_table = "CREATE TABLE IF NOT EXISTS ".$prefix."post
       (id, category_name)
       VALUES ('1','Misc')";
 
-$parent_table=[['link'=>'post',
-                  'label'=>'Posts',
-                  'icon'=>'vector-pen']];
+$menu_link = [[
+      'link' => 'post',
+      'label' => 'Posts',
+      'icon' => 'vector-pen',
+      'child' => [
+            [
+                  'link' => 'addPost',
+                  'label' => 'Add post',
+                  'icon' => 'file-earmark-plus'
+            ],
+            [
+                  'link' => 'allPosts',
+                  'label' => 'All Posts',
+                  'icon' => 'file-earmark-post'
+            ],
+            [
+                  'link' => 'allPostsCat',
+                  'label' => 'All categories',
+                  'icon' => 'bookmarks'
+            ]
+      ]
+]];
 
-$child_table=[['link'=>'addPost',
-            'label'=>'Add post',
-            'icon'=>'file-earmark-plus'],
-            ['link'=>'allPosts',
-            'label'=>'All Posts',
-            'icon'=>'file-earmark-post'],
-            ['link'=>'allPostsCat',
-            'label'=>'All categories',
-            'icon'=>'bookmarks']
-             ];
-
-$query_drop_table = "DROP TABLE  ".$prefix."post, ".$prefix."post_categories";
-
-?>
+$query_drop_table = "DROP TABLE  " . $prefix . "post, " . $prefix . "post_categories";
