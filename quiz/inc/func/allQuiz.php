@@ -144,7 +144,7 @@ $stmt = $quiz->showAll('id');
                                       <i data-feather="x"></i>
                                     </button>
                                   </div>
-                                  <div class="modal-body">
+                                  <div class="modal-body text-black">
                                     <?=$quiz_all_modal_body?>
                                   </div>
                                   <div class="modal-footer">

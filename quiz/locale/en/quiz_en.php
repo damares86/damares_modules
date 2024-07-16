@@ -62,6 +62,7 @@ $msg_quizEditOk = "Quiz edited" ;
 $msg_activeScoreQuizSucc = "Winner saved in database. Click on 'Results' to show it" ;
 $msg_activeQuizSucc = "Quiz activated, now is available in the 'Quiz' tab of its relation" ;
 $msg_quizDeleted = "Quiz deleted" ;
+$msg_winnerOk = "Winner selected" ;
 
 
 // err
@@ -76,5 +77,6 @@ $err_scoreQuizErr = "Winner not saved" ;
 $err_activeScoreQuizErr = "Winner not saved in database." ;
 $err_activeQuizErr = "Quiz not activated" ;
 $err_quizNotDeleted = "Quiz not deleted" ;
+$err_winnerOk = "Winner not selected" ;
 
 ?>

@@ -80,7 +80,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <label><?=$quiz_all_active?></label>
                             </div>
                             <div class="col-md-2 bg-<?=$active_bg?> py-2">
-                                <div class="form-check form-switch">
+                                <div class="form-check form-switch delete">
                                     <input class="form-check-input delete" type="checkbox" name="activeQuiz" id="flexSwitchCheckDefault" <?=$checked?>>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
                             <input type="hidden" name="quiz_id" value="<?=$quiz_id?>">
 
                         <div class="col-md-3">
-                            <label><?=$add_quiz_rel ?> <span class="text-danger">*</span></label>
+                            <label><?=$add_quiz_relation ?> <span class="text-danger">*</span></label>
                         </div>
                         <div class="col-md-9">
 
@@ -277,6 +277,32 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
                                                     }
                                                 ?>
                                                 <input class="form-check-input" type="radio" name="a_<?=$count?>[]" value="3" <?=$a_checked?>> <?=$add_quiz_ok?>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Risposta" name="o_<?=$count?>[]"  value="<?=$opt?>" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="form-check mandatory">
+                                        <div class="position-relative">
+                                        <div class="row mb-3">
+                                            <div class="col-md-2">
+                                                <label>5 </label>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <?php
+                                                    $a_checked="";
+                                                    if($item['a']==4){
+                                                        $a_checked="checked";
+                                                    }
+                                                    $opt=" ";
+                                                    if($item['o'][4]!="null"){
+                                                        $opt=$item['o'][4];
+                                                    }
+                                                ?>
+                                                <input class="form-check-input" type="radio" name="a_<?=$count?>[]" value="4" <?=$a_checked?>> <?=$add_quiz_ok?>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" placeholder="Risposta" name="o_<?=$count?>[]"  value="<?=$opt?>" />

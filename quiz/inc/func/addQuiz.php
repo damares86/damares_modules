@@ -154,7 +154,23 @@
                                                 <input class="form-check-input" type="radio" name="a_1[]" value="3"> <?=$add_quiz_ok?>
                                             </div>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Risposta" name="o_1'[]" />
+                                        <input type="text" class="form-control" placeholder="Risposta" name="o_1[]" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="form-check mandatory">
+                                        <div class="position-relative">
+                                        <div class="row mb-3">
+                                            <div class="col-md-2">
+                                                <label>5 </label>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input class="form-check-input" type="radio" name="a_1[]" value="4"> <?=$add_quiz_ok?>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Risposta" name="o_1[]" />
                                         </div>
                                     </div>
                                 </div>
