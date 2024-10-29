@@ -3,7 +3,7 @@
 <div class="page-title">
   <div class="row">
     <div class="col-12 col-md-6 order-md-1 order-last">
-      <h3><?=$allcolors_header?></h3>
+      <h3><?= $allcolors_header ?></h3>
     </div>
     <div class="col-12 col-md-6 order-md-2 order-first">
       <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -12,7 +12,7 @@
             <a href="index.php"><?= $common_dashboard ?></a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-          <?=$allcolors_header?>
+            <?= $allcolors_header ?>
           </li>
         </ol>
       </nav>
@@ -22,46 +22,64 @@
 <br>
 
 <section class="section">
+  <!-- <div class="card-header">Scegli il tema &nbsp; &nbsp; &nbsp;
+    </div> -->
+
+  <div id="colorpicker"></div>
+  <div class="row">
+    <div class="col-md-8 col-12">
+      <div class="card shadow">
+        <div class="card-body">
+          <form class="form form-horizontal mb-3" action="core/mngColors.php" method="POST" data-parsley-validate>
+            <div class="form-body">
+              <div class="row">
+
+                <div class="col-md-3">
+                  <label><?= $allcolors_addcolor ?></label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group has-icon-left">
+                    <div class="form-check mandatory square">
+                      <input type="text" class="form-control coloris instance1" id="color" name="color" value="#008db1" data-parsley-required="true" data-coloris>
+                    </div>
+                  </div>
+                </div>
+
+                <input type="hidden" name="origin" value="allColor">
+                <input type="hidden" name="operation" value="addColor">
+
+                <div class="col-12 mt-3 d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary me-1 mb-1 shadow">
+                    <?= $common_submit ?>
+                  </button>
+                  <button type="reset" class="btn btn-light-secondary me-1 mb-1 shadow">
+                    <?= $common_reset ?>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-12">
+      <div class="card shadow">
+        <h4 class="card-title px-4 pt-3"><?= $common_info ?></h4>
+        <div class="card-content px-5 pb-4">
+          <ul>
+            <li><a href="https://www.dmweblab.com/portal/manual.php?prod=4&parent=1&page=11" target="_blank"><?= $common_see_guide ?></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="card shadow">
     <!-- <div class="card-header">Scegli il tema &nbsp; &nbsp; &nbsp;
     </div> -->
     <div class="card-body">
 
-      <div id="colorpicker"></div>
-
-      <form class="form form-horizontal mb-3" action="core/mngColors.php" method="POST" data-parsley-validate>
-        <div class="form-body">
-          <div class="row">
-
-            <div class="col-md-3">
-              <label><?=$allcolors_addcolor?></label>
-            </div>
-            <div class="col-md-9">
-              <div class="form-group has-icon-left">
-                <div class="form-check mandatory square">
-                  <input type="text" class="form-control coloris instance1" id="color" name="color" value="#008db1" data-parsley-required="true" data-coloris>
-                </div>
-              </div>
-            </div>
-
-            <input type="hidden" name="origin" value="allColor">
-            <input type="hidden" name="operation" value="addColor">
-
-            <div class="col-12 mt-3 d-flex justify-content-end">
-              <button type="submit" class="btn btn-primary me-1 mb-1 shadow">
-                <?= $common_submit ?>
-              </button>
-              <button type="reset" class="btn btn-light-secondary me-1 mb-1 shadow">
-                <?= $common_reset ?>
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-
-
-      <div class="col-12  border-top py-3">
-        <label><?=$allcolors_colors?></label>
+      <div class="col-12 py-3">
+        <label><?= $allcolors_colors ?></label>
         <div class="row mt-3">
           <?php
           $mc->table = 'mc_color';
@@ -92,7 +110,7 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <?=$allcolors_modal_body ?>
+                              <?= $allcolors_modal_body ?>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">

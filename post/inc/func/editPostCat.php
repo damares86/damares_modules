@@ -1,7 +1,7 @@
 <?php
 
 $idToMod = filter_input(INPUT_GET, "idToMod");
-$post->id = $idToMod ;
+$post->id = $idToMod;
 $post->table = 'post_categories';
 $stmt1 = $post->showAllWhere('id', ['id']);
 $row1 = $stmt1->fetch(PDO::FETCH_ASSOC);
@@ -14,7 +14,7 @@ $url_pageName = filter_input(INPUT_GET, 'pageName');
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3 class="d-inline"><?=$editcat_header?></h3>
+            <h3 class="d-inline"><?= $editcat_header ?></h3>
             <a href="index.php?p=<?= $url_pageName ?>&tablePage=<?= $url_tablePage ?>&pageName=<?= $url_pageName ?>" class="btn icon btn-info shadow mx-3 px-3">
                 <i class="bi bi-arrow-left-circle"></i> &nbsp; <?= $common_back ?>
             </a>
@@ -27,7 +27,7 @@ $url_pageName = filter_input(INPUT_GET, 'pageName');
                     <a href="index.php"><?= $common_dashboard ?></a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <?=$editcat_header?>
+                    <?= $editcat_header ?>
                 </li>
             </ol>
         </nav>
@@ -41,7 +41,7 @@ $url_pageName = filter_input(INPUT_GET, 'pageName');
         <div class="col-md-8 col-12">
             <div class="card shadow">
                 <div class="card-header">
-                    <h4 class="card-title"><?=$editcat_title?>: <?= $row1['category_name'] ?></h4>
+                    <h4 class="card-title"><?= $editcat_title ?>: <?= $row1['category_name'] ?></h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body">
@@ -49,7 +49,7 @@ $url_pageName = filter_input(INPUT_GET, 'pageName');
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <label><?=$editcat_name?> <span class="text-danger">*</span></label>
+                                        <label><?= $editcat_name ?> <span class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="form-group">
@@ -67,7 +67,7 @@ $url_pageName = filter_input(INPUT_GET, 'pageName');
                                     if ($plugin->itemExists('pluginname') && $plugin->isActive() == 1) {
                                     ?>
                                         <div class="col-md-3 my-3">
-                                            <label><?=$editcat_assign?>: <span class="text-danger">*</span></label>
+                                            <label><?= $editcat_assign ?>: <span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-9 my-3">
                                             <div class="form-group">
@@ -81,7 +81,7 @@ $url_pageName = filter_input(INPUT_GET, 'pageName');
                                                                     $selected = 'selected';
                                                                 }
                                                                 ?>
-                                                                <option value="none" <?= $selected ?>><?=$editcat_none?></option>
+                                                                <option value="none" <?= $selected ?>><?= $editcat_none ?></option>
 
                                                                 <?php
                                                                 $mc->table = 'mc_pages';
@@ -140,12 +140,11 @@ $url_pageName = filter_input(INPUT_GET, 'pageName');
         </div>
         <div class="col-md-4 col-12">
             <div class="card shadow">
-                <div class="card-header">
-                    <h4 class="card-title"><?= $common_info ?></h4>
-                </div>
-                <div class="card-content">
-                    <div class="card-body">
-                    </div>
+                <h4 class="card-title px-4 pt-3"><?= $common_info ?></h4>
+                <div class="card-content px-5 pb-4">
+                    <ul>
+                        <li><a href="https://www.dmweblab.com/portal/manual.php?prod=5&page=6" target="_blank"><?= $common_see_guide ?></a></li>
+                    </ul>
                 </div>
             </div>
         </div>

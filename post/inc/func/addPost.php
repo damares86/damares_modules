@@ -1,7 +1,7 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3><?=$addpost_header?></h3>
+            <h3><?= $addpost_header ?></h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav
@@ -12,7 +12,7 @@
                         <a href="index.php"><?= $common_dashboard ?></a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <?=$addpost_header?>
+                        <?= $addpost_header ?>
                     </li>
                 </ol>
             </nav>
@@ -26,7 +26,7 @@
         <div class="col-md-8 col-12">
             <div class="card shadow">
                 <div class="card-header">
-                    <h4 class="card-title"><?=$addpost_title?></h4>
+                    <h4 class="card-title"><?= $addpost_title ?></h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body">
@@ -34,7 +34,7 @@
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <label><?=$addpost_post_title?><span class="text-danger">*</span></label>
+                                        <label><?= $addpost_post_title ?><span class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="form-group">
@@ -53,7 +53,7 @@
                                     </div>
 
                                     <div class="col-md-3 mt-3">
-                                        <label><?=$addpost_cat?> <span class="text-danger">*</span></label>
+                                        <label><?= $addpost_cat ?> <span class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-md-9 mt-3">
                                         <div class="form-group">
@@ -84,7 +84,7 @@
                                     </div>
 
                                     <div class="col-md-3 mt-3">
-                                        <label><?=$addpost_img?> </label>
+                                        <label><?= $addpost_img ?> </label>
                                     </div>
                                     <div class="col-md-9 mt-3">
                                         <div class="form-group">
@@ -106,7 +106,7 @@
                         </div> -->
 
                                     <div class="col-md-3 my-3">
-                                        <label><?=$addpost_content?> <span class="text-danger">*</span></label>
+                                        <label><?= $addpost_content ?> <span class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-md-9 my-3">
                                         <div class="form-group">
@@ -118,14 +118,14 @@
                                         </div>
                                     </div>
 
-                                    
+
                                     <?php
                                     $plugin->pluginname = "mini_cms";
 
                                     if ($plugin->itemExists('pluginname') && $plugin->isActive() == 1) {
                                     ?>
                                         <div class="col-md-3 my-3">
-                                            <label><?=$addpost_gallery?> </label>
+                                            <label><?= $addpost_gallery ?> </label>
                                         </div>
                                         <div class="col-md-9 my-3">
                                             <div class="form-group">
@@ -133,7 +133,7 @@
                                                     <div class="position-relative">
                                                         <fieldset class="form-group">
                                                             <select class="form-select" name="gall">
-                                                                <option value="none"><?=$addpost_gallery_none?></option>
+                                                                <option value="none"><?= $addpost_gallery_none ?></option>
                                                                 <?php
                                                                 $mc->table = 'mc_galleries';
                                                                 $galleries = $mc->showAll('id');
@@ -182,12 +182,11 @@
         </div>
         <div class="col-md-4 col-12">
             <div class="card shadow">
-                <div class="card-header">
-                    <h4 class="card-title"><?= $common_info ?></h4>
-                </div>
-                <div class="card-content">
-                    <div class="card-body">
-                    </div>
+                <h4 class="card-title px-4 pt-3"><?= $common_info ?></h4>
+                <div class="card-content px-5 pb-4">
+                    <ul>
+                        <li><a href="https://www.dmweblab.com/portal/manual.php?prod=5&page=2" target="_blank"><?= $common_see_guide ?></a></li>
+                    </ul>
                 </div>
             </div>
         </div>
