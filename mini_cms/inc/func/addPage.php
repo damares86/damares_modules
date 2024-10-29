@@ -226,9 +226,9 @@
                                                                     <?php
                                                                     $plugin->pluginname = "post";
                                                                     // $postOption = '';
-                                                                    $postExist = false ;
+                                                                    $postExist = false;
                                                                     if ($plugin->itemExists('pluginname') && $plugin->isActive() == 1) {
-                                                                        $postExist = true ;
+                                                                        $postExist = true;
                                                                         // $postOption = '<option value="post_1">' . $block_type_post . '</option>';
                                                                     ?>
                                                                         <option value="post_1"><?= $block_type_post ?></option>
@@ -303,41 +303,46 @@
                                                     <p><?= $block_quotes_text ?></p>
                                                     <input type="hidden" name="quote_1" value="q">
                                                 </div>
-                                                <div class="row page post_1">
-                                                    <div class="col-12">
-                                                        <p><?= $block_post_text ?></p>
-                                                    </div>
+                                                <?php
+                                                if ($postExist==true) {
+                                                ?>
+                                                    <div class="row page post_1">
+                                                        <div class="col-12">
+                                                            <p><?= $block_post_text ?></p>
+                                                        </div>
+                                                        <div class="col-md-3 pb-3">
+                                                            <label><?= $block_post_cat ?></label>
+                                                        </div>
+                                                        <div class="col-md-9 pb-3">
+                                                            <div class="form-group has-icon-left">
+                                                                <div class="position-relative">
+                                                                    <fieldset class="form-group">
+                                                                        <select class="form-select w-50" name="post_cat_1">
+                                                                            <option value='none'><?= $block_post_cat_all ?></option>
+                                                                            <?php
+                                                                            $catOption = '<option value="none">' . $block_post_cat_all . '</option>';
+                                                                            $post->table = "post_categories";
+                                                                            $cat_stmt = $post->showAll('id');
+                                                                            while ($cat_row = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                                                $catOption .= '<option value="' . $cat_row['id'] . '">' . $cat_row['category_name'] . '</option>';
 
-                                                    <div class="col-md-3 pb-3">
-                                                        <label><?=$block_post_cat?></label>
-                                                    </div>
-                                                    <div class="col-md-9 pb-3">
-                                                        <div class="form-group has-icon-left">
-                                                            <div class="position-relative">
-                                                                <fieldset class="form-group">
-                                                                    <select class="form-select w-50" name="post_cat_1">
-                                                                        <option value='none'><?=$block_post_cat_all?></option>
-                                                                        <?php
-                                                                        $catOption = '<option value="none">'.$block_post_cat_all.'</option>';
-                                                                        $post->table = "post_categories";
-                                                                        $cat_stmt = $post->showAll('id');
-                                                                        while ($cat_row = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                                           $catOption .= '<option value="'.$cat_row['id'].'">' . $cat_row['category_name'] . '</option>';
+                                                                            ?>
+                                                                                <option value='<?= $cat_row['id'] ?>'><?= $cat_row['category_name'] ?></option>
+                                                                            <?php
+                                                                            }
 
-                                                                        ?>
-                                                                            <option value='<?= $cat_row['id'] ?>'><?= $cat_row['category_name'] ?></option>
-                                                                        <?php
-                                                                        }
-
-                                                                        ?>
-                                                                    </select>
-                                                                </fieldset>
+                                                                            ?>
+                                                                        </select>
+                                                                    </fieldset>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <input type="hidden" name="post_1" value="p">
-                                                </div>
+                                                        <input type="hidden" name="post_1" value="p">
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
 
                                             </div>
 
@@ -536,8 +541,17 @@ $colors = json_encode($colorArray);
 ?>
 <script type="text/javascript">
     var galleryOptions = '<?php echo $galleryOptions; ?>';
-    var postExist = <?=$postExist?>;
-    var catOptions = '<?php echo $catOption; ?>';
+    <?php
+    if($postExist==true){
+        
+        echo 'var postExist = true;';
+        echo 'var catOptions = \''.$catOption.'\';';
+        echo 'var block_post_cat = \''.$block_post_cat.'\';';
+        echo 'var block_post_text = \''.$block_post_text.'\';';    
+    }else{
+        echo 'var postExist = false;';
+    }
+    ?>
     var colorOptionsBg = '<?php echo $colorOptionsBg; ?>';
     var colorOptionsText = '<?php echo $colorOptionsText; ?>';
     var colors = <?php echo $colors; ?>;
@@ -550,8 +564,6 @@ $colors = json_encode($colorArray);
     var block_type_post = '<?php echo $block_type_post; ?>';
     var block_gallery_choose = '<?php echo $block_gallery_choose; ?>';
     var block_quotes_text = '<?php echo $block_quotes_text; ?>';
-    var block_post_text = '<?php echo $block_post_text; ?>';
-    var block_post_cat = '<?php echo $block_post_cat; ?>';
     var block_post_cat_all = '<?php echo $block_post_cat_all; ?>';
     var block_bg_color = '<?php echo $block_bg_color; ?>';
     var block_bg_text = '<?php echo $block_bg_text; ?>';

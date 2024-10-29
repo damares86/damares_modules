@@ -85,6 +85,30 @@ $(document).ready(function(){
             postOptions = '<option value="post_' + i + '">' + block_type_post + '</option>';
         }
 
+        var postBlock = '' ;
+        if(postExist==true){
+            postBlock =  '<div class="row page post_'+i+'">'+
+            '<div class="col-12">'+
+                '<p>'+block_post_text+'</p>'+
+            '</div>'+
+            '<div class="col-md-3 pb-3">'+
+                '<label>'+block_post_cat+'</label>'+
+            '</div>'+
+            '<div class="col-md-9 pb-3">'+
+                '<div class="form-group has-icon-left">'+
+                    '<div class="position-relative">'+
+                        '<fieldset class="form-group">'+
+                            '<select class="form-select w-50" id="theme" name="post_cat_'+i+'">'+
+                                catOptions+
+                            '</select>'+
+                        '</fieldset>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<input type="hidden" name="post_'+i+'" value="p">'+
+        '</div>';
+        }
+
         $('#dynamic_field').append('<div class="row" id="block_'+i+'">'+
             '<div class="col-md-3 mt-3 p-3">'+
                 '<label><b>'+block_title+' <span>'+i+'</span></b></label>'+
@@ -158,26 +182,7 @@ $(document).ready(function(){
                     '<p>'+block_quotes_text+'</p>'+
                     '<input type="hidden" name="quote_'+i+'" value="q">'+
                 '</div>'+
-                '<div class="row page post_'+i+'">'+
-                    '<div class="col-12">'+
-                        '<p>'+block_post_text+'</p>'+
-                    '</div>'+
-                    '<div class="col-md-3 pb-3">'+
-                        '<label>'+block_post_cat+'</label>'+
-                    '</div>'+
-                    '<div class="col-md-9 pb-3">'+
-                        '<div class="form-group has-icon-left">'+
-                            '<div class="position-relative">'+
-                                '<fieldset class="form-group">'+
-                                    '<select class="form-select w-50" id="theme" name="post_cat_'+i+'">'+
-                                        catOptions+
-                                    '</select>'+
-                                '</fieldset>'+
-                            '</div>'+
-                        '</div>'+
-                    '</div>'+
-                    '<input type="hidden" name="post_'+i+'" value="p">'+
-                '</div>'+
+                postBlock+
             '</div>'+
             '<div class="row colors mb-5">'+
                 '<div class="col-md-3 mt-3 px-3">'+

@@ -317,7 +317,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                                         $plugin->pluginname = "post";
                                                                         $postOption = '';
                                                                         $postExist = false;
-                                                                        
+
                                                                         if ($plugin->itemExists('pluginname') && $plugin->isActive() == 1) {
                                                                             // $postOption = '<option value="post_' . $idx . '" ' . $post_selected . '>Latest post</option>';
 
@@ -423,45 +423,53 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                         <p><?= $block_quotes_text ?></p>
                                                         <input type="hidden" name="quote_<?= $idx ?>" value="q">
                                                     </div>
-                                                    <div class="row page post_1">
-                                                        <div class="col-12">
-                                                            <p><?= $block_post_text ?></p>
-                                                        </div>
 
-                                                        <div class="col-md-3 pb-3">
-                                                            <label><?= $block_post_cat ?></label>
-                                                        </div>
-                                                        <div class="col-md-9 pb-3">
-                                                            <div class="form-group has-icon-left">
-                                                                <div class="position-relative">
-                                                                    <fieldset class="form-group">
-                                                                        <select class="form-select w-50" name="post_cat_<?= $idx ?>">
-                                                                            <option value='none'><?= $block_post_cat_all ?></option>
-                                                                            <?php
-                                                                            $catOption = '<option value="none">' . $block_post_cat_all . '</option>';
-                                                                            $post->table = "post_categories";
-                                                                            $cat_stmt = $post->showAll('id');
-                                                                            while ($cat_row = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                                                $selected_cat = '';
-                                                                                if ($json_arr[$idx]['block' . $idx . '_cat'] == $cat_row['id']) {
-                                                                                    $selected_cat = 'selected';
+                                                    <?php
+                                                    if ($postExist == true) {
+                                                    ?>
+                                                        <div class="row page post_1">
+                                                            <div class="col-12">
+                                                                <p><?= $block_post_text ?></p>
+                                                            </div>
+
+                                                            <div class="col-md-3 pb-3">
+                                                                <label><?= $block_post_cat ?></label>
+                                                            </div>
+                                                            <div class="col-md-9 pb-3">
+                                                                <div class="form-group has-icon-left">
+                                                                    <div class="position-relative">
+                                                                        <fieldset class="form-group">
+                                                                            <select class="form-select w-50" name="post_cat_<?= $idx ?>">
+                                                                                <option value='none'><?= $block_post_cat_all ?></option>
+                                                                                <?php
+                                                                                $catOption = '<option value="none">' . $block_post_cat_all . '</option>';
+                                                                                $post->table = "post_categories";
+                                                                                $cat_stmt = $post->showAll('id');
+                                                                                while ($cat_row = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                                                    $selected_cat = '';
+                                                                                    if ($json_arr[$idx]['block' . $idx . '_cat'] == $cat_row['id']) {
+                                                                                        $selected_cat = 'selected';
+                                                                                    }
+                                                                                    $catOption .= '<option value="' . $cat_row['id'] . '">' . $cat_row['category_name'] . '</option>';
+
+                                                                                ?>
+                                                                                    <option value='<?= $cat_row['id'] ?>' <?= $selected_cat ?>><?= $cat_row['category_name'] ?></option>
+                                                                                <?php
                                                                                 }
-                                                                                $catOption .= '<option value="' . $cat_row['id'] . '">' . $cat_row['category_name'] . '</option>';
 
-                                                                            ?>
-                                                                                <option value='<?= $cat_row['id'] ?>' <?= $selected_cat ?>><?= $cat_row['category_name'] ?></option>
-                                                                            <?php
-                                                                            }
-
-                                                                            ?>
-                                                                        </select>
-                                                                    </fieldset>
+                                                                                ?>
+                                                                            </select>
+                                                                        </fieldset>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
-                                                        <input type="hidden" name="post_1" value="p">
-                                                    </div>
+                                                            <input type="hidden" name="post_1" value="p">
+                                                        </div>
+                                                    <?php
+                                                    }
+                                                    ?>
+
 
                                                 </div>
 
@@ -611,6 +619,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
         </div>
     </div>
 
+
     </div>
 </section>
 
@@ -725,9 +734,18 @@ $colors = json_encode($colorArray);
 ?>
 <script type="text/javascript">
     var galleryOptions = '<?php echo $galleryOptions; ?>';
-    var postExist = <?= $postExist ?>;
-    var catOptions = '<?php echo $catOption; ?>';
-    var colors = <?php echo $colors; ?>;
+    <?php
+    if($postExist==true){
+        
+        echo 'var postExist = true;';
+        echo 'var catOptions = \''.$catOption.'\';';
+        echo 'var block_post_cat = \''.$block_post_cat.'\';';
+        echo 'var block_post_text = \''.$block_post_text.'\';';    
+    }else{
+        echo 'var postExist = false;';
+    }
+    ?>
+    var colors = <?= $colors; ?>;
     var block_type_text = '<?php echo $block_type_text; ?>';
     var block_title = '<?php echo $block_title; ?>';
     var block_type_image = '<?php echo $block_type_image; ?>';
@@ -737,8 +755,6 @@ $colors = json_encode($colorArray);
     var block_type_post = '<?php echo $block_type_post; ?>';
     var block_gallery_choose = '<?php echo $block_gallery_choose; ?>';
     var block_quotes_text = '<?php echo $block_quotes_text; ?>';
-    var block_post_text = '<?php echo $block_post_text; ?>';
-    var block_post_cat = '<?php echo $block_post_cat; ?>';
     var block_bg_color = '<?php echo $block_bg_color; ?>';
     var block_bg_text = '<?php echo $block_bg_text; ?>';
     var block_color_none = '<?php echo $block_color_none; ?>';
