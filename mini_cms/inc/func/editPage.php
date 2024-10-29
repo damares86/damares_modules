@@ -427,7 +427,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                     <?php
                                                     if ($postExist == true) {
                                                     ?>
-                                                        <div class="row page post_1">
+                                                        <div class="row page post_<?=$idx?>">
                                                             <div class="col-12">
                                                                 <p><?= $block_post_text ?></p>
                                                             </div>
@@ -576,10 +576,10 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
 
                                             </div>
 
-                                    </div>
-                                <?php
+                                            <?php
                                         }
-                                ?>
+                                        ?>
+                                        </div>
                                 </div>
                                 <button type="button" name="add" id="add" class="btn btn-success w-25"><?= $block_add ?></button>
 
