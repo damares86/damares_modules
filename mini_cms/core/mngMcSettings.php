@@ -40,15 +40,47 @@ $error = 0;
 if ($operation == 'settings') {
 
     $post = $_POST;
+    
+    $exclude = ['current_logo','img_logo'];
 
     foreach ($post as $key => $value) {
-        $mc->table = 'mc_settings' ;
-        $mc->name = $key;
-        $mc->value = $value;
-        if (!$mc->update(['value'],'name')) {
-            $error++;
+        if(!in_array($key,$exclude)){
+            $mc->table = 'mc_settings' ;
+            $mc->name = $key;
+            $mc->value = $value;
+            if (!$mc->update(['value'],'name')) {
+                $error++;
+            }
         }
     }
+    
+    if(filter_input(INPUT_POST,'img_logo')){
+        if ($_FILES['img_logo']['size'] > 0) {
+            $file->filename = $_FILES['img_logo']['name'];
+            $filename = $_FILES['img_logo']['name'];
+            $file->inputFileName = $_FILES['img_logo']['tmp_name'];
+            $file->label = 'logo_'.rand();
+            $file->path = "../../uploads/img/";
+            $file->origin = filter_input(INPUT_POST, "origin");
+            
+            $file->operation = "add";
+            if ($file->uploadFile()) {
+                //success
+                $mc->table = 'mc_settings' ;
+                $mc->name = 'mc_site_logo';
+                $mc->value = $_FILES['img_logo']['name'];;
+                if (!$mc->update(['value'],'name')) {
+                    $error++;
+                }
+
+            } else {
+                $err_file = "&err=logoImgFail";
+            }
+        }else{           
+            $err_file = "&err=logoImgEmpty";
+        }
+    }
+
 } else if ($operation == 'contact') {
 
     $mc->table = 'mc_contacts' ;
@@ -72,9 +104,9 @@ if ($operation == 'settings') {
 }
 
 if ($error == 0) {
-    header("Location: ../index.php?p=allMcSettings&msg=settingUpdate");
+    header("Location: ../index.php?p=allMcSettings&msg=settingUpdate$err_file");
     exit;
 } else {
-    header("Location: ../index.php?p=allMcSettings&err=settingUpdateErr");
+    header("Location: ../index.php?p=allMcSettings&err=settingUpdateErr$err_file");
     exit;
 }

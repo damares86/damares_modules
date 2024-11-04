@@ -134,7 +134,7 @@ $(document).ready(function(){
             '<div class="col-md-4 mt-3 p-3">'+
                 '<button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button>'+
             '</div>'+
-            '<div class="col-md-3 mt-3 p-3">'+
+            '<div class="col-md-3 p-3">'+
                 '<label>'+block_bootstrap+'</label>'+
             '</div>'+
             '<div class="col-md-9 mt-3  px-5">'+

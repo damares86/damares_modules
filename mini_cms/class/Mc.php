@@ -16,6 +16,7 @@ class Mc extends Common
     public $layout;
     public $header;
     public $header_media;
+    public $use_page_name;
     public $use_name;
     public $use_desc;
     public $counter;

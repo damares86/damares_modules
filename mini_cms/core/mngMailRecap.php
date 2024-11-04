@@ -46,10 +46,10 @@ include "../inc/class_initialize.php";
 		
 		if ($recaptcha->score >= 0.5) {
 
-			if(!$_POST['name']||!$_POST['email']||!$_POST['message']||!$_POST['subject']){
-				header("Location: ../../contact.php?msg=contactEmpty");
-				exit;
-			}
+			// if(!$_POST['name']||!$_POST['email']||!$_POST['message']||!$_POST['subject']){
+			// 	header("Location: ../../contact.php?msg=contactEmpty");
+			// 	exit;
+			// }
 		
 		
 			$name=$_POST['name'];
@@ -93,12 +93,12 @@ include "../inc/class_initialize.php";
 		
 
 		}else{
-			header("Location: ../../contact.php?msg=errRecaptcha");
+			header("Location: ../../contact.php?err=errRecaptcha");
 			exit;
 		}
 	
 	}else{
-		header("Location: ../../contact.php?msg=errPost");
+		header("Location: ../../contact.php?err=errPost");
 		exit;
 	}
 	

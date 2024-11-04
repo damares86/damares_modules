@@ -1,15 +1,66 @@
-.block{
-    min-height:100% !important;
+.block-row {
+    display: flex;
+    align-items: stretch; /* Fa sì che tutti i div abbiano la stessa altezza */
+    flex-wrap: wrap; /* Permette ai div di andare a capo se necessario */
+    /*gap: 1rem;*/ /* Spazio tra i blocchi */
 }
 
-.block-row{
-    clear:both;
-    height:auto;
+.block {
+    /* min-height: 200px;  */
+    border-radius: 5px;
+    padding: 1em;
+    flex-grow: 0; /* Evita che i blocchi crescano in larghezza */
+    flex-shrink: 0; /* Evita che i blocchi si restringano */
+    flex-basis: auto; /* Mantiene la larghezza definita nel CSS */
+    width: auto; /* Aggiunge la larghezza definita */
+    float: none; /* Rimuove il float per evitare conflitti con flex */
 }
 
-.row{
-	display:block !important;
+#adminBar{
+    height:2em;
+	width:100%;
+	background-color:#008db1;
+	position:fixed;
+	top:0;
+	z-index:1000;
+	padding: 0em 3em;
+	text-align: right;
+	margin: 0;
 }
+
+#adminBar a{
+	color:#fff;
+}
+
+
+header{
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+header h1{
+	color:#fff;
+}
+
+header p{
+	color:#fff;
+}
+#copyright {
+	color: #aaa;
+	padding: 4em 0 0 0;
+	text-align: center;
+}
+
+.copyright{
+	color: #aaa;
+	text-align: center;
+}
+
+img.img-logo{
+	width: 20%;
+}
+
+
 /******** DEFAULT  ***********/
 
 
@@ -135,4 +186,17 @@
 
 .maps iframe{
 	width:100% !important;
+}
+
+
+/******** MEDIA QUERIES  ***********/
+
+
+@media (max-width:980px){
+
+	.block{
+		width:100% !important;
+		margin:0.6em !important;
+	}
+
 }

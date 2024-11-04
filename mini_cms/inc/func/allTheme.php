@@ -66,12 +66,13 @@
                   </div>
                 </div>
 
-                <div class="col-12 mb-3">
                   <?php
                   $css_file = '../assets/themes/' . $theme_selected . '/css/custom.css';
+                  if(file_exists($css_file)){
+                    $css_file_data = file_get_contents($css_file);
+                    ?>
+                  <div class="col-12 mb-3">
 
-                  $css_file_data = file_get_contents($css_file);
-                  ?>
                   <label for="code" class="mb-3"><?= $alltheme_css ?>:</label>
                   <textarea id="code" name="code"><?php echo htmlentities($css_file_data) ?></textarea>
 
@@ -91,6 +92,9 @@
                   </script>
 
                 </div>
+                <?php
+                  }
+                  ?>
 
                 <input type="hidden" name="origin" value="allTheme">
                 <input type="hidden" name="operation" value="editTheme">

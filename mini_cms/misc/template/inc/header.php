@@ -114,7 +114,6 @@ if ($file_name == "index.php") {
     // force the page name in contacts
     $page_name_title = $cont_form_page;
     $page_class = "contact";
-
 } else {
     // mi prendo solo il nome senza l'estensione
     $page_name_title = pathinfo($file_name, PATHINFO_FILENAME);
@@ -177,6 +176,7 @@ if ($mc_settings['mc_theme_one'] == 1) {
     -->
     <meta charset="utf-8">
     <meta name="author" content="dmweblab" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- FACEBOOK and LINKEDIN meta tag -->
     <meta property="og:title" content="<?= $mc_settings['mc_site_name'] ?>">
@@ -198,21 +198,11 @@ if ($mc_settings['mc_theme_one'] == 1) {
     <link href='admin/script/simplelightbox/simple-lightbox.min.css' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="admin/script/simplelightbox/simple-lightbox.jquery.min.js"></script>
-    <script src="admin/script/bootstrap_mc.js"></script>
 
     <?php
-    foreach (glob("admin/template/inc/css/*.css") as $cssfile) {
-    ?>
-        <link href='<?= $cssfile ?>' rel='stylesheet' type='text/css'>
-    <?php
-    }
 
     $plugin->pluginname = "post";
     if ($plugin->itemExists('pluginname') && $plugin->isActive() == 1) {
-        ////////////////////////////////////////////////////////////////////////////////////////////////
-        ///// URL CORRETTO?
-        ////////////////////////////////////////////////////////////////////////////////////////////////
-
     ?>
         <link href='admin/assets/css/post.css' rel='stylesheet' type='text/css'>
 
@@ -236,111 +226,124 @@ if ($mc_settings['mc_theme_one'] == 1) {
 
     <?php
     require "assets/themes/" . $mc_settings['mc_theme'] . "/inc/scripts.php";
+    foreach (glob("admin/template/inc/css/*.css") as $cssfile) {
     ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-</head>
-
-<body>
-    <div id="index"></div>
-
-    <?php
-    $mc->table = 'mc_popup';
-    $mc->page_id = $page_id;
-    $popup_data = $mc->showAllWhere('id', ['page_id']);
-
-    if ($popup_data->rowCount() > 0) {
-        $popup = $popup_data->fetch(PDO::FETCH_ASSOC);
-        extract($popup);
-
-        $mc->table = 'mc_popup_cat';
-        $mc->id = $popup['popup_cat_id'];
-        $popup_cat_stmt = $mc->showAllWhere('id', ['id']);
-        $popup_cat_row = $popup_cat_stmt->fetch(PDO::FETCH_ASSOC);
-        extract($popup_cat_row);
-    ?>
-
-        <script>
-            $(document).ready(function() {
-                $("#myPopup").modal('show');
-            });
-        </script>
-
-        <div id="myPopup" class="modal fade popup <?= $popup_cat_row['category'] ?>">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><?= $popup['title'] ?></h5>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <?= $popup['content'] ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <link href='<?= $cssfile ?>' rel='stylesheet' type='text/css'>
     <?php
     }
 
     ?>
-    <script type='text/javascript'>
-        $(document).ready(function() {
-            // Intialize gallery
-            var gallery = $('.gallery a').simpleLightbox();
-        });
-    </script>
+
+    <link rel="stylesheet" href="assets/themes/<?= $mc_settings['mc_theme'] ?>/css/custom.css" />
+</head>
+
+
+<body class="d-flex flex-column h-100">
     <?php
     $style = "";
     if (isset($_SESSION['loggedin'])) {
         $style = "style='margin-top:1.8em'";
-    ?>
-        <div id="adminBar">
-            <a href="admin"><?=$fe_admin?></a>
-            &nbsp; - &nbsp;
-            <a href="admin/core/logout.php"><?=$common_logout?></a>
-        </div>
-    <?php
     }
     ?>
-    <div id="siteContainer" <?= $style ?>>
+    <main class="flex-shrink-0" <?= $style ?>>
 
-        <div id="topContainer">
-            <header>
-                <?php
-                require "assets/themes/" . $mc_settings['mc_theme'] . "/inc/header.php";
-                ?>
-            </header>
-            <?php
-            if ($page_header == 1) {
-            ?>
-                <div id="banner-wrapper">
+        <?php
+        $mc->table = 'mc_popup';
+        $mc->page_id = $page_id;
+        $popup_data = $mc->showAllWhere('id', ['page_id']);
+
+        if ($popup_data->rowCount() > 0) {
+            $popup = $popup_data->fetch(PDO::FETCH_ASSOC);
+            extract($popup);
+
+            $mc->table = 'mc_popup_cat';
+            $mc->id = $popup['popup_cat_id'];
+            $popup_cat_stmt = $mc->showAllWhere('id', ['id']);
+            $popup_cat_row = $popup_cat_stmt->fetch(PDO::FETCH_ASSOC);
+            extract($popup_cat_row);
+        ?>
+
+            <script>
+                $(document).ready(function() {
+                    $("#myPopup").modal('show');
+                });
+            </script>
+
+            <div id="myPopup" class="modal fade popup <?= $popup_cat_row['category'] ?>">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><?= $popup['title'] ?></h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <?= $popup['content'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php
+        }
+
+        ?>
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                // Intialize gallery
+                var gallery = $('.gallery a').simpleLightbox();
+            });
+        </script>
+        <?php
+        $style = "";
+        if (isset($_SESSION['loggedin'])) {
+        ?>
+            <div id="adminBar">
+                <a href="admin"><?= $fe_admin ?></a>
+                &nbsp; - &nbsp;
+                <a href="admin/core/logout.php"><?= $common_logout ?></a>
+            </div>
+        <?php
+        }
+        ?>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container px-5">
+                <a class="navbar-brand" href="index.php">
+                    <img class="img-logo" src="uploads/img/<?= $mc_settings['mc_site_logo'] ?>">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <?php
-                    if (pathinfo($page_header_media, PATHINFO_EXTENSION)) {
-                        $page_arr = array("infanzia", "primaria");
-
+                    require "admin/template/inc/menu.php";
                     ?>
-                        <div id="banner" class="box container" style="background-image: url(uploads/img/<?= $page_header_media ?>);">
-                            <div id="header_text" class="row">
-                                <div class="col-7 col-12-medium">
+                </div>
+            </div>
+        </nav>
+
+        <?php
+        if ($page_header == 1) {
+        ?>
+            <?php
+            if (pathinfo($page_header_media, PATHINFO_EXTENSION)) {
+
+            ?>
+                <!-- Header-->
+                <header class="py-5 p_<?= $page_id ?>" style="background-image: url(uploads/img/<?= $page_header_media ?>);">
+                    <div class="container px-5">
+                        <div class="row gx-5 align-items-center justify-content-center">
+                            <div class="col-12">
+                                <div class="my-5 text-center">
                                     <?php
                                     if ($page_use_name == 1) {
                                     ?>
-                                        <h2><?= $mc_settings['mc_site_name'] ?></h2>
+                                        <h1 class="display-5 fw-bolder mb-2"><?= $mc_settings['mc_site_name'] ?></h1>
+
                                     <?php
                                     }
 
                                     if ($page_use_description == 1) {
                                     ?>
-
-                                        <p><?= $mc_settings['mc_site_description'] ?></p>
-                                    <?php
-                                    }
-                                    if (in_array($page_class, $page_arr)) {
-                                        $page_title = ucfirst($page_class);
-                                    ?>
-                                        <div id="titlePage">
-                                            <h2><?= $page_title ?></h2>
-                                        </div>
+                                        <p class="lead fw-normal mb-4"><?= $mc_settings['mc_site_description'] ?></p>
                                     <?php
                                     }
                                     ?>
@@ -348,74 +351,75 @@ if ($mc_settings['mc_theme_one'] == 1) {
                             </div>
                         </div>
                     <?php
-                    } else {
+                } else {
                     ?>
-                        <script>
-                            $('#myVisualCarousel').carousel({
-                                interval: 2000,
-                                cycle: true
-                            })
-                        </script>
+                        <header class="bg-dark py-5">
+                            <div class="container px-5">
+                                <script>
+                                    $('#myVisualCarousel').carousel({
+                                        interval: 2000,
+                                        cycle: true
+                                    })
+                                </script>
 
-                        <div id="#myVisualCarousel" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <?php
+                                <div id="#myVisualCarousel" class="carousel slide" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        <?php
 
-                                $dirCarousel = "uploads/gallery/g_$page_header_media/";
+                                        $dirCarousel = "uploads/gallery/g_$page_header_media/";
 
-                                $idx = 0;
-                                foreach (glob($dirCarousel . "*") as $item) {
+                                        $idx = 0;
+                                        foreach (glob($dirCarousel . "*") as $item) {
 
-                                    $active = "";
-                                    if ($idx == 0) {
-                                        $active = "class=\"active\"";
-                                    }
+                                            $active = "";
+                                            if ($idx == 0) {
+                                                $active = "class=\"active\"";
+                                            }
 
-                                ?>
-                                    <li data-target="#myVisualCarousel" data-slide-to="<?= $idx ?>" <?= $class ?>></li>
-                                <?php
+                                        ?>
+                                            <li data-target="#myVisualCarousel" data-slide-to="<?= $idx ?>" <?= $class ?>></li>
+                                        <?php
 
-                                    $idx++;
-                                }
-                                ?>
-                            </ol>
-                            <div class="carousel-inner">
+                                            $idx++;
+                                        }
+                                        ?>
+                                    </ol>
+                                    <div class="carousel-inner">
 
-                                <?php
-                                $idx = 0;
-                                foreach (glob($dirCarousel . "*") as $item) {
-                                    $img = pathinfo($item, PATHINFO_FILENAME);
-                                    $ext = pathinfo($item, PATHINFO_EXTENSION);
-                                    $imgName = $img . "." . $ext;
+                                        <?php
+                                        $idx = 0;
+                                        foreach (glob($dirCarousel . "*") as $item) {
+                                            $img = pathinfo($item, PATHINFO_FILENAME);
+                                            $ext = pathinfo($item, PATHINFO_EXTENSION);
+                                            $imgName = $img . "." . $ext;
 
-                                    $active = "";
-                                    if ($idx == 0) {
-                                        $active = "active";
-                                    }
+                                            $active = "";
+                                            if ($idx == 0) {
+                                                $active = "active";
+                                            }
 
-                                    $numberArr = array('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth');
+                                            $numberArr = array('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth');
 
-                                    $number = $numberArr[$idx];
+                                            $number = $numberArr[$idx];
 
-                                ?>
-                                    <div class="carousel-item <?= $active ?>">
-                                        <img class="<?= $number ?>-slide" src="<?= $dirCarousel ?>/<?= $imgName ?>" alt="<?= $number ?> slide">
+                                        ?>
+                                            <div class="carousel-item <?= $active ?>">
+                                                <img class="<?= $number ?>-slide" src="<?= $dirCarousel ?>/<?= $imgName ?>" alt="<?= $number ?> slide">
+                                            </div>
+                                        <?php
+                                            $idx++;
+                                        }
+                                        ?>
+
                                     </div>
-                                <?php
-                                    $idx++;
-                                }
-                                ?>
 
+                                </div>
+                            <?php
+                            $idx = 0;
+                        }
+                            ?>
                             </div>
-
-                        </div>
+                        </header>
                     <?php
-                        $idx = 0;
-                    }
+                }
                     ?>
-                </div>
-            <?php
-            }
-            ?>
-        </div>
-        <div class="clearfix"></div>

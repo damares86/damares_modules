@@ -165,6 +165,20 @@
                                         </div>
 
                                         <div class="col-md-3 mt-3 mb-3">
+                                            <label>Use page name </label>
+                                        </div>
+
+                                        <div class="col-md-9 mt-3 mb-3">
+                                            <div class="form-group">
+                                                <div class="form-check">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" class="form-check-input" name="use_page_name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 mt-3 mb-3">
                                             <label><?= $addpage_header_site_name ?> </label>
                                         </div>
                                         <?php
@@ -245,7 +259,7 @@
                                                 &nbsp;
                                             </div>
 
-                                            <div class="col-md-3 mt-3 p-3">
+                                            <div class="col-md-3 p-3">
                                                 <label><?=$block_bootstrap?></label>
                                             </div>
                                             <div class="col-md-9 mt-3  px-5">

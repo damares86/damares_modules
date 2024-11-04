@@ -171,6 +171,28 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                         </div>
 
                                         <div class="col-md-3 mt-3 mb-3">
+                                            <label>Use page name </label>
+                                        </div>
+                                        <div class="col-md-9 mt-3 mb-3">
+                                            <div class="form-group">
+                                                <div class="form-check">
+                                                    <div class="checkbox">
+
+                                                        <?php
+                                                        $checked = '';
+                                                        if ($item['use_page_name'] == 1) {
+                                                            $checked = 'checked';
+                                                        }
+                                                        ?>
+
+                                                        <input type="checkbox" class="form-check-input" name="use_page_name" <?= $checked ?>>
+                                                        <label>&nbsp; <b><?= $str ?></b></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 mt-3 mb-3">
                                             <label><?=$addpage_header_site_name ?> </label>
                                         </div>
                                         <?php

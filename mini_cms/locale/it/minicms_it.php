@@ -8,6 +8,9 @@
 #                                          #
 ############################################
 
+
+$mc_backsite = "Vai al sito" ;
+
 // label sidebar
 
 $label_mini_cms="Mini CMS" ;
@@ -225,6 +228,7 @@ $msg_pageDelSucc = "Pagina eliminata correttamente" ;
 $msg_pageCustomEditFile = "Pagina modificata correttamente" ;
 $msg_pageDefaultEditSucc = "Pagina modificata correttamente" ;
 $msg_pageCustomSucc = "Pagina aggiunta correttamente" ;
+$msg_sentContact = "Messaggio inviato, grazie per averci contattato";
 
 // err
 
@@ -255,5 +259,8 @@ $err_pageCustomDbErr = "Pagina non inserita" ;
 $err_pageFilesErr = "File della pagina non eliminato" ;
 $err_infoImgFail = "Errore nel caricamento immagine del blocco info" ;
 $err_headerImgFail = "Errore nel caricamento immagine dell'header" ;
+$err_errSendContact = "Errore nell'invio del messaggio" ;
+$err_errRecaptcha = "Ci dispiace, non sembri affidabile" ;
+
 
 ?>

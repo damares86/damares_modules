@@ -97,11 +97,15 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
     if ($operation == 'edit') {
         // replicare l'add con l'aggiunta dei dati
+        if(filter_input(INPUT_POST, "idToMod")==1){
+            $page_name = 'index';
+        }else{
 
-        $page_name = filter_input(INPUT_POST, 'page_name');
-        $page_name = strtolower($page_name);
-        $page_name = str_replace(" ", "_", $page_name);
-
+            $page_name = filter_input(INPUT_POST, 'page_name');
+            $page_name = strtolower($page_name);
+            $page_name = str_replace(" ", "_", $page_name);
+        }
+            
         $old_page_name = filter_input(INPUT_POST, 'old_page_name');
 
         $name_to_change = '';
@@ -160,6 +164,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
             $mc->header_media = 'visual.jpg';
         }
 
+        $mc->use_page_name = filter_input(INPUT_POST, 'use_page_name') ? 1 : 0;
         $mc->use_name = filter_input(INPUT_POST, 'site_name') ? 1 : 0;
         $mc->use_desc = filter_input(INPUT_POST, 'site_description') ? 1 : 0;
 
@@ -170,7 +175,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
         $mc->table = 'mc_pages';
 
-        if ($mc->update(['page_name', 'layout', 'header', 'header_media', 'use_name', 'use_desc', 'counter'], 'id')) {
+        if ($mc->update(['page_name', 'layout', 'header', 'header_media','use_page_name', 'use_name', 'use_desc', 'counter'], 'id')) {
 
             $arr0 = array(
                 "name"    => $page_name
@@ -391,6 +396,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
             $mc->header_media = 'visual.jpg';
         }
 
+        $mc->use_page_name = filter_input(INPUT_POST, 'use_page_name') ? 1 : 0;
         $mc->use_name = filter_input(INPUT_POST, 'site_name') ? 1 : 0;
         $mc->use_desc = filter_input(INPUT_POST, 'site_description') ? 1 : 0;
 
@@ -398,7 +404,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
         $mc->table = 'mc_pages';
 
-        if ($mc->update(['header', 'header_media', 'use_name', 'use_desc',], 'id')) {
+        if ($mc->update(['header', 'header_media','use_page_name', 'use_name', 'use_desc',], 'id')) {
 
             if (filter_input(INPUT_POST, 'idToMod') == 2) {
 
@@ -499,13 +505,14 @@ if (filter_input(INPUT_POST, "idToMod")) {
         $mc->header_media = 'visual.jpg';
     }
 
+    $mc->use_page_name = filter_input(INPUT_POST, 'use_page_name') ? 1 : 0;
     $mc->use_name = filter_input(INPUT_POST, 'site_name') ? 1 : 0;
     $mc->use_desc = filter_input(INPUT_POST, 'site_description') ? 1 : 0;
 
 
     $mc->table = 'mc_pages';
 
-    if ($mc->insert(['page_name', 'layout', 'header', 'header_media', 'use_name', 'use_desc', 'counter'])) {
+    if ($mc->insert(['page_name', 'layout', 'header', 'header_media', 'use_page_name','use_name', 'use_desc', 'counter'])) {
 
         $arr0 = array(
             "name"    => $page_name

@@ -23,10 +23,10 @@ include "../inc/class_initialize.php";
 
 
 
-	if(!$_POST['name']||!$_POST['email']||!$_POST['message']||!$_POST['subject']){
-		header("Location: ../../contact.php?msg=contactFormEmpty");
-		exit;
-	}
+	// if(!$_POST['name']||!$_POST['email']||!$_POST['message']||!$_POST['subject']){
+	// 	header("Location: ../../contact.php?msg=contactFormEmpty");
+	// 	exit;
+	// }
 
 
 	$name=$_POST['name'];
@@ -64,7 +64,7 @@ include "../inc/class_initialize.php";
 		header("Location: ../../contact.php?msg=sentContact");
 		exit;
 	} else {
-		header("Location: ../../contact.php?msg=errSendContact");
+		header("Location: ../../contact.php?err=errSendContact");
 		exit;
 	}	
 

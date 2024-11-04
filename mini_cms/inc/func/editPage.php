@@ -51,8 +51,12 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                         extract($item);
 
                         $str = $item['page_name'];
-                        $str = str_replace('_', ' ', $str);
-                        $str = ucfirst($str);
+                        if ($item['id'] == 1) {
+                            $str = "Home";
+                        } else {
+                            $str = str_replace('_', ' ', $str);
+                            $str = ucfirst($str);
+                        }
                     ?>
                         <h4 class="card-title"><?= $editpage_header ?>: <u><?= $str ?></u></h4>
                 </div>
@@ -68,7 +72,13 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                         <div class="form-group">
                                             <div class="form-check mandatory">
                                                 <div class="position-relative">
-                                                    <input type="text" class="form-control" placeholder="<?= $addpage_name ?>" value="<?= $str ?>" name="page_name" data-parsley-required="true" />
+                                                    <?php
+                                                        $disabled = '';
+                                                       if ($item['id'] == 1) {
+                                                        $disabled = 'disabled=""';
+                                                       } 
+                                                    ?>
+                                                    <input type="text" class="form-control" placeholder="<?= $addpage_name ?>" value="<?= $str ?>" name="page_name" data-parsley-required="true" <?=$disabled?>/>
                                                     <input type="hidden" name="old_page_name" value="<?= $item['page_name'] ?>">
                                                 </div>
                                             </div>
@@ -214,6 +224,29 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                         </div>
 
                                         <div class="col-md-3 mt-3 mb-3">
+                                            <label>Use page name </label>
+                                        </div>
+                                        <div class="col-md-9 mt-3 mb-3">
+                                            <div class="form-group">
+                                                <div class="form-check">
+                                                    <div class="checkbox">
+
+                                                        <?php
+                                                        $checked = '';
+                                                        if ($item['use_page_name'] == 1) {
+                                                            $checked = 'checked';
+                                                        }
+                                                        ?>
+
+                                                        <input type="checkbox" class="form-check-input" name="use_page_name" <?= $checked ?>>
+                                                        <label>&nbsp; <b><?= $str ?></b></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-3 mt-3 mb-3">
                                             <label><?= $addpage_header_site_name ?> </label>
                                         </div>
                                         <?php
@@ -338,7 +371,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                     <button type="button" name="remove" id="<?= $idx ?>" class="btn btn-danger btn_remove">X</button>
                                                 </div>
 
-                                                <div class="col-md-3 mt-3 p-3">
+                                                <div class="col-md-3 p-3">
                                                     <label><?= $block_bootstrap ?></label>
                                                 </div>
                                                 <div class="col-md-9 mt-3  px-5">
@@ -434,7 +467,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                     <?php
                                                     if ($postExist == true) {
                                                     ?>
-                                                        <div class="row page post_1">
+                                                        <div class="row page post_<?= $idx ?>">
                                                             <div class="col-12">
                                                                 <p><?= $block_post_text ?></p>
                                                             </div>
@@ -587,7 +620,6 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                 <?php
                                         }
                                 ?>
-                                </div>
                                 <button type="button" name="add" id="add" class="btn btn-success w-25"><?= $block_add ?></button>
 
 
@@ -623,6 +655,8 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 
 </section>

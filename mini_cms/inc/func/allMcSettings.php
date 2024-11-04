@@ -15,7 +15,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 <div class="page-title">
   <div class="row">
     <div class="col-12 col-md-6 order-md-1 order-last">
-      <h3><?=$mcsettings_header?></h3>
+      <h3><?= $mcsettings_header ?></h3>
     </div>
     <div class="col-12 col-md-6 order-md-2 order-first">
       <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -24,7 +24,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <a href="index.php"><?= $common_dashboard ?></a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-            <?=$mcsettings_header?>
+            <?= $mcsettings_header ?>
           </li>
         </ol>
       </nav>
@@ -38,43 +38,70 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     <div class="col-md-8 col-12">
       <div class="card shadow">
         <div class="card-header">
-          <h4 class="card-title"><?=$mcsettings_site?></h4>
+          <h4 class="card-title"><?= $mcsettings_site ?></h4>
         </div>
         <div class="card-content">
           <div class="card-body">
-            <form class="form form-horizontal" action="core/mngMcSettings.php" method="POST" data-parsley-validate>
+            <form class="form form-horizontal" action="core/mngMcSettings.php" method="POST" enctype="multipart/form-data" data-parsley-validate>
               <div class="form-body">
                 <div class="row">
 
-
                   <div class="col-md-3">
-                    <label><?=$mcsettings_site_name?> <span class="text-danger">*</span></label>
+                    <label>Logo <span class="text-danger">*</span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
                       <div class="form-check mandatory">
                         <div class="position-relative">
-                          <input type="text" class="form-control" placeholder="<?=$mcsettings_site_name?>" name="mc_site_name" value="<?= $mc_settings['mc_site_name'] ?>" data-parsley-required="true" />
+
+                          <div class="form-check">
+                            <span>Attuale : <img src="../uploads/img/<?= $mc_settings['mc_site_logo'] ?>" class="d-inline w-25"></span>
+                            <br>
+                            <br>
+                            <input type="hidden" name="current_logo" value="<?= $mc_settings['mc_site_logo'] ?>">
+                            <span><?= $addpage_header_img_upload ?></span>
+
+                            <div class="form-group">
+                              <div class="form-check mandatory">
+                                <div class="position-relative">
+                                  <input class="form-control" type="file" name="img_logo" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label><?= $mcsettings_site_name ?> <span class="text-danger">*</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <div class="form-check mandatory">
+                        <div class="position-relative">
+                          <input type="text" class="form-control" placeholder="<?= $mcsettings_site_name ?>" name="mc_site_name" value="<?= $mc_settings['mc_site_name'] ?>" data-parsley-required="true" />
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-md-3">
-                    <label><?=$mcsettings_site_description?> <span class="text-danger">*</span></label>
+                    <label><?= $mcsettings_site_description ?> <span class="text-danger">*</span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
                       <div class="form-check mandatory">
                         <div class="position-relative">
-                          <input type="text" class="form-control" placeholder="<?=$mcsettings_site_description?>" name="mc_site_description" value="<?= $mc_settings['mc_site_description'] ?>" data-parsley-required="true" />
+                          <input type="text" class="form-control" placeholder="<?= $mcsettings_site_description ?>" name="mc_site_description" value="<?= $mc_settings['mc_site_description'] ?>" data-parsley-required="true" />
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-md-3">
-                    <label><?=$mcsettings_footer?> <span class="text-danger">*</span></label>
+                    <label><?= $mcsettings_footer ?> <span class="text-danger">*</span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
@@ -106,7 +133,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
       <div class="card shadow">
         <div class="card-header">
-          <h4 class="card-title"><?=$mcsettings_contact?></h4>
+          <h4 class="card-title"><?= $mcsettings_contact ?></h4>
         </div>
         <div class="card-content">
           <div class="card-body">
@@ -121,8 +148,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     <table class="table" id="table">
                       <thead>
                         <tr>
-                          <th><?=$mcsettings_label?></th>
-                          <th><?=$common_email?></th>
+                          <th><?= $mcsettings_label ?></th>
+                          <th><?= $common_email ?></th>
                           <th><?= $common_actions ?></th>
                         </tr>
                       </thead>
@@ -150,7 +177,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                       </button>
                                     </div>
                                     <div class="modal-body">
-                                      <?=$mcsettings_modal_body?>
+                                      <?= $mcsettings_modal_body ?>
                                     </div>
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -174,11 +201,11 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     </table>
                     <div class="row mt-5">
                       <div class="col-12">
-                        <h6><?=$mcsettings_contact_add?></h6>
+                        <h6><?= $mcsettings_contact_add ?></h6>
                       </div>
 
                       <div class="col-md-3">
-                        <label><?=$mcsettings_label?> <span class="text-danger">*</span></label>
+                        <label><?= $mcsettings_label ?> <span class="text-danger">*</span></label>
                       </div>
                       <div class="col-md-9">
                         <div class="form-group">
@@ -191,7 +218,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                       </div>
 
                       <div class="col-md-3">
-                        <label><?=$common_email?> <span class="text-danger">*</span></label>
+                        <label><?= $common_email ?> <span class="text-danger">*</span></label>
                       </div>
                       <div class="col-md-9">
                         <div class="form-group">
@@ -226,7 +253,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
       <div class="card shadow">
         <div class="card-header">
-          <h4 class="card-title"><?=$mcsettings_maintenance?></h4>
+          <h4 class="card-title"><?= $mcsettings_maintenance ?></h4>
         </div>
         <div class="card-content">
           <div class="card-body">
@@ -236,18 +263,18 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
                   <div class="col-md-5">
-                    <label><?=$mcsettings_maintenance?> <span class="text-danger">*</span></label>
+                    <label><?= $mcsettings_maintenance ?> <span class="text-danger">*</span></label>
                   </div>
                   <div class="col-md-7">
                     <div class="form-group">
                       <div class="form-check">
                         <div class="checkbox">
                           <?php
-                          
-                            $mc_settings['maintenance'] == 1 ? $maintenance_checked = 'checked' : $maintenance_checked = '';
+
+                          $mc_settings['maintenance'] == 1 ? $maintenance_checked = 'checked' : $maintenance_checked = '';
                           ?>
-                          <input type="checkbox" id="checkbox1" class="form-check-input" name="maintentance" <?=$maintenance_checked?>>
-                          <label for="checkbox1">&nbsp; <?=$mcsettings_maintenance_activate?></label>
+                          <input type="checkbox" id="checkbox1" class="form-check-input" name="maintentance" <?= $maintenance_checked ?>>
+                          <label for="checkbox1">&nbsp; <?= $mcsettings_maintenance_activate ?></label>
                         </div>
                       </div>
                     </div>

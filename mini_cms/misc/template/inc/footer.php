@@ -1,4 +1,5 @@
 <div class="clearfix"></div>
+</main>
 <?php
 if (!$one) {
 ?>
@@ -13,15 +14,23 @@ if (!$one) {
                 </div>
             </div>
         </div>
-        <p class="copyright" style="font-size:0.7em;">Made with <img class="align-bottom" src="uploads/img/logo_mc_rid.png"> <?= $mc_version ?> - powered by <img class="align-bottom" src="admin/assets/images/logo/damares_logo_rid.png"> - a project by &nbsp; &nbsp; <a href="https://www.dmweblab.com"><img class="align-bottom" src="admin/assets/images/logo/dmweblab_logo.png"></a></p>
+        <p class="copyright" style="font-size:0.7em;">Made with <img class="align-top" src="uploads/img/logo_mc_rid.png"> &nbsp;<?= $mc_version ?> - powered by <img class="align-bottom" src="admin/assets/images/logo/damares_logo_rid.png"> - a project by &nbsp; &nbsp; <a href="https://www.dmweblab.com"><img class="align-bottom" src="admin/assets/images/logo/dmweblab_logo.png"></a></p>
     </footer>
 <?php
 }
 ?>
-</div>
 
-
-<script src="admin/script/quotes.js"></script>
+<?php
+if($quote_counter>0){
+?>
+    <script src="admin/script/quotes.js"></script>
+<?php
+}
+?>
+<script src="admin/assets/extensions/parsleyjs/parsley.min.js"></script>
+<script src="admin/assets/js/pages/parsley.js"></script>
+<script src="admin/assets/js/pages/<?= $lang ?>.js"></script>
+<script src="admin/assets/js/pages/<?= $lang ?>.extra.js"></script>
 <?php
 require "assets/themes/" . $mc_settings['mc_theme'] . "/inc/cookie.php";
 

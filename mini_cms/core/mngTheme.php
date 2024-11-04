@@ -59,13 +59,16 @@ if ($operation == 'editTheme') {
         $err_count++;
     }
 
-    $css_code = $_POST['code'];
-    $css_code = htmlspecialchars($css_code, ENT_QUOTES, 'UTF-8');
+    if($_POST['code']){
 
-    $css_file = '../../assets/themes/'.$theme.'/css/custom.css';
-
-    if(!file_put_contents($css_file,$css_code)){
-        $err_count++;
+        $css_code = $_POST['code'];
+        $css_code = htmlspecialchars($css_code, ENT_QUOTES, 'UTF-8');
+        
+        $css_file = '../../assets/themes/'.$theme.'/css/custom.css';
+        
+        if(!file_put_contents($css_file,$css_code)){
+            $err_count++;
+        }
     }
 
     if ($err_count == 0) {

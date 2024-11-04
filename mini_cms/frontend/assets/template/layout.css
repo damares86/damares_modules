@@ -6,6 +6,12 @@
     clear:both;
     height:auto;
 }
+
+/* Aggiungi questo CSS per aprire i dropdown al passaggio del mouse */
+.navbar-nav .dropdown:hover .dropdown-menu {
+	display: block;
+}
+
 /******** DEFAULT  ***********/
 
 

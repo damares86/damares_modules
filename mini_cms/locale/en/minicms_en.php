@@ -9,6 +9,8 @@
 ############################################
 
 
+$mc_backsite = "Go to website" ;
+
 // frontend
 
 $cont_form_page = "Contacts" ;
@@ -212,6 +214,7 @@ $msg_pageDelSucc = "Page deleted" ;
 $msg_pageCustomEditFile = "Page updated" ;
 $msg_pageDefaultEditSucc = "Page updated" ;
 $msg_pageCustomSucc = "Page added" ;
+$msg_sentContact = "Message sent, thank you for contacting us.";
 
 // err
 
@@ -242,5 +245,7 @@ $err_pageCustomDbErr = "Page not added" ;
 $err_pageFilesErr = "Page file not deleted" ;
 $err_infoImgFail = "Error while uploading box info image" ;
 $err_headerImgFail = "Error while uploading header image" ;
+$err_errSendContact = "Error while sending your message" ;
+$err_errRecaptcha = "Sorry, you don't seem reliable" ;
 
 ?>
