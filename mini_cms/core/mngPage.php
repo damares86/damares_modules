@@ -97,15 +97,15 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
     if ($operation == 'edit') {
         // replicare l'add con l'aggiunta dei dati
-        if(filter_input(INPUT_POST, "idToMod")==1){
+        if (filter_input(INPUT_POST, "idToMod") == 1) {
             $page_name = 'index';
-        }else{
+        } else {
 
             $page_name = filter_input(INPUT_POST, 'page_name');
             $page_name = strtolower($page_name);
             $page_name = str_replace(" ", "_", $page_name);
         }
-            
+
         $old_page_name = filter_input(INPUT_POST, 'old_page_name');
 
         $name_to_change = '';
@@ -175,7 +175,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
         $mc->table = 'mc_pages';
 
-        if ($mc->update(['page_name', 'layout', 'header', 'header_media','use_page_name', 'use_name', 'use_desc', 'counter'], 'id')) {
+        if ($mc->update(['page_name', 'layout', 'header', 'header_media', 'use_page_name', 'use_name', 'use_desc', 'counter'], 'id')) {
 
             $arr0 = array(
                 "name"    => $page_name
@@ -292,6 +292,15 @@ if (filter_input(INPUT_POST, "idToMod")) {
                         'block' . $i . '_text'  => $colorText,
                         'block' . $i . '_bootstrap'  => $bootstrap
                     );
+                } else if ($type == 'script') {
+
+                    $$array_name = array(
+                        'block' . $i . '_type'  => 'script',
+                        'block' . $i . '_file'  => filter_input(INPUT_POST, 'script_' . $i . ''),
+                        'block' . $i . '_bg'    => $colorBg,
+                        'block' . $i . '_text'  => $colorText,
+                        'block' . $i . '_bootstrap'  => $bootstrap
+                    );
                 } else if ($type == 'post') {
 
                     $$array_name = array(
@@ -404,7 +413,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
         $mc->table = 'mc_pages';
 
-        if ($mc->update(['header', 'header_media','use_page_name', 'use_name', 'use_desc',], 'id')) {
+        if ($mc->update(['header', 'header_media', 'use_page_name', 'use_name', 'use_desc',], 'id')) {
 
             if (filter_input(INPUT_POST, 'idToMod') == 2) {
 
@@ -512,7 +521,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
     $mc->table = 'mc_pages';
 
-    if ($mc->insert(['page_name', 'layout', 'header', 'header_media', 'use_page_name','use_name', 'use_desc', 'counter'])) {
+    if ($mc->insert(['page_name', 'layout', 'header', 'header_media', 'use_page_name', 'use_name', 'use_desc', 'counter'])) {
 
         $arr0 = array(
             "name"    => $page_name
@@ -625,6 +634,15 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
                 $$array_name = array(
                     'block' . $i . '_type'  => 'quote',
+                    'block' . $i . '_bg'    => $colorBg,
+                    'block' . $i . '_text'  => $colorText,
+                    'block' . $i . '_bootstrap'  => $bootstrap
+                );
+            } else if ($type == 'script') {
+
+                $$array_name = array(
+                    'block' . $i . '_type'  => 'script',
+                    'block' . $i . '_file'  => filter_input(INPUT_POST, 'script_' . $i . ''),
                     'block' . $i . '_bg'    => $colorBg,
                     'block' . $i . '_text'  => $colorText,
                     'block' . $i . '_bootstrap'  => $bootstrap

@@ -23,7 +23,24 @@
         }
     }
 
+    $plugin->pluginname = "luna_portal";
 
+    $luna_check = false;
+
+    if ($plugin->itemExists('pluginname') && $plugin->isActive() == 1) {
+
+        $luna_check = true;
+
+        $luna->table = 'luna_products';
+        $luna_stmt = $luna->showAll('id');
+        $luna_pages = [];
+        while ($luna_row = $luna_stmt->fetch(PDO::FETCH_ASSOC)) {
+            extract($luna_row);
+            if ($luna_row['assign_page'] != NULL) {
+                $luna_pages[] = array($luna_row['assign_page'] => $luna_row['id']);
+            }
+        }
+    }
 
     if ($page_class == "login" && $one) {
 
@@ -73,6 +90,20 @@
                     $link = 'blog.php?cat=' . $found_value;
                 }
             }
+
+            if ($luna_check) {
+                $found_value = NULL;
+                foreach ($luna_pages as $page) {
+                    if (array_key_exists($row['id'], $page)) {
+                        $found_value = $page[$row['id']];
+                        break; // Esci dal ciclo una volta trovato
+                    }
+                }
+                if ($found_value) {
+                    $link = 'portal/manual.php?prod=' . $found_value;
+                }
+            }
+
             $scrolly = "";
             if ($one && $row['page_name'] != "login") {
                 $link = "#" . $row['id'];

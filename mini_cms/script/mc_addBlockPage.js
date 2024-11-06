@@ -124,6 +124,7 @@ $(document).ready(function(){
                                     '<option value="info_'+i+'">'+block_type_info+'</option>'+
                                     '<option value="gallery_'+i+'">'+block_type_gallery+'</option>'+
                                     '<option value="quote_'+i+'">'+block_type_quotes+'</option>'+
+                                    '<option value="script_'+i+'">'+block_type_scripts+'</option>'+
                                     postOptions+
                                 '</select>'+
                             '</fieldset>'+
@@ -138,7 +139,7 @@ $(document).ready(function(){
                 '<label>'+block_bootstrap+'</label>'+
             '</div>'+
             '<div class="col-md-9 mt-3  px-5">'+
-                '<input type="text" class="form-control" placeholder="" name="bootstrap_'+i+'" data-parsley-required="true" />'+
+                '<input type="text" class="form-control" placeholder="" name="bootstrap_'+i+'" />'+
             '</div>'+
             '<div class="col-12 mt-3 mb-3 px-5 pb-3 border-bottom">'+
                 '<div class="row page text_'+i+'">'+
@@ -187,6 +188,22 @@ $(document).ready(function(){
                 '<div class="row page quote_'+i+'">'+
                     '<p>'+block_quotes_text+'</p>'+
                     '<input type="hidden" name="quote_'+i+'" value="q">'+
+                '</div>'+
+                '<div class="row page script_'+i+'">'+
+                    '<div class="col-12">'+
+                        '<b>'+block_script_title+'</b><br>'+
+                        block_script_warn+'<br>'+block_script_desc+
+                    '</div>'+
+                    '<div class="col-md-3 pb-3 mt-3">'+
+                        '<label>'+block_script_file+'</label>'+
+                    '</div>'+
+                    '<div class="col-md-9 pb-3">'+
+                        '<div class="form-group">'+
+                            '<div class="position-relative">'+
+                                '<input type="text" class="form-control" placeholder="" name="script_'+i+'" />'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
                 '</div>'+
                 postBlock+
             '</div>'+

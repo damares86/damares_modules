@@ -67,7 +67,7 @@
                 </div>
 
                   <?php
-                  $css_file = '../assets/themes/' . $theme_selected . '/css/custom.css';
+                  $css_file = '../assets/themes/' . $theme_selected . '/custom.css';
                   if(file_exists($css_file)){
                     $css_file_data = file_get_contents($css_file);
                     ?>

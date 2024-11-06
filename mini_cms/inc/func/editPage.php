@@ -73,12 +73,12 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                             <div class="form-check mandatory">
                                                 <div class="position-relative">
                                                     <?php
-                                                        $disabled = '';
-                                                       if ($item['id'] == 1) {
+                                                    $disabled = '';
+                                                    if ($item['id'] == 1) {
                                                         $disabled = 'disabled=""';
-                                                       } 
+                                                    }
                                                     ?>
-                                                    <input type="text" class="form-control" placeholder="<?= $addpage_name ?>" value="<?= $str ?>" name="page_name" data-parsley-required="true" <?=$disabled?>/>
+                                                    <input type="text" class="form-control" placeholder="<?= $addpage_name ?>" value="<?= $str ?>" name="page_name" data-parsley-required="true" <?= $disabled ?> />
                                                     <input type="hidden" name="old_page_name" value="<?= $item['page_name'] ?>">
                                                 </div>
                                             </div>
@@ -324,6 +324,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                             if ($block_type === 'info') $info_selected = 'selected';
                                             if ($block_type === 'gallery') $gallery_selected = 'selected';
                                             if ($block_type === 'quote') $quote_selected = 'selected';
+                                            if ($block_type === 'script') $script_selected = 'selected';
                                             $plugin->pluginname = 'post';
 
                                             if ($block_type === 'post' && $plugin->itemExists('pluginname') && $plugin->isActive() == 1) {
@@ -346,6 +347,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                                         <option value="info_<?= $idx ?>" <?= $info_selected ?>><?= $block_type_info ?></option>
                                                                         <option value="gallery_<?= $idx ?>" <?= $gallery_selected ?>><?= $block_type_gallery ?></option>
                                                                         <option value="quote_<?= $idx ?>" <?= $quote_selected ?>><?= $block_type_quotes ?></option>
+                                                                        <option value="script_<?= $idx ?>" <?= $script_selected ?>><?= $block_type_scripts ?></option>
                                                                         <?php
                                                                         $plugin->pluginname = "post";
                                                                         $postOption = '';
@@ -462,6 +464,22 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                     <div class="row page quote_<?= $idx ?>">
                                                         <p><?= $block_quotes_text ?></p>
                                                         <input type="hidden" name="quote_<?= $idx ?>" value="q">
+                                                    </div>
+                                                    <div class="row page script_<?= $idx ?>">
+                                                        <div class="col-12">
+                                                            <b><?= $block_script_title ?></b><br>
+                                                            <?= $block_script_warn ?> <br><?= $block_script_desc ?>
+                                                        </div>
+                                                        <div class="col-md-3 pb-3 mt-3">
+                                                            <label><?= $block_script_file ?></label>
+                                                        </div>
+                                                        <div class="col-md-9 pb-3">
+                                                            <div class="form-group">
+                                                                <div class="position-relative">
+                                                                    <input type="text" class="form-control" placeholder="" name="script_<?= $idx ?>" value="<?=$json_arr[$idx]['block' . $idx . '_file']?>"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <?php
@@ -640,6 +658,8 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                     <?= $common_reset ?>
                                 </button>
                             </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -655,8 +675,6 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                 </div>
             </div>
         </div>
-    </div>
-    </div>
     </div>
 
 </section>
@@ -791,9 +809,14 @@ $colors = json_encode($colorArray);
     var block_type_info = '<?php echo $block_type_info; ?>';
     var block_type_gallery = '<?php echo $block_type_gallery; ?>';
     var block_type_quotes = '<?php echo $block_type_quotes; ?>';
+    var block_type_scripts = '<?php echo $block_type_scripts; ?>';
     var block_type_post = '<?php echo $block_type_post; ?>';
     var block_gallery_choose = '<?php echo $block_gallery_choose; ?>';
     var block_quotes_text = '<?php echo $block_quotes_text; ?>';
+    var block_script_title = '<?php echo $block_script_title ?>';
+    var block_script_warn = '<?php echo $block_script_warn ?>';
+    var block_script_desc = '<?php echo $block_script_desc ?>';
+    var block_script_file = '<?php echo $block_script_file ?>';
     var block_bg_color = '<?php echo $block_bg_color; ?>';
     var block_bg_text = '<?php echo $block_bg_text; ?>';
     var block_color_none = '<?php echo $block_color_none; ?>';

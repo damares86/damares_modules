@@ -14,7 +14,9 @@ if (!$one) {
                 </div>
             </div>
         </div>
-        <p class="copyright" style="font-size:0.7em;">Made with <img class="align-top" src="uploads/img/logo_mc_rid.png"> &nbsp;<?= $mc_version ?> - powered by <img class="align-bottom" src="admin/assets/images/logo/damares_logo_rid.png"> - a project by &nbsp; &nbsp; <a href="https://www.dmweblab.com"><img class="align-bottom" src="admin/assets/images/logo/dmweblab_logo.png"></a></p>
+        <p class="copyright" style="font-size:0.7em;">
+            <img class="align-middle" src="uploads/img/logo_mc_rid.png"> &nbsp; &nbsp; by  &nbsp; &nbsp; 
+        <a href="https://www.dmweblab.com"><img class="align-middle" src="admin/assets/images/logo/dmweblab_logo.png"></a></p>
     </footer>
 <?php
 }

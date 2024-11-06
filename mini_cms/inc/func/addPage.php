@@ -237,6 +237,7 @@
                                                                     <option value="info_1"><?= $block_type_info ?></option>
                                                                     <option value="gallery_1"><?= $block_type_gallery ?></option>
                                                                     <option value="quote_1"><?= $block_type_quotes ?></option>
+                                                                    <option value="script_1"><?=$block_type_scripts?></option>
                                                                     <?php
                                                                     $plugin->pluginname = "post";
                                                                     // $postOption = '';
@@ -260,10 +261,10 @@
                                             </div>
 
                                             <div class="col-md-3 p-3">
-                                                <label><?=$block_bootstrap?></label>
+                                                <label><?= $block_bootstrap ?></label>
                                             </div>
                                             <div class="col-md-9 mt-3  px-5">
-                                                <input type="text" class="form-control" placeholder="" name="bootstrap_1"  />
+                                                <input type="text" class="form-control" placeholder="" name="bootstrap_1" />
                                             </div>
 
                                             <div class="col-12 mt-3 mb-3 px-5 pb-3 border-bottom">
@@ -323,6 +324,22 @@
                                                 <div class="row page quote_1">
                                                     <p><?= $block_quotes_text ?></p>
                                                     <input type="hidden" name="quote_1" value="q">
+                                                </div>
+                                                <div class="row page script_1">
+                                                    <div class="col-12">
+                                                        <b><?=$block_script_title?></b><br>
+                                                        <?=$block_script_warn?> <br><?=$block_script_desc?>
+                                                    </div>
+                                                    <div class="col-md-3 pb-3 mt-3">
+                                                        <label><?=$block_script_file?></label>
+                                                    </div>
+                                                    <div class="col-md-9 pb-3">
+                                                        <div class="form-group">
+                                                            <div class="position-relative">
+                                                                <input type="text" class="form-control" placeholder="" name="script_1" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <?php
                                                 if ($postExist == true) {
@@ -577,15 +594,20 @@ $colors = json_encode($colorArray);
     var colorOptionsText = '<?php echo $colorOptionsText; ?>';
     var colors = <?php echo $colors; ?>;
     var block_type_text = '<?php echo $block_type_text; ?>';
-    var block_bootstrap = '<?php echo $block_bootstrap?>';
+    var block_bootstrap = '<?php echo $block_bootstrap ?>';
     var block_title = '<?php echo $block_title; ?>';
     var block_type_image = '<?php echo $block_type_image; ?>';
     var block_type_info = '<?php echo $block_type_info; ?>';
     var block_type_gallery = '<?php echo $block_type_gallery; ?>';
     var block_type_quotes = '<?php echo $block_type_quotes; ?>';
+    var block_type_scripts = '<?php echo $block_type_scripts; ?>';
     var block_type_post = '<?php echo $block_type_post; ?>';
     var block_gallery_choose = '<?php echo $block_gallery_choose; ?>';
     var block_quotes_text = '<?php echo $block_quotes_text; ?>';
+    var block_script_title = '<?php echo $block_script_title ?>' ;
+    var block_script_warn = '<?php echo $block_script_warn ?>' ;
+    var block_script_desc = '<?php echo $block_script_desc ?>' ;
+    var block_script_file = '<?php echo $block_script_file ?>' ;
     var block_post_cat_all = '<?php echo $block_post_cat_all; ?>';
     var block_bg_color = '<?php echo $block_bg_color; ?>';
     var block_bg_text = '<?php echo $block_bg_text; ?>';

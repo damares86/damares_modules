@@ -99,6 +99,10 @@
                             </div>
                         </div>
                         <?php
+                        }else if ($json_arr[$i]['block' . $i . '_type'] == "script") {
+                                $file_req = $json_arr[$i]['block' . $i . '_file'];
+                                require 'assets/themes/'.$mc_settings['mc_theme'].'/script/'.$file_req ;
+                        
                     } else if ($json_arr[$i]['block' . $i . '_type'] == "post") {
 
                         $post->table = 'post';
