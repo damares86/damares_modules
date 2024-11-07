@@ -8,6 +8,8 @@ $json_arr = json_decode($data, true);
 <div id="content" class="container">
     <?php
     $counter = $page_counter;
+    
+    $quote_counter = 0 ;
 
     if (isset($_SESSION['loggedin'])) {
     ?>

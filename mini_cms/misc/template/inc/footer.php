@@ -7,10 +7,7 @@ if (!$one) {
         <div class="row">
             <div class="col-12">
                 <div id="copyright">
-                    <ul class="menu">
-                        <li><?= $mc_settings['mc_footer'] ?></a></li>
-                        <!-- <li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li> -->
-                    </ul>
+                    <?= $mc_settings['mc_footer'] ?>
                 </div>
             </div>
         </div>
