@@ -316,7 +316,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                         for ($idx = 1; $idx <= $counter; $idx++) {
 
                                             $block_type = $json_arr[$idx]['block' . $idx . '_type'];
-                                            $text_selected = $img_selected = $info_selected = $gallery_selected = $quote_selected = $post_selected = '';
+                                            $text_selected = $img_selected = $info_selected = $gallery_selected = $quote_selected = $post_selected =  $script_selected  = '';
 
                                             // Imposta la variabile corretta per la selezione
                                             if ($block_type === 'text') $text_selected = 'selected';
@@ -476,7 +476,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                         <div class="col-md-9 pb-3">
                                                             <div class="form-group">
                                                                 <div class="position-relative">
-                                                                    <input type="text" class="form-control" placeholder="" name="script_<?= $idx ?>" value="<?=$json_arr[$idx]['block' . $idx . '_file']?>"/>
+                                                                    <input type="text" class="form-control" placeholder="" name="script_<?= $idx ?>" value="<?= $json_arr[$idx]['block' . $idx . '_file'] ?>" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -634,30 +634,30 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
 
                                             </div>
 
-                                    </div>
-                                <?php
+                                        <?php
                                         }
+                                        ?>
+                                    </div>
+                                    <button type="button" name="add" id="add" class="btn btn-success w-25"><?= $block_add ?></button>
+
+
+                                    <input type="hidden" name="operation" value="edit">
+                                    <input type="hidden" name="origin" value="editPage">
+                                    <input type="hidden" name="idToMod" value="<?= $idToMod ?>">
+                                    <input type="hidden" name="counter" value="<?= $counter ?>" id="counter">
+
+                                <?php
+                            }
                                 ?>
-                                <button type="button" name="add" id="add" class="btn btn-success w-25"><?= $block_add ?></button>
 
-
-                                <input type="hidden" name="operation" value="edit">
-                                <input type="hidden" name="origin" value="editPage">
-                                <input type="hidden" name="idToMod" value="<?= $idToMod ?>">
-                                <input type="hidden" name="counter" value="<?= $counter ?>" id="counter">
-
-                            <?php
-                        }
-                            ?>
-
-                            <div class="col-12 mt-3 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary me-1 mb-1 shadow">
-                                    <?= $common_submit ?>
-                                </button>
-                                <button type="reset" class="btn btn-light-secondary me-1 mb-1 shadow">
-                                    <?= $common_reset ?>
-                                </button>
-                            </div>
+                                <div class="col-12 mt-3 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary me-1 mb-1 shadow">
+                                        <?= $common_submit ?>
+                                    </button>
+                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1 shadow">
+                                        <?= $common_reset ?>
+                                    </button>
+                                </div>
                                 </div>
                             </div>
                         </form>
