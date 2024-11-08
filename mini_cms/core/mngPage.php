@@ -217,7 +217,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
                         // set data for file uploading
                         $file->inputFileName = $_FILES['img_' . $i . '']['tmp_name'];
                         $file->label = $_FILES['img_' . $i . '']['name'];
-                        $file->path = "../../uploads/";
+                        $file->path = "../../uploads/img/";
                         $file->origin = filter_input(INPUT_POST, "origin");
 
                         $file->operation = "add";
@@ -252,7 +252,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
                         // set data for file uploading
                         $file->inputFileName = $_FILES['info_img_' . $i . '']['tmp_name'];
                         $file->label = $_FILES['info_img_' . $i . '']['name'];
-                        $file->path = "../../uploads/";
+                        $file->path = "../../uploads/img/";
                         $file->origin = filter_input(INPUT_POST, "origin");
 
                         $file->operation = "add";
@@ -563,7 +563,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
                     // set data for file uploading
                     $file->inputFileName = $_FILES['img_' . $i . '']['tmp_name'];
                     $file->label = $_FILES['img_' . $i . '']['name'];
-                    $file->path = "../../uploads/";
+                    $file->path = "../../uploads/img/";
                     $file->origin = filter_input(INPUT_POST, "origin");
 
                     $file->operation = "add";
@@ -598,7 +598,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
                     // set data for file uploading
                     $file->inputFileName = $_FILES['info_img_' . $i . '']['tmp_name'];
                     $file->label = $_FILES['info_img_' . $i . '']['name'];
-                    $file->path = "../../uploads/";
+                    $file->path = "../../uploads/img/";
                     $file->origin = filter_input(INPUT_POST, "origin");
 
                     $file->operation = "add";

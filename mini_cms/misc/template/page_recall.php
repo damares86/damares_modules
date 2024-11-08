@@ -39,7 +39,7 @@
 
                         echo $json_arr[$i]['block' . $i . ''];
                     } else if ($json_arr[$i]['block' . $i . '_type'] == "img") {
-                        $pict = $json_arr[$i]['block' . $i . '_pict'];
+                        $pict = $json_arr[$i]['block' . $i ];
                     ?>
 
                         <img src="uploads/img/<?= $pict ?>">
@@ -89,10 +89,10 @@
                         $info = $json_arr[$i]['block' . $i . '_info'];
                         ?>
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-3 info_img">
                                 <img src="uploads/img/<?= $info ?>">
                             </div>
-                            <div class="col-9">
+                            <div class="col-9 info_text">
                                 <?php
                                 echo $json_arr[$i]['block' . $i . '_desc'];
                                 ?>
