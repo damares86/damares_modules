@@ -140,7 +140,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
                     // set data for file uploading
                     $file->inputFileName = $_FILES['img_header']['tmp_name'];
                     $file->label = $_FILES['img_header']['name'];
-                    $file->path = "../../uploads/";
+                    $file->path = "../../uploads/img/";
                     $file->origin = filter_input(INPUT_POST, "origin");
 
                     $file->operation = "add";
@@ -490,7 +490,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
                 // set data for file uploading
                 $file->inputFileName = $_FILES['img_header']['tmp_name'];
                 $file->label = $_FILES['img_header']['name'];
-                $file->path = "../../uploads/";
+                $file->path = "../../uploads/img/";
                 $file->origin = filter_input(INPUT_POST, "origin");
 
                 $file->operation = "add";

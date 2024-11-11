@@ -1,4 +1,4 @@
-<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0 flex-shrink-0">
     <?php
     $page_order = [];
     $link = "";
@@ -192,7 +192,7 @@
                         <?php
                         }
                         ?>
-            </li>
+            </li> &nbsp; &nbsp;
         <?php
         }
         ?>

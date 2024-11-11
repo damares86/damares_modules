@@ -54,7 +54,7 @@ if ($operation == 'settings') {
         }
     }
     
-    if(filter_input(INPUT_POST,'img_logo')){
+    if($_FILES['img_logo']){
         if ($_FILES['img_logo']['size'] > 0) {
             $file->filename = $_FILES['img_logo']['name'];
             $filename = $_FILES['img_logo']['name'];
