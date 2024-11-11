@@ -131,12 +131,12 @@
 
 
                         <?php
-                        if ($page_name == 'Index') {
+                        if ($row['id'] == 1) {
                             echo "Home";
+                        } else if ($row['id'] == 2) {
+                            echo $cont_form_page;
                         } else if ($page_name == "Post" || $name == "Blog") {
                             echo "Blog";
-                        } else if ($name == 'Contact') {
-                            echo $cont_form_page;
                         } else {
                             echo $page_name;
                         } ?>
