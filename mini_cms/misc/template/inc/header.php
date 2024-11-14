@@ -60,8 +60,6 @@ foreach (glob("admin/locale/$lang/*.php") as $filelang) {
     require "$filelang";
 }
 
-
-
 $setting->name = "debug";
 $dbg = $setting->showAllWhere('id', ['name']);
 $row_debug = $dbg->fetch(PDO::FETCH_ASSOC);
@@ -308,20 +306,16 @@ if ($mc_settings['mc_theme_one'] == 1) {
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg">
             <div class="container px-5">
-                <div class="row">
-                    <div class="col-9 col-lg-5">
-                        <a class="navbar-brand" href="index.php">
-                            <img class="img-logo" src="uploads/img/<?= $mc_settings['mc_site_logo'] ?>">
-                        </a>
-                    </div>
-                    <div class="col-3 col-lg-7">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="text-align:right">
-                            <?php
-                            require "admin/template/inc/menu.php";
-                            ?>
-                        </div>
-                    </div>
+                <a class="navbar-brand" href="index.php">
+                    <img class="img-logo" src="uploads/img/<?= $mc_settings['mc_site_logo'] ?>">
+                </a>
+
+                <button class="navbar-toggler collapsed  ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="text-align:right">
+                    <?php
+                    require "admin/template/inc/menu.php";
+                    ?>
                 </div>
             </div>
         </nav>
