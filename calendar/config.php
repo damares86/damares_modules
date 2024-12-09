@@ -26,17 +26,20 @@ $menu_link = [[
             [
                   'link' => 'calendar',
                   'label' => 'Show calendar',
-                  'icon' => 'calendar3'
+                  'icon' => 'calendar3',
+                  'show_menu' => 1
             ],
             [
                   'link' => 'allCalendars',
                   'label' => 'All calendars',
-                  'icon' => 'calendar2-range'
+                  'icon' => 'calendar2-range',
+                  'show_menu' => 1
             ],
             [
                   'link' => 'addCalendar',
                   'label' => 'Add a calendar',
-                  'icon' => 'calendar-plus'
+                  'icon' => 'calendar-plus',
+                  'show_menu' => 1
             ]
       ]
 ]];

@@ -25,12 +25,20 @@ $menu_link = [[
             [
                   'link' => 'allCustomers',
                   'label' => 'All Customers',
-                  'icon' => 'people-fill'
+                  'icon' => 'people-fill',
+                  'show_menu' => 1
             ],
             [
                   'link' => 'addCustomer',
                   'label' => 'Add a customer',
-                  'icon' => 'person-plus-fill'
+                  'icon' => 'person-plus-fill',
+                  'show_menu' => 1
+            ],
+            [
+                  'link' => 'editCustomer',
+                  'label' => 'edit a customer',
+                  'icon' => 'person-plus-fill',
+                  'show_menu' => 0
             ]
       ]
 ]];
