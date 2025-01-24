@@ -16,7 +16,7 @@ $query_create_table = "CREATE TABLE IF NOT EXISTS " . $prefix . "post
       gall VARCHAR(255) DEFAULT NULL,
       title VARCHAR(255) NOT NULL,
       author INT(5) NOT NULL,
-      content text NOT NULL,
+      content longtext NOT NULL,
       created datetime NOT NULL,
       category_id VARCHAR (255) NULL);
       CREATE TABLE IF NOT EXISTS post_categories
