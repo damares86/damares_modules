@@ -2,8 +2,6 @@
 
 // plugin information
 
-use PhpOffice\PhpSpreadsheet\Reader\Gnumeric\PageSetup;
-
 $pluginname = "mini_cms";
 $description = "A complete CMS, with page management, galleries and more";
 $link_parent = "mini_cms";

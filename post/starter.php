@@ -4,6 +4,8 @@
 $plugin_dir = '../plugins/post/';
 $frontend_dir = '../../';
 
+require '../inc/class_initialize.php' ;
+
 if ($op == 'add') {
 
 	foreach (glob($plugin_dir . 'frontend/*') as $row) {
