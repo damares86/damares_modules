@@ -5,9 +5,8 @@ $template_dir = '../template/';
 $frontend_dir = '../../';
 $json_dir = '../inc/pages/';
 $menu_dir = '../inc/menu/';
-
 if ($op == 'add') {
-
+	
 	if (!is_dir($template_dir)) {
 		$oldmask = umask(0);
 		mkdir($template_dir, 0777, true);
@@ -76,7 +75,6 @@ if ($op == 'add') {
 		}
 	}
 
-
 	$url = explode(".", $_SERVER['SERVER_NAME']);
 
 	$website = "";
@@ -92,16 +90,18 @@ if ($op == 'add') {
 		$website = implode(".", $url);
 	}
 
-	if (!is_file('../../core/site.php')) {
-		$file_handle = fopen('../../core/site.php', 'w');
+	$file_path = 'site.php' ;
+	
+	if (!is_file($file_path)) {
+		$file_handle = fopen($file_path, 'w');
 		fwrite($file_handle, '<?php');
 		fwrite($file_handle, "\n");
 		fwrite($file_handle, '$site=array("' . $website . '","' . $new_url . '");');
 		fwrite($file_handle, "\n");
 		fwrite($file_handle, '?>');
 	}
-
-	chmod('../../core/site.php', 0777);
+	
+	chmod($file_path, 0777);
 
 } else if ($op == 'rm') {
 
