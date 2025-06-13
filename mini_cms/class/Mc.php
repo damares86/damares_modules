@@ -13,6 +13,7 @@ class Mc extends Common
 
     public $page_name;
     public $no_del;
+    public $link_to_file;
     public $layout;
     public $header;
     public $header_media;

@@ -8,7 +8,6 @@
 #                                          #
 ############################################
 
-
 require __DIR__ . "/coreConfig.php";
 
 // check if there's a page to delete
@@ -106,6 +105,10 @@ if (filter_input(INPUT_POST, "idToMod")) {
             $page_name = str_replace(" ", "_", $page_name);
         }
 
+        $link_to_file = filter_input(INPUT_POST, 'link_to_file_check') ? filter_input(INPUT_POST, 'link_to_file') : 'none';
+
+        $mc->link_to_file = $link_to_file;
+
         $old_page_name = filter_input(INPUT_POST, 'old_page_name');
 
         $name_to_change = '';
@@ -117,7 +120,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
         // prepare data for the db query
         $mc->page_name = $page_name;
 
-        $mc->layout = filter_input(INPUT_POST, 'layout');
+        $mc->layout = filter_input(INPUT_POST, 'layout') ? filter_input(INPUT_POST, 'layout') : 'default';
 
         $err_file = '';
 
@@ -175,10 +178,11 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
         $mc->table = 'mc_pages';
 
-        if ($mc->update(['page_name', 'layout', 'header', 'header_media', 'use_page_name', 'use_name', 'use_desc', 'counter'], 'id')) {
+        if ($mc->update(['page_name','link_to_file', 'layout', 'header', 'header_media', 'use_page_name', 'use_name', 'use_desc', 'counter'], 'id')) {
 
             $arr0 = array(
-                "name"    => $page_name
+                "name"    => $page_name,
+                "link_to_file" => $link_to_file
             );
 
             for ($i = 1; $i <= $counter; $i++) {
@@ -456,10 +460,14 @@ if (filter_input(INPUT_POST, "idToMod")) {
         }
     }
 } else if ($operation == "add") {
+    $link_to_file = filter_input(INPUT_POST, 'link_to_file') ? filter_input(INPUT_POST, 'link_to_file') : 'none';
 
     $page_name = filter_input(INPUT_POST, 'page_name');
     $page_name = strtolower($page_name);
     $page_name = str_replace(" ", "_", $page_name);
+
+    $link_to_file = filter_input(INPUT_POST, 'link_to_file') ? filter_input(INPUT_POST, 'link_to_file') : 'none';
+    $mc->link_to_file = $link_to_file;
 
     // prepare data for the db query
     $mc->page_name = $page_name;
@@ -467,7 +475,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
     $counter = filter_input(INPUT_POST, 'counter');
     $mc->counter = $counter;
 
-    $mc->layout = filter_input(INPUT_POST, 'layout');
+    $mc->layout = filter_input(INPUT_POST, 'layout') ? filter_input(INPUT_POST, 'layout') : 'default';
 
     $err_file = '';
 
@@ -521,10 +529,11 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
     $mc->table = 'mc_pages';
 
-    if ($mc->insert(['page_name', 'layout', 'header', 'header_media', 'use_page_name', 'use_name', 'use_desc', 'counter'])) {
+    if ($mc->insert(['page_name', 'link_to_file', 'layout', 'header', 'header_media', 'use_page_name', 'use_name', 'use_desc', 'counter'])) {
 
         $arr0 = array(
-            "name"    => $page_name
+            "name"    => $page_name,
+            "link_to_file" => $link_to_file
         );
 
         for ($i = 1; $i <= $counter; $i++) {

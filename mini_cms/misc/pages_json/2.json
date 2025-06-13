@@ -1,5 +1,8 @@
 [
-  { "name": "contact" },
+  {
+    "name": "contact",
+    "link_to_file": "none"
+  },
   {
     "block1_type": "text",
     "block1": "<p>Your contacts</p>",

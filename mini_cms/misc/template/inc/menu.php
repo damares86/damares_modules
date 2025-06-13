@@ -54,7 +54,6 @@
         $pages_json = file_get_contents('admin/inc/menu/menu.json');
         $pages_data = json_decode($pages_json, true);
 
-
         // Iteriamo sui parent
         foreach ($pages_data['inmenu'] as $parent) {
 
@@ -77,6 +76,13 @@
             $page_name = str_replace('_', ' ', ucfirst($row['page_name']));
 
             $link = $child_exists ? '#' : $row['page_name'] . ".php";
+            
+            if($row['link_to_file'] != 'none' ){
+                $page_content_json = file_get_contents('admin/inc/pages/'.$parent['id'].'.json');
+                $page_content_data = json_decode($page_content_json,true) ;
+                $link = $page_content_data[0]['link_to_file'];
+            }
+
             // $link = $row['page_name'] . ".php";
             if ($post_check) {
                 $found_value = NULL;
