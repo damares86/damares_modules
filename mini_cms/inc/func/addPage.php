@@ -7,6 +7,11 @@
         display: none
     }
 </style>
+<div id="fm_button">
+    <button type="button" class="btn btn-primary me-1 mb-1 shadow" data-bs-toggle="modal" data-bs-target="#fm_modal">
+        <?= $addpage_fm_open?>
+    </button>
+</div>
 
 <div class="page-title">
     <div class="row">
@@ -59,7 +64,7 @@
 
                                     <!-- link page to a file -->
                                     <div class="col-md-3 mt-3 p-3 border-top">
-                                        <label>Link page to a file<span class="text-danger">*</span></label>
+                                        <label><?=$addpage_link_file?><span class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-md-9 mt-3 pt-3 border-top">
                                         <div class="form-group">
@@ -69,7 +74,7 @@
                                                     <!-- <label for="checkbox_usefile">&nbsp; Seleziona per </label> -->
                                                     &nbsp; &nbsp; &nbsp;
                                                     <button type="button" class="btn btn-primary me-1 mb-1 shadow" data-bs-toggle="modal" data-bs-target="#fm_modal">
-                                                        Apri File Manager
+                                                        <?= $addpage_fm_open?>
                                                     </button>
                                                     <div class="col-12">
 
@@ -84,9 +89,6 @@
                                                         <div class="modal fade" id="fm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
                                                             <div class="modal-dialog" role="document" style="height: 100%;">
                                                                 <div class="modal-content h-75">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                                    </div>
                                                                     <div class="modal-body">
                                                                         <iframe src='core/tinyfilemanager.php' style="width: 100%; height:100%;">
                                                                         </iframe>
@@ -276,39 +278,6 @@
                                                                 <input type="checkbox" class="form-check-input" name="site_description">
                                                                 <label>&nbsp; <b><?= $name['value'] ?></b></label>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- file manager modal -->
-                                            <div class="col-md-3 mt-3 pb-3 border-bottom">
-                                                <label><b>File Manager</b> </label>
-                                            </div>
-                                            <div class="col-md-9 mt-3 pb-3 border-bottom">
-                                                <button type="button" class="btn btn-primary me-1 mb-1 shadow" data-bs-toggle="modal" data-bs-target="#fm_modal">
-                                                    Apri
-                                                </button>
-                                            </div>
-                                            <style>
-                                                .modal-dialog {
-                                                    width: 79%;
-                                                    max-width: 80%;
-                                                    height: 70%;
-                                                }
-                                            </style>
-                                            <div class="modal fade" id="fm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
-                                                <div class="modal-dialog" role="document" style="height: 100%;">
-                                                    <div class="modal-content h-75">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <iframe src='core/tinyfilemanager.php' style="width: 100%; height:100%;">
-                                                            </iframe>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -673,53 +642,52 @@ $colors = json_encode($colorArray);
 ?>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const checkbox = document.getElementById("checkbox_usefile");
-    const contentDiv = document.getElementById("mngpage_content");
-    const fileLinkInput = document.getElementById("file_page_link");
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkbox = document.getElementById("checkbox_usefile");
+        const contentDiv = document.getElementById("mngpage_content");
+        const fileLinkInput = document.getElementById("file_page_link");
 
-    function toggleContentDisabledState() {
-        const disable = checkbox.checked;
+        function toggleContentDisabledState() {
+            const disable = checkbox.checked;
 
-        // Disabilita/abilita i contenuti del div
-        const elements = contentDiv.querySelectorAll("input, textarea, button, select");
-        elements.forEach(el => {
-            el.disabled = disable;
-        });
+            // Disabilita/abilita i contenuti del div
+            const elements = contentDiv.querySelectorAll("input, textarea, button, select");
+            elements.forEach(el => {
+                el.disabled = disable;
+            });
 
-        contentDiv.style.pointerEvents = disable ? "none" : "auto";
-        contentDiv.style.opacity = disable ? 0.5 : 1;
+            contentDiv.style.pointerEvents = disable ? "none" : "auto";
+            contentDiv.style.opacity = disable ? 0.5 : 1;
 
-        // Gestione data-parsley-required dinamico su #file_page_link
-        if (checkbox.checked) {
-            fileLinkInput.setAttribute("data-parsley-required", "true");
-        } else {
-            fileLinkInput.removeAttribute("data-parsley-required");
+            // Gestione data-parsley-required dinamico su #file_page_link
+            if (checkbox.checked) {
+                fileLinkInput.setAttribute("data-parsley-required", "true");
+            } else {
+                fileLinkInput.removeAttribute("data-parsley-required");
+            }
+
+            // Parsley: aggiorna validazione
+            if ($(fileLinkInput).data('Parsley')) {
+                $(fileLinkInput).parsley().destroy();
+            }
+            $(fileLinkInput).parsley();
         }
 
-        // Parsley: aggiorna validazione
-        if ($(fileLinkInput).data('Parsley')) {
-            $(fileLinkInput).parsley().destroy();
-        }
-        $(fileLinkInput).parsley();
-    }
+        checkbox.addEventListener("change", toggleContentDisabledState);
 
-    checkbox.addEventListener("change", toggleContentDisabledState);
-
-    // Inizializzazione al caricamento
-    toggleContentDisabledState();
-});
+        // Inizializzazione al caricamento
+        toggleContentDisabledState();
+    });
 </script>
 
 <script type="text/javascript">
     var galleryOptions = '<?php echo $galleryOptions; ?>';
     <?php
     if ($postExist == true) {
-
         echo 'var postExist = true;';
-        echo 'var catOptions = \'' . $catOption . '\';';
-        echo 'var block_post_cat = \'' . $block_post_cat . '\';';
-        echo 'var block_post_text = \'' . $block_post_text . '\';';
+        echo 'var catOptions = ' . json_encode($catOption) . ';';
+        echo 'var block_post_cat = ' . json_encode($block_post_cat) . ';';
+        echo 'var block_post_text = ' . json_encode($block_post_text) . ';';
     } else {
         echo 'var postExist = false;';
     }
@@ -749,6 +717,17 @@ document.addEventListener("DOMContentLoaded", function() {
     var block_add = '<?php echo $block_add; ?>';
     var block_image_upload = '<?php echo $block_image_upload; ?>';
     var block_image_default = '<?php echo $block_image_default; ?>';
+</script>
+<script>
+    $(document).ready(function() {
+        if (typeof colors !== 'undefined') {
+            colors.forEach(function(row) {
+                console.log(row.color);
+            });
+        } else {
+            console.error("La variabile 'colors' non è definita");
+        }
+    });
 </script>
 <script src="script/mc_addBlockPage.js"></script>
 <script>

@@ -8,7 +8,6 @@
 #                                          #
 ############################################
 
-
 require __DIR__ . "/coreConfig.php";
 
 // check if there's a page to delete

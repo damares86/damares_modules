@@ -40,7 +40,7 @@ $error = 0;
 if ($operation == 'settings') {
 
     $post = $_POST;
-    
+   
     $exclude = ['current_logo','img_logo'];
 
     foreach ($post as $key => $value) {
@@ -53,7 +53,7 @@ if ($operation == 'settings') {
             }
         }
     }
-    
+
     if($_FILES['img_logo']){
         if ($_FILES['img_logo']['size'] > 0) {
             $file->filename = $_FILES['img_logo']['name'];

@@ -7,7 +7,11 @@
         display: none
     }
 </style>
-
+<div id="fm_button">
+    <button type="button" class="btn btn-primary me-1 mb-1 shadow" data-bs-toggle="modal" data-bs-target="#fm_modal">
+        <?= $addpage_fm_open?>
+    </button>
+</div>
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
@@ -88,20 +92,20 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
 
                                     <!-- link page to a file -->
                                     <div class="col-md-3 mt-3 p-3 border-top">
-                                        <label>Link page to a file<span class="text-danger">*</span></label>
+                                        <label><?=$addpage_link_file?><span class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-md-9 mt-3 pt-3 border-top">
                                         <div class="form-group">
                                             <div class="form-check">
                                                 <div class="checkbox">
                                                     <?php
-                                                        $file_checked = $item['link_to_file'] == 'none' ? '' : 'checked' ;
+                                                    $file_checked = $item['link_to_file'] == 'none' ? '' : 'checked';
                                                     ?>
-                                                    <input type="checkbox" id="checkbox_usefile" class="form-check-input" name="link_to_file_check" <?=$file_checked?>>
+                                                    <input type="checkbox" id="checkbox_usefile" class="form-check-input" name="link_to_file_check" <?= $file_checked ?>>
                                                     <!-- <label for="checkbox_usefile">&nbsp; Seleziona per </label> -->
                                                     &nbsp; &nbsp; &nbsp;
                                                     <button type="button" class="btn btn-primary me-1 mb-1 shadow" data-bs-toggle="modal" data-bs-target="#fm_modal">
-                                                        Apri File Manager
+                                                        <?= $addpage_fm_open?>
                                                     </button>
                                                     <div class="col-12">
 
@@ -116,9 +120,6 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                         <div class="modal fade" id="fm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
                                                             <div class="modal-dialog" role="document" style="height: 100%;">
                                                                 <div class="modal-content h-75">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                                    </div>
                                                                     <div class="modal-body">
                                                                         <iframe src='core/tinyfilemanager.php' style="width: 100%; height:100%;">
                                                                         </iframe>
@@ -140,9 +141,9 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                             <div class="form-check mandatory">
                                                 <div class="position-relative">
                                                     <?php
-                                                        $value_link = $item['link_to_file'] != 'none' ? 'value="'.$item['link_to_file'].'"' : '' ;                                                    
+                                                    $value_link = $item['link_to_file'] != 'none' ? 'value="' . $item['link_to_file'] . '"' : '';
                                                     ?>
-                                                    <input type="text" class="form-control" placeholder="Copia e incolla url del file dal File Manager" id="file_page_link" name="link_to_file" <?=$value_link?>/>
+                                                    <input type="text" class="form-control" placeholder="Copia e incolla url del file dal File Manager" id="file_page_link" name="link_to_file" <?= $value_link ?> />
 
                                                 </div>
                                             </div>
@@ -291,7 +292,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                 </div>
 
                                                 <div class="col-md-3 mt-3 mb-3">
-                                                    <label>Use page name </label>
+                                                    <label><?= $addpage_header_page_name ?> </label>
                                                 </div>
                                                 <div class="col-md-9 mt-3 mb-3">
                                                     <div class="form-group">
@@ -367,39 +368,6 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
                                                                 <input type="checkbox" class="form-check-input" name="site_description" <?= $checked ?>>
                                                                 <label>&nbsp; <b><?= $name['value'] ?></b></label>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- file manager modal -->
-                                            <div class="col-md-3 mt-3 pb-3 border-bottom">
-                                                <label><b>File Manager</b> </label>
-                                            </div>
-                                            <div class="col-md-9 mt-3 pb-3 border-bottom">
-                                                <button type="button" class="btn btn-primary me-1 mb-1 shadow" data-bs-toggle="modal" data-bs-target="#fm_modal">
-                                                    Apri
-                                                </button>
-                                            </div>
-                                            <style>
-                                                .modal-dialog {
-                                                    width: 79%;
-                                                    max-width: 80%;
-                                                    height: 70%;
-                                                }
-                                            </style>
-                                            <div class="modal fade" id="fm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
-                                                <div class="modal-dialog" role="document" style="height: 100%;">
-                                                    <div class="modal-content h-75">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <iframe src='core/tinyfilemanager.php' style="width: 100%; height:100%;">
-                                                            </iframe>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -936,11 +904,10 @@ $colors = json_encode($colorArray);
     var galleryOptions = '<?php echo $galleryOptions; ?>';
     <?php
     if ($postExist == true) {
-
         echo 'var postExist = true;';
-        echo 'var catOptions = \'' . $catOption . '\';';
-        echo 'var block_post_cat = \'' . $block_post_cat . '\';';
-        echo 'var block_post_text = \'' . $block_post_text . '\';';
+        echo 'var catOptions = ' . json_encode($catOption) . ';';
+        echo 'var block_post_cat = ' . json_encode($block_post_cat) . ';';
+        echo 'var block_post_text = ' . json_encode($block_post_text) . ';';
     } else {
         echo 'var postExist = false;';
     }

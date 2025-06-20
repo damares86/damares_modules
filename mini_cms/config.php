@@ -19,37 +19,37 @@ $query_create_table = "CREATE TABLE IF NOT EXISTS " . $prefix . "mc_pages
       use_page_name INT(1) DEFAULT 0,
       use_name INT(1) DEFAULT 0,
       use_desc INT(1) DEFAULT 0,
-      counter INT(3) NOT NULL);
+      counter INT(3) NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS " . $prefix . "mc_menu
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      page_id INT(5) NOT NULL);
+      page_id INT(5) NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS " . $prefix . "mc_galleries
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      gallery_name VARCHAR(255) NOT NULL);
+      gallery_name VARCHAR(255) NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS " . $prefix . "mc_color
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      color VARCHAR(10) NOT NULL);
+      color VARCHAR(10) NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS " . $prefix . "mc_quotes
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       quote TEXT NOT NULL,
-      author VARCHAR(255) NOT NULL);
+      author VARCHAR(255) NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS " . $prefix . "mc_popup
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       title VARCHAR(255) NOT NULL,
       content TEXT NOT NULL,
       page_id INT(5) NOT NULL,
-      popup_cat_id INT(5) NOT NULL);
+      popup_cat_id INT(5) NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS " . $prefix . "mc_popup_cat
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      category VARCHAR(255) NOT NULL);
+      category VARCHAR(255) NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS " . $prefix . "mc_settings
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
-      value LONGTEXT NOT NULL);
+      value LONGTEXT NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS " . $prefix . "mc_contacts
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       label VARCHAR(255) NOT NULL,
-      email VARCHAR(255) NOT NULL);
+      email VARCHAR(255) NOT NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       INSERT INTO " . $prefix . "mc_pages
       (page_name, no_del,layout,header,header_media,use_name,use_desc,counter)
       VALUES ('index','0','default','1','visual.jpg','1','1','1');

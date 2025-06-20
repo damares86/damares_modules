@@ -112,7 +112,24 @@ if ($file_name == "index.php") {
     // force the page name in contacts
     $page_name_title = $cont_form_page;
     $page_class = "contact";
-} else {
+}  else if ($file_name == "blog.php") {
+    if (filter_input(INPUT_GET, 'cat')) {
+        $cat = filter_input(INPUT_GET, 'cat');
+        if ($cat == 2 || $cat == 3) {
+            $post->table = 'post_categories';
+            $post->id = $cat;
+            $title_stmt = $post->showAllWhere('id', ['id']);
+            $title_row = $title_stmt->fetch(PDO::FETCH_ASSOC);
+            extract($title_row);
+            $page_name_title = ucfirst($title_row['category_name']);
+        } else {
+            $page_name_title = "Blog";
+        }
+    } else {
+        $page_name_title = "Blog";
+    }
+    $page_class = "blog";
+}else {
     // mi prendo solo il nome senza l'estensione
     $page_name_title = pathinfo($file_name, PATHINFO_FILENAME);
     $page_class = pathinfo($file_name, PATHINFO_FILENAME);
@@ -134,8 +151,9 @@ while ($row = $page_data->fetch(PDO::FETCH_ASSOC)) {
     $page_layout = $row['layout'];
     $page_header = $row['header'];
     $page_header_media = $row['header_media'];
-    $page_use_name = $row['use_name'];
-    $page_use_description = $row['use_desc'];
+    $page_use_page_name = $row['use_page_name'];
+    $page_use_site_name = $row['use_name'];
+    $page_use_site_description = $row['use_desc'];
     $page_counter = $row['counter'];
 }
 
@@ -159,7 +177,7 @@ $one = false;
 if ($mc_settings['mc_theme_one'] == 1) {
     $one = true;
 }
-
+$quote_counter = 1;
 ?>
 <!doctype html>
 <html>
@@ -310,17 +328,54 @@ if ($mc_settings['mc_theme_one'] == 1) {
             </div>
         <?php
         }
+
+        $mc->table = 'mc_quotes';
+        if ($mc->countAll() > 0) {
+            $mc->table = 'mc_quotes';
+            $quote_stmt = $mc->showAll('id');
+
+        ?>
+            <div class="row quotes">
+                <div class="col-12 pt-3 text-end">
+
+                    <div class="slideshow-container header">
+                        <?php
+                        while ($quote_row = $quote_stmt->fetch(PDO::FETCH_ASSOC)) {
+                            extract($quote_row);
+                        ?>
+                            <div class="mySlides">
+                                <q><?= $quote_row['quote'] ?></q>
+                                <p class="author"><?= $quote_row['author'] ?></p>
+                            </div>
+                        <?php
+                        }
+                        ?>
+
+                        <!-- <a class="prev" onclick="plusSlides(-1)">❮</a>
+<a class="next" onclick="plusSlides(1)">❯</a> -->
+
+                    </div>
+                    
+    <div class="dot-container">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+                </div>
+            </div>
+        <?php
+        }
         ?>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg">
-            <div class="container px-5">
-                <a class="navbar-brand" href="index.php">
+            <div class="container">
+                <a class="navbar-brand p_<?= $page_id ?>" href="index.php">
                     <img class="img-logo" src="uploads/img/<?= $mc_settings['mc_site_logo'] ?>">
                 </a>
 
-                <button class="navbar-toggler collapsed  ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <button class="navbar-toggler collapsed  ms-auto p_<?= $page_id ?>" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="text-align:right">
+                <div class="collapse navbar-collapse p_<?= $page_id ?>" id="navbarSupportedContent" style="text-align:right">
                     <?php
                     require "admin/template/inc/menu.php";
                     ?>
@@ -342,16 +397,23 @@ if ($mc_settings['mc_theme_one'] == 1) {
                             <div class="col-12">
                                 <div class="my-5 text-center">
                                     <?php
-                                    if ($page_use_name == 1) {
+                                    if ($page_use_site_name == 1) {
                                     ?>
                                         <h1 class="display-5 fw-bolder mb-2"><?= $mc_settings['mc_site_name'] ?></h1>
 
                                     <?php
                                     }
 
-                                    if ($page_use_description == 1) {
+                                    if ($page_use_site_description == 1) {
                                     ?>
                                         <p class="lead fw-normal mb-4"><?= $mc_settings['mc_site_description'] ?></p>
+                                    <?php
+                                    }
+
+                                    if ($page_use_page_name == 1) {
+                                    ?>
+                                        <h1 class="display-5 fw-bolder mb-2"><?= $page_name_title ?></h1>
+
                                     <?php
                                     }
                                     ?>

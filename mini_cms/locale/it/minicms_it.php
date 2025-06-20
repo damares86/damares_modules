@@ -34,6 +34,8 @@ $cont_form_page = "Contatti" ;
 $addpage_header = "Aggiungi una nuova pagina" ;
 $addpage_title = "Nuova pagina" ;
 $addpage_name = "Nome pagina" ;
+$addpage_fm_open = "Apri File Manager" ;
+$addpage_link_file = "Link della pagina a un file" ;
 $addpage_layout = "Layout" ;
 $addpage_use_header = "Mostra header" ;
 $addpage_use_header_select = "Seleziona per mostrare l'header nella pagina" ;
@@ -43,6 +45,7 @@ $addpage_header_img_default = "Immagine di default" ;
 $addpage_header_img_upload = "Carica una nuova immagine" ;
 $addpage_header_gallery_title = "Galleria" ;
 $addpage_header_gallery_choose = "Scegli una galleria" ;
+$addpage_header_page_name = "Mostra nome della pagina" ;
 $addpage_header_site_name = "Mostra nome del sito" ;
 $addpage_header_site_description = "Mostra descrizione del sito" ;
 

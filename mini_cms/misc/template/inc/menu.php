@@ -76,10 +76,10 @@
             $page_name = str_replace('_', ' ', ucfirst($row['page_name']));
 
             $link = $child_exists ? '#' : $row['page_name'] . ".php";
-            
-            if($row['link_to_file'] != 'none' ){
-                $page_content_json = file_get_contents('admin/inc/pages/'.$parent['id'].'.json');
-                $page_content_data = json_decode($page_content_json,true) ;
+
+            if ($row['link_to_file'] != 'none') {
+                $page_content_json = file_get_contents('admin/inc/pages/' . $parent['id'] . '.json');
+                $page_content_data = json_decode($page_content_json, true);
                 $link = $page_content_data[0]['link_to_file'];
             }
 
@@ -116,7 +116,7 @@
                 $scrolly = " scrolly";
             }
 
-            $dropdown = $child_exists ? '' : ' dropdown';
+            $dropdown = $child_exists ? ' dropdown' : '';
         ?>
 
             <li class="nav-item<?= $dropdown ?>">
@@ -150,7 +150,7 @@
                         <?php
                         if ($child_exists) {
                         ?>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown<?=$row['id']?>">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown<?= $row['id'] ?>">
 
                                 <?php
                                 foreach ($parent['child'] as $child) {
@@ -179,6 +179,12 @@
                                     if ($one && $row1['page_name'] != "login") {
                                         $link_child = "#" . $row1['id'];
                                         $scrolly = " scrolly";
+                                    }
+
+                                    if ($row1['link_to_file'] != 'none') {
+                                        $page_content_json = file_get_contents('admin/inc/pages/' . $child . '.json');
+                                        $page_content_data = json_decode($page_content_json, true);
+                                        $link_child = $page_content_data[0]['link_to_file'];
                                     }
                                 ?>
                                     <li><a href="<?= $link_child ?>" class="dropdown-item<?= $scrolly ?>">

@@ -59,17 +59,16 @@ if ($operation == 'editTheme') {
         $err_count++;
     }
 
-    if($_POST['code']){
+    if (isset($_POST['code'])) {
+        $css_code = $_POST['code']; // NON usare htmlspecialchars qui!
 
-        $css_code = $_POST['code'];
-        $css_code = htmlspecialchars($css_code, ENT_QUOTES, 'UTF-8');
-        
-        $css_file = '../../assets/themes/'.$theme.'/custom.css';
-        
-        if(!file_put_contents($css_file,$css_code)){
+        $css_file = '../../assets/themes/' . $theme . '/custom.css';
+
+        if (!file_put_contents($css_file, $css_code)) {
             $err_count++;
         }
     }
+
 
     if ($err_count == 0) {
         header("Location: ../index.php?p=allTheme&msg=themeEditSucc");
