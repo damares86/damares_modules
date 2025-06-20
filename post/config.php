@@ -18,14 +18,14 @@ $query_create_table = "CREATE TABLE IF NOT EXISTS " . $prefix . "post
       author INT(5) NOT NULL,
       content longtext NOT NULL,
       created datetime NOT NULL,
-      category_id VARCHAR (255) NULL);
+      category_id VARCHAR (255) NULL) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       CREATE TABLE IF NOT EXISTS post_categories
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       category_name VARCHAR(255) NOT NULL,
       assign_page INT(5) DEFAULT NULL);
       INSERT INTO post_categories
       (id, category_name)
-      VALUES ('1','Misc')";
+      VALUES ('1','Misc') DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
 $menu_link = [[
       'link' => 'post',

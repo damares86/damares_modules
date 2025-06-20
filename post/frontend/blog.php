@@ -32,10 +32,10 @@ if (filter_input(INPUT_GET, "cat")) {
 $total_pages = ceil($total_rows / $limit);
 
 ?>
-<section class="py-5 bg-light">
-	<div class="container px-5">
+<section class="blog py-5 bg-light">
+	<div class="container">
 		<div class="row gx-5">
-			<div class="col-xl-8">
+			<div class="col-12 col-lg-8 blog_body">
 				<?php
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 					extract($row);

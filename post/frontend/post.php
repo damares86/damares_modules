@@ -25,10 +25,10 @@ $url = getCurrentUrl();
 require "admin/template/inc/header.php";
 
 ?>
-<section class="py-5 bg-light">
-    <div class="container px-5">
+<section class="blog py-5 bg-light">
+    <div class="container">
         <div class="row gx-5">
-            <div class="col-xl-8">
+            <div class="col-12 col-lg-8 blog_body">
                 <?php
 
                 $catArr = explode(",", $post_title_row['category_id']);
@@ -81,7 +81,7 @@ require "admin/template/inc/header.php";
                             ?>
 
                             </p>
-                            <div class="blog_content border-bottom">
+                            <div class="blog_content">
                                 <?php
                                 if ($post_title_row['main_img'] != NULL) {
                                 ?>
@@ -177,7 +177,7 @@ require "admin/template/inc/header.php";
                                 }
                                 ?>
 
-                                <div class="border p-3">
+                                <!-- <div class="border p-3">
                                     <?= $post_share ?>: &nbsp;
 
                                     <a href="https://twitter.com/share?url=<?= $url ?>" target="_blank" onclick="window.open(this.href,'window','width=640,height=480,resizable,scrollbars') ;return false;">
@@ -193,7 +193,7 @@ require "admin/template/inc/header.php";
                                     <script type="IN/Share" data-url="<?= $url ?>"></script>
 
                                     <br>
-                                </div>
+                                </div> -->
                             </div>
 
                         </div>
