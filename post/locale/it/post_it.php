@@ -109,10 +109,7 @@ $msg_postEditCatSucc = "Categoria modificata correttamente" ;
 $msg_postAddCatSucc = "Categoria aggiunta correttamente" ;
 $msg_postDel = "Articolo eliminato" ;
 $msg_postEditSucc = "Articolo modificato correttamente" ;
-$smg_postAddSucc = "Articolo aggiunto correttamente" ;
-
-
-
+$msg_postAddSucc = "Articolo aggiunto correttamente" ;
 
 // err
 
