@@ -1,4 +1,8 @@
 <script type="text/javascript" src="script/coloris.min.js"></script>
+<link rel="stylesheet" href="assets/extensions/codemirror/codemirror.min.css">
+<link rel="stylesheet" href="assets/extensions/codemirror/dracula.min.css">
+<script src="assets/extensions/codemirror/codemirror.min.js"></script>
+<script src="assets/extensions/codemirror/css.min.js"></script>
 
 <div class="page-title">
   <div class="row">
@@ -66,35 +70,35 @@
                   </div>
                 </div>
 
-                  <?php
-                  $css_file = '../assets/themes/' . $theme_selected . '/custom.css';
-                  if(file_exists($css_file)){
-                    $css_file_data = file_get_contents($css_file);
-                    ?>
+                <?php
+                $css_file = '../assets/themes/' . $theme_selected . '/custom.css';
+                if (file_exists($css_file)) {
+                  $css_file_data = file_get_contents($css_file);
+                ?>
                   <div class="col-12 mb-3">
 
-                  <label for="code" class="mb-3"><?= $alltheme_css ?>:</label>
-                  <textarea id="code" name="code"><?php echo htmlentities($css_file_data) ?></textarea>
+                    <label for="code" class="mb-3"><?= $alltheme_css ?>:</label>
+                    <textarea id="code" name="code"><?php echo htmlentities($css_file_data) ?></textarea>
 
-                  <script>
-                    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-                      lineNumbers: true, // Mostra i numeri di riga
-                      mode: "css", // Imposta la modalità su CSS
-                      theme: "dracula", // Usa un tema (opzionale)
-                      matchBrackets: true // Evidenzia le parentesi corrispondenti
-                    });
+                    <script>
+                      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                        lineNumbers: true, // Mostra i numeri di riga
+                        mode: "css", // Imposta la modalità su CSS
+                        theme: "dracula", // Usa un tema (opzionale)
+                        matchBrackets: true // Evidenzia le parentesi corrispondenti
+                      });
 
 
-                    // Forza il refresh per evitare problemi di visualizzazione
-                    setTimeout(function() {
-                      editor.refresh();
-                    }, 100); // Forza il ridimensionamento dopo un piccolo ritardo
-                  </script>
+                      // Forza il refresh per evitare problemi di visualizzazione
+                      setTimeout(function() {
+                        editor.refresh();
+                      }, 100); // Forza il ridimensionamento dopo un piccolo ritardo
+                    </script>
 
-                </div>
+                  </div>
                 <?php
-                  }
-                  ?>
+                }
+                ?>
 
                 <input type="hidden" name="origin" value="allTheme">
                 <input type="hidden" name="operation" value="editTheme">
