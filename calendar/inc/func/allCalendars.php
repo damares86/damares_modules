@@ -1,5 +1,6 @@
 <?php
 
+$calendar->table = "calendar_cat" ;
 $events_cat = $calendar->showAll('id');
 
 ?>
@@ -32,7 +33,7 @@ $events_cat = $calendar->showAll('id');
       <a href="index.php?p=addCalendar" class="btn icon icon-left btn-success shadow"><i data-feather="plus-circle"></i> <?= $cal_event_add_cat_header ?></a>
     </div>
     <div class="card-body">
-      <table class="table" id="table1">
+      <table class="table" id="table">
         <thead>
           <tr>
             <th><?= $cal_event_edit_cat_name_header ?></th>

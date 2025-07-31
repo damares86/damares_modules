@@ -14,14 +14,12 @@ require __DIR__ . "/coreConfig.php";
 
 if (filter_input(INPUT_GET, "idToDel")) {
 
-    require "../inc/func/calendarSettings.php";
-
+    $calendar->table = 'calendar_events';
     $calendar->cat_id = filter_input(INPUT_GET, "idToDel");
-    $calendar->table = $events['table'];
 
-    $stmt = $calendar->itemExists('cat_id');
+    $num = $calendar->countItem('cat_id');
 
-    if (!$stmt) {
+    if ($num == 0) {
 
         $calendar->id = filter_input(INPUT_GET, "idToDel");
         $calendar->table = 'calendar_cat';
@@ -58,7 +56,6 @@ if ($operation == "add") {
 
     $url_tablePage = filter_input(INPUT_POST, 'url_tablePage');
     $url_pageName = filter_input(INPUT_POST, 'url_pageName');
-
     $url_data = "&tablePage=$url_tablePage&pageName=$url_pageName";
 
     $calendar->id = filter_input(INPUT_POST, 'idToMod');

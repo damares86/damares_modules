@@ -10,7 +10,16 @@ $link_parent = "Calendar";
 
 // REMEMBER: add all pages to section tables and also settings pages
 
-$query_create_table = "CREATE TABLE IF NOT EXISTS " . $prefix . "calendar_cat
+$query_create_table = "CREATE TABLE " . $prefix . "calendar_events (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      start DATETIME NOT NULL,
+      end DATETIME NOT NULL,
+      note TEXT DEFAULT NULL,
+      url VARCHAR(255) DEFAULT NULL,
+      cat_id INT(5) DEFAULT NULL
+      );
+      CREATE TABLE IF NOT EXISTS " . $prefix . "calendar_cat
       ( id INT ( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       cat_name VARCHAR(255) NOT NULL,
       cat_color VARCHAR(7) DEFAULT '#008db1');
@@ -31,17 +40,23 @@ $menu_link = [[
             ],
             [
                   'link' => 'allCalendars',
-                  'label' => 'All calendars',
+                  'label' => 'All categories',
                   'icon' => 'calendar2-range',
                   'show_menu' => 1
             ],
             [
                   'link' => 'addCalendar',
-                  'label' => 'Add a calendar',
+                  'label' => 'Add a category',
                   'icon' => 'calendar-plus',
                   'show_menu' => 1
+            ],
+            [
+                  'link' => 'editCalendar',
+                  'label' => 'Edit a category',
+                  'icon' => 'calendar-plus',
+                  'show_menu' => 0
             ]
       ]
 ]];
 
-$query_drop_table = "DROP TABLE  " . $prefix . "calendar_cat";
+$query_drop_table = "DROP TABLE  " . $prefix . "calendar_cat," . $prefix . "calendar_events";
