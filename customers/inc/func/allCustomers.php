@@ -32,7 +32,7 @@ $stmt = $customer->showAll('id');
       <a href="index.php?p=addCustomer" class="btn icon icon-left btn-success shadow"><i data-feather="plus-circle"></i> <?= $customer_all_add ?></a>
     </div>
     <div class="card-body">
-      <table class="table" id="table1">
+      <table class="table" id="table">
         <thead>
           <tr>
             <th><?= $customer_all_surname_table ?></th>
