@@ -92,7 +92,7 @@ $page_to_edit = $mc->showAllWhere('id', ['id']);
 
                                     <!-- link page to a file -->
                                     <div class="col-md-3 mt-3 p-3 border-top">
-                                        <label><?=$addpage_link_file?><span class="text-danger">*</span></label>
+                                        <label><?=$addpage_link_file?></label>
                                     </div>
                                     <div class="col-md-9 mt-3 pt-3 border-top">
                                         <div class="form-group">

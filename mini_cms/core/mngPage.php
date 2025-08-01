@@ -82,7 +82,6 @@ if (filter_input(INPUT_GET, "idToDel")) {
         header("Location: ../index.php?p=allPages&msg=pageDelSucc$err_file_msg");
         exit;
     } else {
-
         header("Location: ../index.php?p=allPages&err=pageDelFail");
         exit;
     }
@@ -100,8 +99,15 @@ if (filter_input(INPUT_POST, "idToMod")) {
             $page_name = 'index';
         } else {
 
-            $page_name = filter_input(INPUT_POST, 'page_name');
-            $page_name = strtolower($page_name);
+            $raw_name = filter_input(INPUT_POST, 'page_name');
+            // Sanifica il nome: sostituisce caratteri non ammessi con '-'
+            $safe_name = preg_replace('/[^a-zA-Z0-9_-]/', '-', $raw_name);
+            // Rimuove trattini multipli consecutivi
+            $safe_name = preg_replace('/-+/', '-', $safe_name);
+            // Rimuove trattini iniziali/finali
+            $safe_name = trim($safe_name, '-');
+
+            $page_name = strtolower($safe_name);
             $page_name = str_replace(" ", "_", $page_name);
         }
 
@@ -178,7 +184,7 @@ if (filter_input(INPUT_POST, "idToMod")) {
 
         $mc->table = 'mc_pages';
 
-        if ($mc->update(['page_name','link_to_file', 'layout', 'header', 'header_media', 'use_page_name', 'use_name', 'use_desc', 'counter'], 'id')) {
+        if ($mc->update(['page_name', 'link_to_file', 'layout', 'header', 'header_media', 'use_page_name', 'use_name', 'use_desc', 'counter'], 'id')) {
 
             $arr0 = array(
                 "name"    => $page_name,
@@ -462,8 +468,15 @@ if (filter_input(INPUT_POST, "idToMod")) {
 } else if ($operation == "add") {
     $link_to_file = filter_input(INPUT_POST, 'link_to_file') ? filter_input(INPUT_POST, 'link_to_file') : 'none';
 
-    $page_name = filter_input(INPUT_POST, 'page_name');
-    $page_name = strtolower($page_name);
+    $raw_name = filter_input(INPUT_POST, 'page_name');
+    // Sanifica il nome: sostituisce caratteri non ammessi con '-'
+    $safe_name = preg_replace('/[^a-zA-Z0-9_-]/', '-', $raw_name);
+    // Rimuove trattini multipli consecutivi
+    $safe_name = preg_replace('/-+/', '-', $safe_name);
+    // Rimuove trattini iniziali/finali
+    $safe_name = trim($safe_name, '-');
+
+    $page_name = strtolower($safe_name);
     $page_name = str_replace(" ", "_", $page_name);
 
     $link_to_file = filter_input(INPUT_POST, 'link_to_file') ? filter_input(INPUT_POST, 'link_to_file') : 'none';
