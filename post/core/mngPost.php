@@ -53,7 +53,6 @@ if($operation=="edit"){
         $post->title = filter_input(INPUT_POST,"title");
         $post->author = filter_input(INPUT_POST,"author");
         $post->content = filter_input(INPUT_POST,"content");
-        $post->created = date("Y-m-d");
         $category = $_POST['categories'] ;
         $post->category_id = implode(',',$category) ;
     
@@ -94,7 +93,7 @@ if($operation=="edit"){
         $post->table = 'post' ;
         $post->id = $id ;
 
-        if($post->update(['main_img','gall','title','author','content','created','category_id'],'id')){
+        if($post->update(['main_img','gall','title','author','content','category_id'],'id')){
     
             //success
             header("Location: ../index.php?p=editPost$url_data&idToMod=$id&msg=postEditSucc$errImg");

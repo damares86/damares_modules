@@ -1,0 +1,44 @@
+#addChapter .modal-dialog {
+    max-width: 80% !important;
+}
+
+.story_title,
+.story_description {
+    background-color: #2c6582;
+    color:#fff;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.story_title {
+    border-radius: 1em 0 0 1em;
+}
+
+.story_description {
+    border-radius: 0 1em 1em 0;
+}
+
+.story_description a{
+    color:#fff;
+}
+
+.story_description a:hover{
+    text-decoration: none;
+}
+
+.single_story_content p{
+    letter-spacing: 0.05em;
+    line-height: 1.6em;
+    text-align: justify;
+}
+
+.arrows{
+    text-align: center;
+}
+
+
+@media (max-width:575px){
+    .story_title{
+        margin-bottom: 0;;
+    }
+}

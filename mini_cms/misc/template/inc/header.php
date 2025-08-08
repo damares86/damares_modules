@@ -107,6 +107,8 @@ if ($file_name == "index.php") {
 
     $page_name_title = $post_title . " - Blog ";
     $page_class = "blog";
+} else if($file_name=="stories.php" || "single_story.php"){
+    $page_name_title = $stories_page_title ;
 } else if ($file_name == "contact.php") {
 
     // force the page name in contacts

@@ -143,6 +143,8 @@
                             echo $cont_form_page;
                         } else if ($page_name == "Post" || $name == "Blog") {
                             echo "News";
+                        } else if ($page_name == "Stories") {
+                            echo $stories_page_title;
                         } else {
                             echo $page_name;
                         } ?>
