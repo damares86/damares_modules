@@ -68,9 +68,10 @@
             $stmt = $mc->showAllWhere('id', ['id']);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             extract($row);
-
-            // insert the page in the array for order
-            $page_order[] = $row['id'];
+            if($row['page_name'] != 'blog'){
+                // insert the page in the array for order
+                $page_order[] = $row['id'];
+            }
 
             // modify the string name
             $page_name = str_replace('_', ' ', ucfirst($row['page_name']));
@@ -111,10 +112,14 @@
             }
 
             $scrolly = "";
-            if ($one && $row['page_name'] != "login") {
-                $link = "#" . $row['id'];
-                $scrolly = " scrolly";
-            }
+            if ($one){
+                if($row['page_name'] == "blog"){
+                    $link = $row['page_name'] . ".php";
+                }else if($row['page_name'] != "login") {
+                    $link = "#" . $row['id'];
+                    $scrolly = " scrolly";
+                }
+            }   
 
             $dropdown = $child_exists ? ' dropdown' : '';
         ?>
@@ -141,7 +146,7 @@
                             echo "Home";
                         } else if ($row['id'] == 2) {
                             echo $cont_form_page;
-                        } else if ($page_name == "Post" || $name == "Blog") {
+                        } else if ($page_name == "Post" || $page_name == "Blog") {
                             echo "News";
                         } else if ($page_name == "Stories") {
                             echo $stories_page_title;

@@ -37,27 +37,30 @@ $operation = filter_input(INPUT_POST, "operation");
 
 if ($operation == 'editTheme') {
 
+    $err_count = 0;
+    $err = '';
+
     // update theme
     $theme = filter_input(INPUT_POST, 'theme');
     $mc->table = 'mc_settings';
     $mc->name = 'mc_theme';
     $mc->value = $theme;
-
-    $err_count = 0;
-    $err = '';
-
-    if ($mc->update(['value'], 'name')) {
-        if (file_exists('../../assets/themes/' . $theme . '/one.php')) {
-            $mc->value = 1;
-        } else {
-            $mc->value = 0;
-        }
-        $mc->table = 'mc_settings';
-        $mc->name = 'mc_theme_one';
-        $mc->update(['value'], 'name');
-    } else {
+    if (!$mc->update(['value'], 'name')) {
         $err_count++;
     }
+
+    // update theme_one
+    if (filter_input(INPUT_POST,'mc_theme_one')) {
+        $mc->value = 1;
+    } else {
+        $mc->value = 0;
+    }
+    $mc->table = 'mc_settings';
+    $mc->name = 'mc_theme_one';
+    if(!$mc->update(['value'], 'name')){
+        $err_count++;
+    }
+
 
     if (isset($_POST['code'])) {
         $css_code = $_POST['code']; // NON usare htmlspecialchars qui!

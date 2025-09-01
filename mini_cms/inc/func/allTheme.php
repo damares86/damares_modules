@@ -69,6 +69,28 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-md-3 pb-3">
+                  <label>Make the site "One pager"</label>
+                </div>
+                <div class="col-md-9 pb-3">
+                  <div class="form-group has-icon-left">
+                    <div class="position-relative">
+                      <?php
+                      $mc->table = 'mc_settings';
+                      $mc->name = 'mc_theme_one';
+                      $stmt1 = $mc->showAllWhere('id', ['name']);
+                      $row1 = $stmt1->fetch(PDO::FETCH_ASSOC);
+                      extract($row1);
+                      $checked = '' ;
+                      if($row1['value']==1){
+                        $checked = ' checked';
+                      }
+                      ?>
+                      <input type="checkbox" class="form-check-input" name="mc_theme_one"<?=$checked?>>
+                    </div>
+                  </div>
+                </div>
+
 
                 <?php
                 $css_file = '../assets/themes/' . $theme_selected . '/custom.css';
