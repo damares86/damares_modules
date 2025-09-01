@@ -83,6 +83,7 @@ $editcat_none = "Nessuna" ;
 
 // blog
 
+$blog_nopost = "Nessun post trovato" ;
 $blog_cat = "Categorie" ;
 $blog_date = "Data" ;
 $blog_author = "Autore" ;

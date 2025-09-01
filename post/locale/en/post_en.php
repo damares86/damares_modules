@@ -75,6 +75,7 @@ $editcat_none = "None" ;
 
 // blog
 
+$blog_nopost = "No post was found" ;
 $blog_cat = "Categories" ;
 $blog_date = "Date" ;
 $blog_author = "Author" ;

@@ -37,60 +37,64 @@ $total_pages = ceil($total_rows / $limit);
 		<div class="row gx-5">
 			<div class="col-12 col-lg-8 blog_body">
 				<?php
-				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-					extract($row);
+				if ($total_rows == 0) {
+					echo "<span class=\"text-center\"><h5>$blog_nopost<h5></span>";
+				} else {
+					while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+						extract($row);
 
-					$catArr = explode(",", $row['category_id']);
+						$catArr = explode(",", $row['category_id']);
 
-					$time = $row['created'];
-					$newTime = date("d/m/Y", strtotime($time));
+						$time = $row['created'];
+						$newTime = date("d/m/Y", strtotime($time));
 				?>
-					<h1><?= $row['title'] ?></h1>
-					<div class="small text-muted mb-3">
-						<!-- <?= $blog_date ?>: <?= $newTime ?> -->
-						<?= $newTime ?><br>
-						<!-- *** <?= $blog_cat ?>: -->
-						<?php
-						foreach ($catArr as $arr) {
-							$post->table = 'post_categories';
-							$post->id = $arr;
-							$stmt_cat = $post->showAllWhere('id', ['id']);
-							$row_cat = $stmt_cat->fetch(PDO::FETCH_ASSOC);
-							extract($row_cat);
-						?>
-							<b><a class="badge bg-secondary text-decoration-none link-light" href="blog.php?cat=<?= $row_cat['id'] ?>"><?= $row_cat['category_name'] ?></a></b>
-						<?php
-						}
+						<h1><?= $row['title'] ?></h1>
+						<div class="small text-muted mb-3">
+							<!-- <?= $blog_date ?>: <?= $newTime ?> -->
+							<?= $newTime ?><br>
+							<!-- *** <?= $blog_cat ?>: -->
+							<?php
+							foreach ($catArr as $arr) {
+								$post->table = 'post_categories';
+								$post->id = $arr;
+								$stmt_cat = $post->showAllWhere('id', ['id']);
+								$row_cat = $stmt_cat->fetch(PDO::FETCH_ASSOC);
+								extract($row_cat);
+							?>
+								<b><a class="badge bg-secondary text-decoration-none link-light" href="blog.php?cat=<?= $row_cat['id'] ?>"><?= $row_cat['category_name'] ?></a></b>
+							<?php
+							}
 
-						?>
-						
+							?>
 
-					</div>
-					<div class="blog_content border-bottom">
-						<?php
-						if ($row['main_img'] != NULL) {
-						?>
-							<div class="row mb-3">
-								<div class="col px-5">
-									<img src="uploads/img/<?= $row['main_img'] ?>" class="post_img justify-content-center mx-auto"><br>
+
+						</div>
+						<div class="blog_content border-bottom">
+							<?php
+							if ($row['main_img'] != NULL) {
+							?>
+								<div class="row mb-3">
+									<div class="col px-5">
+										<img src="uploads/img/<?= $row['main_img'] ?>" class="post_img justify-content-center mx-auto"><br>
+									</div>
 								</div>
-							</div>
-						<?php
-						}
-						?>
-						<?php
-						$post->content = $row['content'];
-						$post->post_link = 'post.php?id=' . $row['id'] . $catPage . '';
-						$post->limit = 400;
-						$post->more = $blog_more;
-						echo $post->readMore();
-						?>
-						<!-- <a href="post.php?id=<?= $row['id'] ?>&title=<?= $row['title'] ?><?= $catPage ?>">Continua a leggere -></a> -->
-					</div>
-				<?php
+							<?php
+							}
+							?>
+							<?php
+							$post->content = $row['content'];
+							$post->post_link = 'post.php?id=' . $row['id'] . $catPage . '';
+							$post->limit = 400;
+							$post->more = $blog_more;
+							echo $post->readMore();
+							?>
+							<!-- <a href="post.php?id=<?= $row['id'] ?>&title=<?= $row['title'] ?><?= $catPage ?>">Continua a leggere -></a> -->
+						</div>
+					<?php
+					}
 				}
 				if ($total_pages > 1) {
-				?>
+					?>
 					<!-- Paginazione -->
 					<div class="pagination text-center">
 						<ul>
@@ -113,7 +117,7 @@ $total_pages = ceil($total_rows / $limit);
 				}
 				?>
 			</div>
-			
+
 			<?php
 
 			require "sidebar.php";
