@@ -130,6 +130,7 @@ $allpopup_modal_body = "If you confirm the popup will be definitively deleted." 
 
 $alltheme_header = "Themes" ;
 $alltheme_theme = "Select theme" ;
+$alltheme_one = "Make the site 'One pager'";
 $alltheme_css = "Custom CSS" ;
 
 // all colors

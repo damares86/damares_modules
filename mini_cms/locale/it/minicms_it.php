@@ -143,6 +143,7 @@ $allpopup_modal_body = "Se clicchi conferma il popup verrà eliminato definitiva
 
 $alltheme_header = "Temi" ;
 $alltheme_theme = "Seleziona tema" ;
+$alltheme_one = "Rendi il sito 'One pager'";
 $alltheme_css = "CSS personalizzato" ;
 
 // all colors

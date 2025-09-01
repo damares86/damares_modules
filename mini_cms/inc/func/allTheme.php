@@ -70,7 +70,7 @@
                   </div>
                 </div>
                 <div class="col-md-3 pb-3">
-                  <label>Make the site "One pager"</label>
+                  <label><?=$alltheme_one?></label>
                 </div>
                 <div class="col-md-9 pb-3">
                   <div class="form-group has-icon-left">
