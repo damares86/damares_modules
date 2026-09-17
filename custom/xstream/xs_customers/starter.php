@@ -1,19 +1,13 @@
 <?php
 
-require '../vendor/autoload.php';		// If installed via composer
-$debug = new \bdk\Debug(array(
-	'collect' => true,
-	'output' => true,
-));
+declare(strict_types=1);
 
-include("../../class/Database.php");
-include("../../class/Common.php");
-include("../../class/Plugin.php");
+$op = $op ?? '';
 
-require "../core/prefix.php";
+if ($op === 'add') {
+    // Custom operations on add
+} elseif ($op === 'rm') {
+    // Custom operations on remove
+}
 
-$database = new Database();
-$db = $database->getConnection();
-$plugin = new Plugin($db);
-
-require "config.php" ;
+require __DIR__ . '/config.php';

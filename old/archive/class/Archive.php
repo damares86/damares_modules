@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 ##############    Damares    ###############
 #                                          #
 #    A backend project by DM WebLab        #
@@ -10,107 +12,73 @@
 
 class Archive extends Common
 {
+    public string $table = 'archive_files';
+    public int|string|null $archive_year_id = null;
+    public ?int $year = null;
+    public ?string $file_name = null;
+    public ?string $title = null;
+    public int|string|null $year_id = null;
+    public ?int $month = null;
+    public ?string $filename_orig = null;
+    public ?string $label = null;
+    public ?string $inputFileName = null;
+    public ?string $path = null;
+    public ?string $origin = null;
+    public ?string $operation = null;
 
-    // public $table = "home";
-    public $archive_year_id;
-    public $year;
-    public $file_name;
-    public $title;
-    public $year_id;
-    public $month;
-    public $filename_orig ;
-    public $label ;
-    public $inputFileName ;
-    public $path ;
-
-    public function uploadFile(){
-
-        if($this->file_name){
-            $target_directory = $this->path ;
-            $target_file = $target_directory . $this->file_name;
-            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-            $file_upload_error_messages="";
-            
-            $allowed_file_types=array("png","jpg","jpeg","JPG","gif","pdf", "doc", "docx", "zip","mp3");
-            if(!in_array($file_type, $allowed_file_types)){
-                header("Location: ../index.php?p=".$this->origin."&err=formatErr");
-		        exit;
-            }
-            
-            if(file_exists($target_file)){
-                rename($target_file,$target_file.'_old');
-               // $file_upload_error_messages.="File already exists";
-            }
-            
-            // make sure the 'uploads' folder exists
-            // if not, create it
-            if(!is_dir($target_directory)){
-                $oldmask = umask(0);
-                mkdir($target_directory, 0777, true);
-                umask($oldmask);
-            }else{
-                $oldmask = umask(0);
-                chmod($target_directory, 0777);
-                umask($oldmask);
-            }
-            
-            if(empty($file_upload_error_messages)){  
-                // the physical file on a temporary uploads directory on the server
-                $file = $this->inputFileName;
-                
-				if(move_uploaded_file($file, $target_file)) {
-                    
-                    $oldmask = umask(0);
-                    chmod($target_file, 0777);
-                    umask($oldmask);
-                    $query="";
-                    if($this->operation=="add"){
-            
-                    $query = "INSERT INTO
-                                " .$this->prx. $this->table . "
-                            SET
-                            file_name = :file_name,
-                            title = :title,
-                            archive_year_id = :archive_year_id,
-                            month = :month";
-                            
-                        }else if($this->operation=="edit"){
-                            $query = "UPDATE
-                            " .$this->prx. $this->table . "
-                            SET
-                            file_name = :file_name,
-                            title = :title,
-                            archive_year_id = :archive_year_id,
-                            month = :month
-                            WHERE 
-                            id = :id";
-                        }
-                        // prepare the query
-                        $stmt = $this->conn->prepare($query);
-                        // bind the values
-                        $stmt->bindParam(':file_name', $this->file_name);
-                        $stmt->bindParam(':title', $this->title);
-                        $stmt->bindParam(':archive_year_id', $this->archive_year_id);
-                        $stmt->bindParam(':month', $this->month);
-                        if($this->operation=="edit"){
-                            $stmt->bindParam(':id', $this->id);
-                        }
-                        // execute the query, also check if query was successful
-                        if($stmt->execute()){
-                        return true;
-                    }else{
-                        $this->showError($stmt);
-                        return false;
-                    }
-				
-                } else {
-                    echo "Failed to upload file.";
-                    return false;
-                }   
-        	}
+    /**
+     * Upload archive file with validation and database registration.
+     *
+     * @return bool
+     */
+    public function uploadFile(): bool
+    {
+        if (empty($this->file_name) || empty($this->path) || empty($this->inputFileName)) {
+            return false;
         }
- 
+
+        $targetDirectory = rtrim($this->path, '/\\') . DIRECTORY_SEPARATOR;
+        $targetFile = $targetDirectory . basename($this->file_name);
+        $fileType = strtolower((string) pathinfo($targetFile, PATHINFO_EXTENSION));
+
+        $allowedFileTypes = ['png', 'jpg', 'jpeg', 'gif', 'pdf', 'doc', 'docx', 'zip', 'mp3'];
+        if (!in_array($fileType, $allowedFileTypes, true)) {
+            $origin = !empty($this->origin) ? $this->origin : 'allArchive';
+            header("Location: ../index.php?p={$origin}&err=formatErr");
+            exit;
+        }
+
+        if (file_exists($targetFile)) {
+            @rename($targetFile, $targetFile . '_old');
+        }
+
+        if (!is_dir($targetDirectory)) {
+            @mkdir($targetDirectory, 0755, true);
+        }
+
+        if (is_uploaded_file($this->inputFileName) && move_uploaded_file($this->inputFileName, $targetFile)) {
+            @chmod($targetFile, 0644);
+
+            if ($this->operation === 'add') {
+                $query = "INSERT INTO {$this->prx}{$this->table} (file_name, title, archive_year_id, month) VALUES (:file_name, :title, :archive_year_id, :month)";
+            } elseif ($this->operation === 'edit') {
+                $query = "UPDATE {$this->prx}{$this->table} SET file_name = :file_name, title = :title, archive_year_id = :archive_year_id, month = :month WHERE id = :id";
+            } else {
+                return true;
+            }
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':file_name', $this->file_name);
+            $stmt->bindValue(':title', $this->title);
+            $stmt->bindValue(':archive_year_id', $this->archive_year_id);
+            $stmt->bindValue(':month', $this->month);
+            if ($this->operation === 'edit') {
+                $stmt->bindValue(':id', $this->id);
+            }
+
+            return $stmt->execute();
+        }
+
+        return false;
     }
-
-
 }

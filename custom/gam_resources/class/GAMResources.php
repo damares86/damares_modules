@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 ##############    Damares    ###############
 #                                          #
@@ -8,18 +10,16 @@
 #                                          #
 ############################################
 
-class GAMResources extends Common{
-
-    public $resource_name ;
-    public $title ;
-    public $description ;
-    public $cat_id ;
-    public $type_id ;
-    public $img ;
-    public $resource_date ; 
-    public $cat ;
-    public $type ;
-
+class GAMResources extends Common
+{
+    public string $table = 'resources';
+    public ?string $resource_name = null;
+    public ?string $title = null;
+    public ?string $description = null;
+    public int|string|null $cat_id = null;
+    public int|string|null $type_id = null;
+    public ?string $img = 'default_res.png';
+    public ?string $resource_date = null;
+    public ?string $cat = null;
+    public ?string $type = null;
 }
-
-?>

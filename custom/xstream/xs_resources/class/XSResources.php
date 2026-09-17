@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 ##############    Damares    ###############
 #                                          #
@@ -8,19 +10,17 @@
 #                                          #
 ############################################
 
-class XSResources extends Common{
-
-    public $resource_name ;
-    public $title ;
-    public $description ;
-    public $product_id ;
-    public $lang_id ;
-    public $type_id ;
-    public $img ;
-    public $resource_date ; 
-    public $resource_lang ;
-    public $resource_type ;
-
+class XSResources extends Common
+{
+    public string $table = 'resources';
+    public ?string $resource_name = null;
+    public ?string $title = null;
+    public ?string $description = null;
+    public int|string|null $product_id = null;
+    public int|string|null $lang_id = null;
+    public int|string|null $type_id = null;
+    public ?string $img = null;
+    public ?string $resource_date = null;
+    public ?string $resource_lang = null;
+    public ?string $resource_type = null;
 }
-
-?>

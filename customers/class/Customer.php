@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 ##############    Damares    ###############
 #                                          #
@@ -8,45 +10,32 @@
 #                                          #
 ############################################
 
-class Customer extends Common{
+class Customer extends Common
+{
+    public string $table = 'customers';
+    public int|string|null $id = null;
+    public ?string $name = null;
+    public ?string $surname = null;
+    public ?string $details = null;
+    public ?string $details_opt = null;
 
-    public $table = 'customers' ;
-    public $id ;
-    public $name ;
-    public $surname ;
-    public $details ;
-    public $details_opt ;
-
-    public function customerExists(){
-        
-        // query to check if email exists
-        $query = "SELECT *
-        FROM " .$this->prx. $this->table . "
-        WHERE name = :name AND
-              surname = :surname
-        LIMIT 0,1";
-    
-        $stmt = $this->conn->prepare( $query );
-    
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":surname", $this->surname);
-    
-        // execute the query
-        $stmt->execute();
-    
-        // get number of rows
-        $num = $stmt->rowCount();
-    
-        if($num>0){
-            return true;
-        }else{
+    /**
+     * Check if a customer already exists.
+     *
+     * @return bool
+     */
+    public function customerExists(): bool
+    {
+        if ($this->conn === null) {
             return false;
         }
+
+        $query = "SELECT id FROM {$this->prx}{$this->table} WHERE `name` = :name AND `surname` = :surname LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':name', $this->name);
+        $stmt->bindValue(':surname', $this->surname);
+        $stmt->execute();
+
+        return (bool) $stmt->fetchColumn();
     }
-    
-
-
-
 }
-
-?>

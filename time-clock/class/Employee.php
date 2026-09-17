@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 ##############    Damares    ###############
 #                                          #
 #    Estensione Timbrature - Dipendenti    #
@@ -8,89 +10,146 @@
 
 class Employee extends Common
 {
-    public $table = "employee";
-    public $name;
-    public $badge;
-    public $h_mon;
-    public $h_tue;
-    public $h_wed;
-    public $h_thu;
-    public $h_fri;
-    public $active;
-    public $notes;
+    public string $table = 'employee';
+    public ?string $name = null;
+    public ?string $badge = null;
+    public float|string|null $h_mon = 8.00;
+    public float|string|null $h_tue = 8.00;
+    public float|string|null $h_wed = 8.00;
+    public float|string|null $h_thu = 8.00;
+    public float|string|null $h_fri = 8.00;
+    public int|string|null $active = 1;
+    public ?string $notes = null;
 
-    public function fields()
+    /**
+     * Get array of managed fields.
+     *
+     * @return array<int, string>
+     */
+    public function fields(): array
     {
         return ['name', 'badge', 'h_mon', 'h_tue', 'h_wed', 'h_thu', 'h_fri', 'active', 'notes'];
     }
 
-    /* elenco completo (array) ordinato per nome */
-    public function allEmployees($onlyActive = false)
+    /**
+     * Get all employees sorted by name.
+     *
+     * @param bool $onlyActive
+     * @return array<int, array<string, mixed>>
+     */
+    public function allEmployees(bool $onlyActive = false): array
     {
-        $sql = "SELECT * FROM " . $this->prx . "employee";
-        if ($onlyActive) {
-            $sql .= " WHERE active = 1";
+        if ($this->conn === null) {
+            return [];
         }
-        $sql .= " ORDER BY name ASC";
+
+        $sql = "SELECT * FROM {$this->prx}{$this->table}";
+        if ($onlyActive) {
+            $sql .= ' WHERE active = 1';
+        }
+        $sql .= ' ORDER BY name ASC';
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return (array) $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id)
+    /**
+     * Get employee by ID.
+     *
+     * @param int|string $id
+     * @return array<string, mixed>|false
+     */
+    public function getById(int|string $id): array|false
     {
-        $stmt = $this->conn->prepare("SELECT * FROM " . $this->prx . "employee WHERE id = :id");
-        $stmt->bindParam(":id", $id);
+        if ($this->conn === null) {
+            return false;
+        }
+
+        $stmt = $this->conn->prepare("SELECT * FROM {$this->prx}{$this->table} WHERE id = :id LIMIT 1");
+        $stmt->bindValue(':id', $id);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        return is_array($res) ? $res : false;
     }
 
-    /* cerca per badge oppure per nome (case insensitive, spazi normalizzati) */
-    public function findByBadgeOrName($badge, $name)
+    /**
+     * Find employee by badge or name.
+     *
+     * @param ?string $badge
+     * @param string $name
+     * @return array<string, mixed>|false
+     */
+    public function findByBadgeOrName(?string $badge, string $name): array|false
     {
+        if ($this->conn === null) {
+            return false;
+        }
+
         if ($badge !== null && $badge !== '') {
-            $stmt = $this->conn->prepare("SELECT * FROM " . $this->prx . "employee WHERE badge = :badge LIMIT 1");
-            $stmt->bindParam(":badge", $badge);
+            $stmt = $this->conn->prepare("SELECT * FROM {$this->prx}{$this->table} WHERE badge = :badge LIMIT 1");
+            $stmt->bindValue(':badge', $badge);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($row) {
+            if (is_array($row)) {
                 return $row;
             }
         }
+
         $clean = preg_replace('/\s+/', ' ', trim($name));
-        $stmt = $this->conn->prepare("SELECT * FROM " . $this->prx . "employee
-            WHERE LOWER(TRIM(name)) = LOWER(:name) LIMIT 1");
-        $stmt->bindParam(":name", $clean);
+        $stmt = $this->conn->prepare("SELECT * FROM {$this->prx}{$this->table} WHERE LOWER(TRIM(name)) = LOWER(:name) LIMIT 1");
+        $stmt->bindValue(':name', $clean);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return is_array($row) ? $row : false;
     }
 
-    /* crea al volo un dipendente trovato nelle timbrature ma non in anagrafica */
-    public function quickCreate($name, $badge)
+    /**
+     * Quickly create employee record.
+     *
+     * @param string $name
+     * @param ?string $badge
+     * @return int
+     */
+    public function quickCreate(string $name, ?string $badge): int
     {
+        if ($this->conn === null) {
+            return 0;
+        }
+
         $clean = preg_replace('/\s+/', ' ', trim($name));
-        $stmt = $this->conn->prepare("INSERT INTO " . $this->prx . "employee
-            (name, badge, h_mon, h_tue, h_wed, h_thu, h_fri, active)
-            VALUES (:name, :badge, 8, 8, 8, 8, 8, 1)");
-        $stmt->bindParam(":name", $clean);
-        $stmt->bindParam(":badge", $badge);
+        $stmt = $this->conn->prepare("INSERT INTO {$this->prx}{$this->table} (`name`, `badge`, `h_mon`, `h_tue`, `h_wed`, `h_thu`, `h_fri`, `active`) VALUES (:name, :badge, 8, 8, 8, 8, 8, 1)");
+        $stmt->bindValue(':name', $clean);
+        $stmt->bindValue(':badge', $badge);
         $stmt->execute();
+
         return (int) $this->conn->lastInsertId();
     }
 
-    /* ore contrattuali per giorno della settimana ISO (1=lun ... 7=dom) */
-    public static function contractHours($row, $isoDay)
+    /**
+     * Contract hours for ISO day of the week.
+     *
+     * @param array<string, mixed> $row
+     * @param int $isoDay
+     * @return float
+     */
+    public static function contractHours(array $row, int $isoDay): float
     {
         $map = [1 => 'h_mon', 2 => 'h_tue', 3 => 'h_wed', 4 => 'h_thu', 5 => 'h_fri'];
-        if (!isset($map[$isoDay])) {
+        if (!isset($map[$isoDay]) || !isset($row[$map[$isoDay]])) {
             return 0.0;
         }
         return (float) $row[$map[$isoDay]];
     }
 
-    public static function weekTotal($row)
+    /**
+     * Total contract hours per week.
+     *
+     * @param array<string, mixed> $row
+     * @return float
+     */
+    public static function weekTotal(array $row): float
     {
-        return (float) $row['h_mon'] + (float) $row['h_tue'] + (float) $row['h_wed']
-            + (float) $row['h_thu'] + (float) $row['h_fri'];
+        return (float) ($row['h_mon'] ?? 0) + (float) ($row['h_tue'] ?? 0) + (float) ($row['h_wed'] ?? 0)
+            + (float) ($row['h_thu'] ?? 0) + (float) ($row['h_fri'] ?? 0);
     }
 }

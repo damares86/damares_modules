@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 ##############    Damares    ###############
 #                                          #
@@ -8,20 +10,17 @@
 #                                          #
 ############################################
 
-class XSProduct extends Common{
-
-    public $product_name ;
-    public $old_product_name ;
-    public $product_files_name ;
-    public $product_files_label ;
-    public $product_files_cat_id ;
-    public $product_id ;
-    public $permissions ;
-    public $customers_id ;
-    public $cat_name ;
-    public $old_cat_name ;
-
-
+class XSProduct extends Common
+{
+    public string $table = 'product';
+    public ?string $product_name = null;
+    public ?string $old_product_name = null;
+    public ?string $product_files_name = null;
+    public ?string $product_files_label = null;
+    public int|string|null $product_files_cat_id = null;
+    public int|string|null $product_id = null;
+    public ?string $permissions = null;
+    public int|string|null $customers_id = null;
+    public ?string $cat_name = null;
+    public ?string $old_cat_name = null;
 }
-
-?>

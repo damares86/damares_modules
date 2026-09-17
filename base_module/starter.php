@@ -1,15 +1,13 @@
 <?php
 
-// here it's possibile to add some extra operations for the installation
+declare(strict_types=1);
 
-if ($op == 'add') {
+$op = $op ?? '';
 
-	// operations during the installation
-	
-}else if($op == 'rm'){
-	
-	// operations during the remove
-	
+if ($op === 'add') {
+    // Custom actions during installation
+} elseif ($op === 'rm') {
+    // Custom actions during removal
 }
 
-require "config.php";
+require __DIR__ . '/config.php';
