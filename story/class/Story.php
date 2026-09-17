@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 ##############    Damares    ###############
 #                                          #
@@ -8,14 +10,13 @@
 #                                          #
 ############################################
 
-class Story extends Common{
-
-    public $title ;
-    public $description ;
-    public $num ;
-    public $content ;
-    public $story_id ;
-    public $completed ;
+class Story extends Common
+{
+    public string $table = 'story';
+    public ?string $title = null;
+    public ?string $description = null;
+    public int|string|null $num = 1;
+    public ?string $content = null;
+    public int|string|null $story_id = null;
+    public int|string|null $completed = 0;
 }
-
-?>

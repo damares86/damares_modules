@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 ##############    Damares    ###############
 #                                          #
@@ -9,98 +10,89 @@
 #                                          #
 ############################################
 
+require __DIR__ . '/coreConfig.php';
 
-require __DIR__ . "/coreConfig.php";
-
-// check if there's an account to delete
-
-if (filter_input(INPUT_GET, "idToDel")) {
-
-    $idToDel = filter_input(INPUT_GET, "idToDel");
-
-    // remove all pazientiFarmaci record
+$idToDel = filter_input(INPUT_GET, 'idToDel', FILTER_VALIDATE_INT);
+if ($idToDel !== false && $idToDel !== null) {
+    // remove all pazienti_farmaci records
     $rsa->id_pazienti = $idToDel;
-    $rsa->table = 'pazientiFarmaci';
+    $rsa->table = 'pazienti_farmaci';
     $stmt = $rsa->showAllWhere('id', ['id_pazienti']);
 
     $error = 0;
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        extract($row);
+    if ($stmt instanceof PDOStatement) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $rsa->table = 'pazienti_farmaci';
+            $rsa->id = (int) ($row['id'] ?? 0);
 
-        $rsa->table = 'pazientiFarmaci';
-        $rsa->id = $row['id'];
-
-        if (!$rsa->delete('id')) {
-            $error++;
+            if (!$rsa->delete('id')) {
+                $error++;
+            }
         }
     }
 
-    if ($error == 0) {
+    if ($error === 0) {
         $rsa->id = $idToDel;
         $rsa->table = 'pazienti';
 
         if ($rsa->delete('id')) {
-            header("Location: ../index.php?p=allPazienti&msg=pazienteDel");
-            exit;
-        } else {
-            header("Location: ../index.php?p=allPazienti&err=pazienteNoDel");
+            header('Location: ../index.php?p=allPazienti&msg=pazienteDel');
             exit;
         }
-    } else {
-        header("Location: ../index.php?p=allPazienti&err=pazienteFarmaciNoDel");
+
+        header('Location: ../index.php?p=allPazienti&err=pazienteNoDel');
         exit;
     }
+
+    header('Location: ../index.php?p=allPazienti&err=pazienteFarmaciNoDel');
+    exit;
 }
 
-$operation = filter_input(INPUT_POST, "operation");
+$idToMod = filter_input(INPUT_POST, 'idToMod', FILTER_VALIDATE_INT);
+$operation = (string) (filter_input(INPUT_POST, 'operation', FILTER_DEFAULT) ?? '');
 
-if (filter_input(INPUT_POST, "idToMod")) {
+if ($idToMod !== false && $idToMod !== null) {
+    $url_tablePage = (string) (filter_input(INPUT_POST, 'url_tablePage', FILTER_DEFAULT) ?? '');
+    $url_pageName = (string) (filter_input(INPUT_POST, 'url_pageName', FILTER_DEFAULT) ?? '');
+    $url_data = '&tablePage=' . urlencode($url_tablePage) . '&pageName=' . urlencode($url_pageName);
 
-    $url_tablePage = filter_input(INPUT_POST, 'url_tablePage');
-    $url_pageName = filter_input(INPUT_POST, 'url_pageName');
-
-    $url_data = "&tablePage=$url_tablePage&pageName=$url_pageName";
-
-    if ($operation == 'edit') {
-
+    if ($operation === 'edit') {
         $rsa->table = 'pazienti';
-        $id_paziente = filter_input(INPUT_POST, "idToMod");
-        $rsa->id = $id_paziente;
-        $rsa->nome = filter_input(INPUT_POST, 'nome');
-        $rsa->cognome = filter_input(INPUT_POST, 'cognome');
+        $rsa->id = $idToMod;
+        $rsa->nome = (string) (filter_input(INPUT_POST, 'nome', FILTER_DEFAULT) ?? '');
+        $rsa->cognome = (string) (filter_input(INPUT_POST, 'cognome', FILTER_DEFAULT) ?? '');
 
         if ($rsa->update(['cognome', 'nome'], 'id')) {
-
-            $counter = $_POST['counter'];
+            $counter = (int) ($_POST['counter'] ?? 0);
             $error = 0;
 
             for ($i = 1; $i <= $counter; $i++) {
-
-                $rsa->table = 'pazientiFarmaci';
-                $rsa->id_pazienti = $id_paziente;
-
-                $rsa->id_farmaci = filter_input(INPUT_POST, 'farmaco_' . $i . '');
+                $rsa->table = 'pazienti_farmaci';
+                $rsa->id_pazienti = $idToMod;
+                $rsa->id_farmaci = filter_input(INPUT_POST, 'farmaco_' . $i, FILTER_VALIDATE_INT);
 
                 $stmt = $rsa->showAllWhere('id', ['id_pazienti', 'id_farmaci']);
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                extract($row);
+                $row = $stmt ? $stmt->fetch(PDO::FETCH_ASSOC) : null;
+                if (!$row) {
+                    continue;
+                }
 
-                $id_pazientiFarmaci = $row['id'];
+                $id_pazientiFarmaci = (int) $row['id'];
 
-                if (filter_input(INPUT_POST, 'del_' . $i . '')) {
-                    $rsa->table = 'pazientiFarmaci';
+                if (filter_input(INPUT_POST, 'del_' . $i, FILTER_DEFAULT)) {
+                    $rsa->table = 'pazienti_farmaci';
                     $rsa->id = $id_pazientiFarmaci;
 
                     if (!$rsa->delete('id')) {
                         $error++;
                     }
                 } else {
-                    $rsa->table = 'pazientiFarmaci';
+                    $rsa->table = 'pazienti_farmaci';
                     $rsa->id = $id_pazientiFarmaci;
-                    $rsa->id_pazienti = $id_paziente;
-                    $rsa->id_farmaci = filter_input(INPUT_POST, 'farmaco_' . $i . '');
-                    $rsa->cpr = filter_input(INPUT_POST, 'cpr_' . $i . '');
-                    $rsa->magazzino = filter_input(INPUT_POST, 'magazzino_' . $i . '');
+                    $rsa->id_pazienti = $idToMod;
+                    $rsa->id_farmaci = filter_input(INPUT_POST, 'farmaco_' . $i, FILTER_VALIDATE_INT);
+                    $rsa->cpr = filter_input(INPUT_POST, 'cpr_' . $i, FILTER_VALIDATE_FLOAT);
+                    $rsa->magazzino = filter_input(INPUT_POST, 'magazzino_' . $i, FILTER_VALIDATE_INT);
 
                     if (!$rsa->update(['id_pazienti', 'id_farmaci', 'cpr', 'magazzino'], 'id')) {
                         $error++;
@@ -108,73 +100,69 @@ if (filter_input(INPUT_POST, "idToMod")) {
                 }
             }
 
-            if ($error == 0) {
-                header("Location: ../index.php?p=editPaziente&idToMod=$id_paziente&msg=pazientiEdit$url_data");
-                exit;
-            } else {
-                header("Location: ../index.php?p=allPazienti&err=farmaciPazientiEditErr$url_data");
+            if ($error === 0) {
+                header("Location: ../index.php?p=editPaziente&idToMod={$idToMod}&msg=pazientiEdit{$url_data}");
                 exit;
             }
-        } else {
-            header("Location: ../index.php?p=allPazienti&err=pazientiNoEdit$url_data");
+
+            header("Location: ../index.php?p=allPazienti&err=farmaciPazientiEditErr{$url_data}");
             exit;
         }
-    } else if ($operation == 'addFarmaco') {
-        $rsa->table = 'pazientiFarmaci';
-        $id_paziente = filter_input(INPUT_POST, "idToMod");
-        $rsa->id_pazienti = $id_paziente;
-        $rsa->id_farmaci = filter_input(INPUT_POST, "farmaco");
-        $rsa->cpr = filter_input(INPUT_POST, "cpr");
-        $rsa->magazzino = filter_input(INPUT_POST, 'magazzino');
 
-
-        if ($rsa->insert(['id_pazienti', 'id_farmaci', 'cpr', 'magazzino'])) {
-            header("Location: ../index.php?p=editPaziente&idToMod=$id_paziente&msg=pazientiFarmaciAddSucc$url_data");
-            exit;
-        } else {
-            header("Location: ../index.php?p=editPaziente&idToMod=$id_paziente&err=pazientiFarmaciAddFail$url_data");
-            exit;
-        }
-    }
-} else if ($operation == "add") {
-
-    $rsa->table = 'pazienti';
-    $rsa->nome = filter_input(INPUT_POST, 'nome');
-    $rsa->cognome = filter_input(INPUT_POST, 'cognome');
-
-    if ($rsa->insert(['cognome', 'nome'])) {
-        $rsa->table = 'pazienti';
-        $rsa->nome = filter_input(INPUT_POST, 'nome');
-        $rsa->cognome = filter_input(INPUT_POST, 'cognome');
-        $stmt = $rsa->showAllWhere('id', ['nome', 'cognome']);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        extract($row);
-        $id_paziente = $row['id'];
-
-        if (filter_input(INPUT_POST, 'cpr')) {
-
-            $rsa->table = 'pazientiFarmaci';
-            $rsa->id_pazienti = $id_paziente;
-            $rsa->id_farmaci = filter_input(INPUT_POST, 'farmaco');
-            $rsa->magazzino = filter_input(INPUT_POST, 'magazzino');
-            $rsa->cpr = filter_input(INPUT_POST, 'cpr');
-
-            if ($rsa->insert(['id_pazienti', 'id_farmaci', 'cpr', 'magazzino'])) {
-                header("Location: ../index.php?p=editPaziente&idToMod=$id_paziente&msg=pazientiAddSucc");
-                exit;
-            } else {
-                header("Location: ../index.php?p=allPazienti&err=farmaciPazientiErr");
-                exit;
-            }
-        } else {
-            header("Location: ../index.php?p=editPaziente&idToMod=$id_paziente&msg=pazientiAddSucc");
-            exit;
-        }
-    } else {
-        header("Location: ../index.php?p=allPazienti&err=pazientiAddFail");
+        header("Location: ../index.php?p=allPazienti&err=pazientiNoEdit{$url_data}");
         exit;
     }
-} else {
-    header("Location: ../index.php?p=allPazienti&err=noPost");
+
+    if ($operation === 'addFarmaco') {
+        $rsa->table = 'pazienti_farmaci';
+        $rsa->id_pazienti = $idToMod;
+        $rsa->id_farmaci = filter_input(INPUT_POST, 'farmaco', FILTER_VALIDATE_INT);
+        $rsa->cpr = filter_input(INPUT_POST, 'cpr', FILTER_VALIDATE_FLOAT);
+        $rsa->magazzino = filter_input(INPUT_POST, 'magazzino', FILTER_VALIDATE_INT) ?? 0;
+
+        if ($rsa->insert(['id_pazienti', 'id_farmaci', 'cpr', 'magazzino'])) {
+            header("Location: ../index.php?p=editPaziente&idToMod={$idToMod}&msg=pazientiFarmaciAddSucc{$url_data}");
+            exit;
+        }
+
+        header("Location: ../index.php?p=editPaziente&idToMod={$idToMod}&err=pazientiFarmaciAddFail{$url_data}");
+        exit;
+    }
+}
+
+if ($operation === 'add') {
+    $rsa->table = 'pazienti';
+    $rsa->nome = (string) (filter_input(INPUT_POST, 'nome', FILTER_DEFAULT) ?? '');
+    $rsa->cognome = (string) (filter_input(INPUT_POST, 'cognome', FILTER_DEFAULT) ?? '');
+
+    if ($rsa->insert(['cognome', 'nome'])) {
+        $stmt = $rsa->showAllWhere('id', ['nome', 'cognome']);
+        $row = $stmt ? $stmt->fetch(PDO::FETCH_ASSOC) : null;
+        $idPaziente = (int) ($row['id'] ?? 0);
+
+        if (filter_input(INPUT_POST, 'cpr', FILTER_VALIDATE_FLOAT)) {
+            $rsa->table = 'pazienti_farmaci';
+            $rsa->id_pazienti = $idPaziente;
+            $rsa->id_farmaci = filter_input(INPUT_POST, 'farmaco', FILTER_VALIDATE_INT);
+            $rsa->magazzino = filter_input(INPUT_POST, 'magazzino', FILTER_VALIDATE_INT) ?? 0;
+            $rsa->cpr = filter_input(INPUT_POST, 'cpr', FILTER_VALIDATE_FLOAT);
+
+            if ($rsa->insert(['id_pazienti', 'id_farmaci', 'cpr', 'magazzino'])) {
+                header("Location: ../index.php?p=editPaziente&idToMod={$idPaziente}&msg=pazientiAddSucc");
+                exit;
+            }
+
+            header('Location: ../index.php?p=allPazienti&err=farmaciPazientiErr');
+            exit;
+        }
+
+        header("Location: ../index.php?p=editPaziente&idToMod={$idPaziente}&msg=pazientiAddSucc");
+        exit;
+    }
+
+    header('Location: ../index.php?p=allPazienti&err=pazientiAddFail');
     exit;
 }
+
+header('Location: ../index.php?p=allPazienti&err=noPost');
+exit;

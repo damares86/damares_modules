@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 ##############    Damares    ###############
 #                                          #
 #    A backend project by DM WebLab        #
@@ -10,187 +12,148 @@
 
 class Quiz extends Common
 {
+    public string $table = 'quiz';
+    public ?string $quiz_name = null;
+    public int|string|null $quiz_id = null;
+    public int|string|null $relation_id = null;
+    public int|string|null $active = 0;
+    public int|string|null $winner_id = null;
+    public int|string|null $counter = null;
+    public ?string $answer = null;
+    public int|string|null $user_id = null;
+    public ?string $scores = null;
 
-    public $quiz_name;
-    public $quiz_id;
-    public $relation_id;
-    public $active;
-    public $winner_id;
-    public $counter;
-    public $answer;
-    public $user_id;
-    public $scores;
-
-    public function checkScore()
+    /**
+     * Compute quiz winner and aggregate score statistics.
+     *
+     * @return int|string|null
+     */
+    public function checkScore(): int|string|null
     {
-
-        $quiz_id = $this->quiz_id;
-
-        $this->table = 'quiz';
-        $this->id = $quiz_id;
-        $stmt1 = $this->showAllWhere('id', ['id']);
-        $row1 = $stmt1->fetch(PDO::FETCH_ASSOC);
-        extract($row1);
-        $counter = $row1['counter'];
-
-        $this->table = 'quiz_' . $quiz_id;
-        $stmt = $this->showAll('id');
-
-        // in base al numero di domande creo gli array per storare:
-        // - id e tempi di risposta per le singole domande 
-        //       in caso di risposta positiva ($ans_1, ecc)
-        // - utenti divisi in base al numero di risposte corrette
-        //       (es. su 5 domande, un elemento conterrà chi ha dato 5 risposte corrette, ecc)
-
-        for ($j = 1; $j <= $counter; $j++) {
-
-            $label_ans = 'ans_' . $j;
-            $$label_ans = [];
-            $label_correct = 'corr_' . $j;
-            $$label_correct = [];
+        $quizId = $this->quiz_id;
+        if (!$quizId) {
+            return null;
         }
 
-        // prendo le domande del quiz
-        require "../../quiz/q_$quiz_id/qna.php";
+        $this->table = 'quiz';
+        $this->id = $quizId;
+        $stmt1 = $this->showAllWhere('id', ['id']);
+        $row1 = $stmt1 ? $stmt1->fetch(PDO::FETCH_ASSOC) : null;
+        $counter = (int) ($row1['counter'] ?? 0);
 
-        // ciclo tutte le domande
-        for ($i = 0; $i < count($quiz); $i++) {
+        $this->table = 'quiz_' . (int) $quizId;
+        $stmt = $this->showAll('id');
 
-            $real_i = $i + 1;
+        $ansArr = [];
+        $corrArr = [];
+        for ($j = 1; $j <= $counter; $j++) {
+            $ansArr[$j] = [];
+            $corrArr[$j] = [];
+        }
 
-            // ciclo le risposte e creo le variabili da incrementare per tenere traccia del numero di risposte
-            for ($idx = 0; $idx < count($quiz[$i]['o']); $idx++) {
-                $label = 'question_' . $real_i . '_ans_' . $idx;
-                $$label = 0;
+        $qnaPath = "../../quiz/q_{$quizId}/qna.php";
+        $quiz = [];
+        if (is_file($qnaPath)) {
+            require $qnaPath;
+        }
+
+        $questionAnsCount = [];
+        $quizCount = count($quiz);
+        for ($i = 0; $i < $quizCount; $i++) {
+            $realI = $i + 1;
+            $optCount = count($quiz[$i]['o'] ?? []);
+            for ($idx = 0; $idx < $optCount; $idx++) {
+                $questionAnsCount[$realI][$idx] = 0;
             }
         }
 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if ($stmt instanceof PDOStatement) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $answerCounter = 0;
+                $answerData = !empty($row['scores']) ? json_decode((string) $row['scores'], true) : [];
+                $userId = $row['user_id'] ?? 0;
 
-            $answer_counter = 0;
+                if (is_array($answerData)) {
+                    foreach ($answerData as $json) {
+                        for ($i = 1; $i <= $counter; $i++) {
+                            if (!isset($json[$i])) {
+                                continue;
+                            }
+                            $ans = is_array($json[$i]) ? $json[$i] : json_decode((string) $json[$i], true);
+                            if (!is_array($ans)) {
+                                continue;
+                            }
 
-            // ciclo gli utenti che hanno risposto al quiz con i relativi voti
-            $answer = json_decode($row['scores'], true);
+                            $qId = (int) ($ans['id'] ?? $i);
+                            $endTime = (int) ($ans['end_time'] ?? 0);
+                            $beginTime = (int) ($ans['begin_time'] ?? 0);
+                            $pick = (int) ($ans['pick'] ?? 0);
 
-            // ciclo le risposte dell'utente
-            foreach ($answer as $json) {
-
-                // singola risposta
-                // struttura:
-                // Array ( [id] => id_domanda, [begin_time] => 1721053670962 [end_time] => 1721053670963 ) 
-                for ($i = 1; $i <= $counter; $i++) {
-
-                    $ans = json_decode($json[$i], true);
-
-                    if ($ans['end_time'] != 0) {
-
-                        // incremento il numero di risposte corrette
-                        $answer_counter++;
-
-                        // calcolo il tempo di risposta
-                        $time = $ans['end_time'] - $ans['begin_time'];
-
-                        $label_ans = 'ans_' . $ans['id'];
-                        // inserisco la risposta con i tempi nell'array della domanda
-                        $$label_ans[] = array($row['user_id'] => $time);
-
-                        $label_count = 'question_' . $ans['id'] . '_ans_' . $ans['pick'];
-                        $$label_count++;
-                    } else {
-                        $label_count = 'question_' . $ans['id'] . '_ans_' . $ans['pick'];
-                        $$label_count++;
+                            if ($endTime !== 0) {
+                                $answerCounter++;
+                                $time = $endTime - $beginTime;
+                                $ansArr[$qId][] = [$userId => $time];
+                            }
+                            $questionAnsCount[$qId][$pick] = ($questionAnsCount[$qId][$pick] ?? 0) + 1;
+                        }
                     }
-                    $label_corr = 'corr_' . $answer_counter;
-                    $$label_corr[] = $row['user_id'];
+                }
+                if ($answerCounter > 0) {
+                    $corrArr[$answerCounter][] = $userId;
                 }
             }
         }
 
-
         $results = [];
-
-        // ciclo tutte le variabili che ho creato per le risposte e creo l'array con tutte le risposte date
-        for ($i = 0; $i < count($quiz); $i++) {
-
-            $real_i = $i + 1;
-
-            $label_question = 'question_' . $i;
-            $$label_question = [];
-
-            for ($idx = 0; $idx < count($quiz[$i]['o']); $idx++) {
-                // $real_idx = $idx+1 ;
-                $label = 'question_' . $real_i . '_ans_' . $idx;
-                $$label_question[] = $$label;
+        for ($i = 0; $i < $quizCount; $i++) {
+            $realI = $i + 1;
+            $rowResults = [];
+            $optCount = count($quiz[$i]['o'] ?? []);
+            for ($idx = 0; $idx < $optCount; $idx++) {
+                $rowResults[] = $questionAnsCount[$realI][$idx] ?? 0;
             }
-
-            $result[] = $$label_question;
+            $results[] = $rowResults;
         }
 
-        // inizio il calcolo del vincitore
-        $best_time = PHP_INT_MAX;
-        $winner = 0;
+        $bestTime = PHP_INT_MAX;
+        $winner = null;
 
         for ($j = $counter; $j > 0; $j--) {
-            // controllo se l'array col numero più alto (es in caso di 5 domande è $corr_5) ha elementi, altrimenti scendo
-            $label = 'corr_' . $j;
-
-            if (!empty($$label)) {
-
-                if (count($$label) > 1) {
-                    // c'è più di un elemento
-
-                    foreach ($$label as $users) {
-                        // ciclo gli id dell'array delle risposte corrette
-                        $total_time = 0;
-
-                        echo $users . '<br>';
-
+            if (!empty($corrArr[$j])) {
+                if (count($corrArr[$j]) > 1) {
+                    foreach ($corrArr[$j] as $uId) {
+                        $totalTime = 0;
                         for ($idx = 1; $idx <= $counter; $idx++) {
-                            // ciclo gli array delle domande e sommo i tempi del singolo utente
-
-                            $arr = 'ans_' . $idx;
-
-                            echo $arr . '<br>';
-                            foreach ($$arr as $item) {
-
-                                print_r($item);
-                                echo '<br>';
-                                // se e quando trovo l'id dell'utente nell'array delle domande
-                                // prendo il tempo e lo sommo al total_time
-                                if (array_key_exists($users, $item)) {
-                                    $total_time += $item[$users];
-                                    echo 'user time -> ' . $total_time . '<br>';
+                            foreach ($ansArr[$idx] as $item) {
+                                if (array_key_exists($uId, $item)) {
+                                    $totalTime += $item[$uId];
                                 }
                             }
                         }
 
-                        // confronto il tempo, se minore diventa il nuovo best_time e il winner diventa l'id corrente
-                        if ($total_time < $best_time) {
-                            $best_time = $total_time;
-                            echo 'best time -> ' . $best_time . '<br>';
-                            $winner = $users;
-                            echo 'winner -> ' . $winner . '<br>';
+                        if ($totalTime < $bestTime) {
+                            $bestTime = $totalTime;
+                            $winner = $uId;
                         }
                     }
                 } else {
-                    // l'unico id è il vincitore
-                    $winner = $$label[0];
+                    $winner = $corrArr[$j][0];
                 }
 
-                // inserisco vincitore e risposte nel db
                 $this->table = 'quiz_scores';
-                $this->quiz_id = $quiz_id;
+                $this->quiz_id = $quizId;
                 $this->winner_id = $winner;
-                $this->answer = serialize($result);
+                $this->answer = serialize($results);
 
                 if (!$this->insert(['quiz_id', 'winner_id', 'answer'])) {
-                    header("Location: ../index.php?p=editQuiz&idToMod=$id&err=scoreQuizErr");
+                    header("Location: ../index.php?p=editQuiz&idToMod={$quizId}&err=scoreQuizErr");
                     exit;
-                } else {
-                    return $winner;
                 }
+
+                return $winner;
             }
         }
-        exit;
+
+        return null;
     }
 }

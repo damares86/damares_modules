@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 ##############    Damares    ###############
 #                                          #
@@ -8,34 +10,38 @@
 #                                          #
 ############################################
 
-class Rsa extends Common{
+class Rsa extends Common
+{
+    public string $table = 'pazienti';
 
-    # farmaci
-    public $principio ;
-    public $cpr_box ;
-    public $magazzino ;
+    // Farmaci
+    public ?string $principio = null;
+    public int|string|null $cpr_box = null;
+    public int|string|null $magazzino = 0;
 
-    # pazienti
-    public $cognome ;
-    public $nome ;
+    // Pazienti
+    public ?string $cognome = null;
+    public ?string $nome = null;
 
-    # pazientiFarmaci
-    public $id_pazienti ;
-    public $id_farmaci ;
-    public $cpr ;
+    // Pazienti Farmaci (table pazienti_farmaci)
+    public int|string|null $id_pazienti = null;
+    public int|string|null $id_farmaci = null;
+    public float|string|null $cpr = null;
 
-    public function is_leap_year($year) {
+    /**
+     * Check if a year is a leap year.
+     *
+     * @param int $year
+     * @return bool
+     */
+    public function is_leap_year(int $year): bool
+    {
         if ($year % 400 === 0) {
             return true;
-        } elseif ($year % 100 === 0) {
-            return false;
-        } elseif ($year % 4 === 0) {
-            return true;
-        } else {
+        }
+        if ($year % 100 === 0) {
             return false;
         }
+        return $year % 4 === 0;
     }
-
 }
- 
-?>

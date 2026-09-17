@@ -1,7 +1,7 @@
 <?php
 require "inc/funcHeader.php";
 
-$allfiles = $rate->showAllTable('id','fileCat');
+$allfiles = $rate->showAllTable('id','file_cat');
 
 ?>
 

@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 ##############    Damares    ###############
 #                                          #
@@ -8,113 +10,101 @@
 #                                          #
 ############################################
 
-class Rate extends Common{
+class Rate extends Common
+{
+    public string $table = 'rate';
+    public string $table_cat = 'rate_cat';
+    public string $pivot_cat = 'file_cat';
+    public string $pivot_file = 'file_account_rate';
+    public int|string|null $account_id = null;
+    public int|string|null $file_id = null;
+    public int|string|null $rate = null;
+    public int|string|null $percent = null;
+    public int|string|null $vote_number = null;
+    public ?string $cat_name = null;
+    public int|string|null $rate_cat_id = null;
 
-    public $table = "rate" ;
-    public $table_cat = "rate_cat" ;
-    public $pivot_cat = "fileCat" ;
-    public $pivot_file = "fileAccountRate" ;
-    public $account_id ;
-    public $file_id ;
-    public $rate ;
-    public $percent ;
-    public $vote_number ;
-    public $cat_name ;
-    public $rate_cat_id ;  
-    
-
-    public function showCat(){
- 
-        $query = "SELECT rate_cat_id
-            FROM " .$this->prx. $this->pivot_cat."
-            WHERE file_id = :file_id
-            LIMIT 0,1"; 
-            
-        $stmt = $this->conn->prepare( $query );
-        
-        $stmt->bindParam(":file_id", $this->file_id);
-        
-        $stmt->execute();
-        
-        $row=$stmt->fetch(PDO::FETCH_ASSOC);
-        extract($row);
-
-        return $row['rate_cat_id'] ;
-
-    }
-
-    public function showCatName(){
- 
-        $query = "SELECT cat_name
-            FROM " .$this->prx. $this->table_cat."
-            WHERE id = :id
-            LIMIT 0,1"; 
-            
-        $stmt = $this->conn->prepare( $query );
-        
-        $stmt->bindParam(":id", $this->id);
-        
-        $stmt->execute();
-        
-        $row=$stmt->fetch(PDO::FETCH_ASSOC);
-        extract($row);
-
-        return $row['cat_name'] ;
-        
-    }
-
-    public function showStar(){
- 
-        $query = "SELECT star
-            FROM " .$this->prx. $this->table."
-            WHERE file_id = :file_id
-            LIMIT 0,1"; 
-            
-        $stmt = $this->conn->prepare( $query );
-        
-        $stmt->bindParam(":file_id", $this->file_id);
-        
-        $stmt->execute();
-        
-        $row=$stmt->fetch(PDO::FETCH_ASSOC);
-        extract($row);
-
-        return $row['star'] ;
-        
-    }
-
-    public function catExists(){
-        // query to check if email exists
-        $query = "SELECT *
-        FROM " .$this->prx. $this->table_cat . "
-        WHERE cat_name = :cat_name
-        LIMIT 0,1";
-        
-        // prepare the query
-        $stmt = $this->conn->prepare( $query );
-        
-        // bind given cat value
-        $stmt->bindParam(':cat_name', $this->cat_name);
-        
-        // execute the query
-        $stmt->execute();
-        
-        // get number of rows
-        $num = $stmt->rowCount();
-    
-        // if cat exists, assign values to object properties for easy access and use for php sessions
-        if($num>0){
-            return true ;
-        }else{
-            return false ;
+    /**
+     * Get category ID for a file.
+     *
+     * @return int|string|null
+     */
+    public function showCat(): int|string|null
+    {
+        if ($this->conn === null) {
+            return null;
         }
 
+        $query = "SELECT rate_cat_id FROM {$this->prx}{$this->pivot_cat} WHERE file_id = :file_id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':file_id', $this->file_id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ? ($row['rate_cat_id'] ?? null) : null;
     }
 
-    public function deleteAllFileRate(){
+    /**
+     * Get category name by ID.
+     *
+     * @return string|null
+     */
+    public function showCatName(): ?string
+    {
+        if ($this->conn === null) {
+            return null;
+        }
 
+        $query = "SELECT cat_name FROM {$this->prx}{$this->table_cat} WHERE id = :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', $this->id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ? (string) ($row['cat_name'] ?? '') : null;
     }
 
+    /**
+     * Get star rating for a file.
+     *
+     * @return int|string|null
+     */
+    public function showStar(): int|string|null
+    {
+        if ($this->conn === null) {
+            return null;
+        }
+
+        $query = "SELECT star FROM {$this->prx}{$this->table} WHERE file_id = :file_id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':file_id', $this->file_id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ? ($row['star'] ?? null) : null;
+    }
+
+    /**
+     * Check if category name exists.
+     *
+     * @return bool
+     */
+    public function catExists(): bool
+    {
+        if ($this->conn === null) {
+            return false;
+        }
+
+        $query = "SELECT id FROM {$this->prx}{$this->table_cat} WHERE cat_name = :cat_name LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':cat_name', $this->cat_name);
+        $stmt->execute();
+
+        return (bool) $stmt->fetchColumn();
+    }
+
+    public function deleteAllFileRate(): void
+    {
+        // Custom bulk delete implementation
+    }
 }
-
-?>

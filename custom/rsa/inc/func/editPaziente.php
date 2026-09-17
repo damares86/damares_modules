@@ -82,7 +82,7 @@ $url_pageName = filter_input(INPUT_GET, 'pageName');
                                     <div class="row">
                                         <?php
 
-                                        $rsa->table = 'pazientiFarmaci';
+                                        $rsa->table = 'pazienti_farmaci';
                                         $rsa->id_pazienti = $row1['id'];
 
                                         $stmt2 = $rsa->showAllWhere('id', ['id_pazienti']);

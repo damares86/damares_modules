@@ -46,7 +46,7 @@ if(filter_input(INPUT_GET,"idToDel")){
 
     if($file->delete('id')){
 
-		if(($rate->deleteFromTable(['file_id'],'fileAccountRate')) && ($rate->deleteFromTable(['file_id'],'file_cat')) && ($rate->deleteFromTable(['file_id'],'rate'))){
+		if(($rate->deleteFromTable(['file_id'],'file_account_rate')) && ($rate->deleteFromTable(['file_id'],'file_cat')) && ($rate->deleteFromTable(['file_id'],'rate'))){
 			
 			unlink("../uploads/ratefile/$filename");
 	
@@ -156,7 +156,7 @@ if(filter_input(INPUT_POST,"idToMod")){
 			
 			$rate->file_id = $row['id'];
 
-			$rate->insertIntoTable(['file_id','rate_cat_id'],'fileCat');
+			$rate->insertIntoTable(['file_id','rate_cat_id'],'file_cat');
 
             //success
             header("Location: ../index.php?p=allFilesRate&msg=fileSucc");
