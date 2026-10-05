@@ -2,7 +2,14 @@
 
 declare(strict_types=1);
 
-?>
+
+
+if (!isset($calendar) || !($calendar instanceof Calendar)) {
+    $calendar = new Calendar($db);
+    if (!empty($prefix)) {
+        $calendar->prx = $prefix . '_';
+    }
+}?>
 <script src='script/index.global.js'></script>
 <script src='script/locales-all.global.js'></script>
 

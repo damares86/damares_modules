@@ -1,6 +1,13 @@
 <?php
 
-$cat_id = filter_input(INPUT_GET,"idToMod");
+
+
+if (!isset($xsproduct) || !($xsproduct instanceof XSProduct)) {
+    $xsproduct = new XSProduct($db);
+    if (!empty($prefix)) {
+        $xsproduct->prx = $prefix . '_';
+    }
+}$cat_id = filter_input(INPUT_GET,"idToMod");
 $xsproduct->id = $cat_id;
 $xsproduct->table = 'product_files_cat' ;
 $stmt1 = $xsproduct->showAllWhere('id',['id']);

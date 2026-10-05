@@ -1,5 +1,12 @@
 <?php 
-  $cfa->table = 'polizze' ;
+  
+
+if (!isset($cfa) || !($cfa instanceof Cfa)) {
+    $cfa = new Cfa($db);
+    if (!empty($prefix)) {
+        $cfa->prx = $prefix . '_';
+    }
+}$cfa->table = 'polizze' ;
   $polizze = $cfa->showAll('id');
 ?>
 

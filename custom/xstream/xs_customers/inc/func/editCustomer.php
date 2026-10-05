@@ -1,6 +1,20 @@
 <?php
 
-$customer->id = filter_input(INPUT_GET,"idToMod");
+
+
+if (!isset($customer) || !($customer instanceof Customer)) {
+    $customer = new Customer($db);
+    if (!empty($prefix)) {
+        $customer->prx = $prefix . '_';
+    }
+}
+
+if (!isset($xsproduct) || !($xsproduct instanceof XSProduct)) {
+    $xsproduct = new XSProduct($db);
+    if (!empty($prefix)) {
+        $xsproduct->prx = $prefix . '_';
+    }
+}$customer->id = filter_input(INPUT_GET,"idToMod");
 $stmt1 = $customer->showAllWhere('id',['id']);
 
 $id="";

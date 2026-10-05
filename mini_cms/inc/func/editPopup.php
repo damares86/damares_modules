@@ -1,6 +1,13 @@
 <?php
 
-$mc->table = 'mc_popup';
+
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}$mc->table = 'mc_popup';
 $mc->id = filter_input(INPUT_GET, 'idToMod');
 $popup = $mc->showAllWhere('id', ['id']);
 

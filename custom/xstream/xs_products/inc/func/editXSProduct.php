@@ -1,6 +1,13 @@
 <?php
 
-$product_id = filter_input(INPUT_GET,"idToMod");
+
+
+if (!isset($xsproduct) || !($xsproduct instanceof XSProduct)) {
+    $xsproduct = new XSProduct($db);
+    if (!empty($prefix)) {
+        $xsproduct->prx = $prefix . '_';
+    }
+}$product_id = filter_input(INPUT_GET,"idToMod");
 $xsproduct->id = $product_id ;
 $xsproduct->table = 'product' ;
 

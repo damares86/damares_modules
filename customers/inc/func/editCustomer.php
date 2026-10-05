@@ -2,7 +2,14 @@
 
 declare(strict_types=1);
 
-$customerId = filter_input(INPUT_GET, 'idToMod', FILTER_VALIDATE_INT);
+
+
+if (!isset($customer) || !($customer instanceof Customer)) {
+    $customer = new Customer($db);
+    if (!empty($prefix)) {
+        $customer->prx = $prefix . '_';
+    }
+}$customerId = filter_input(INPUT_GET, 'idToMod', FILTER_VALIDATE_INT);
 $customer->id = $customerId;
 $customer->table = 'customers';
 $stmt1 = $customer->showAllWhere('id', ['id']);

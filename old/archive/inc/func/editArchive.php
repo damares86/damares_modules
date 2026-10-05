@@ -1,6 +1,13 @@
 <?php
 
-$idToMod = filter_input(INPUT_GET, 'idToMod');
+
+
+if (!isset($archive) || !($archive instanceof Archive)) {
+    $archive = new Archive($db);
+    if (!empty($prefix)) {
+        $archive->prx = $prefix . '_';
+    }
+}$idToMod = filter_input(INPUT_GET, 'idToMod');
 $archive->table = 'archive_files';
 $archive->id = $idToMod;
 $archive_file = $archive->showAllWhere('id', ['id']);

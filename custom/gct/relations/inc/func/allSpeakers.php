@@ -1,5 +1,12 @@
 <?php
-$relation->table="speakers";
+
+
+if (!isset($relation) || !($relation instanceof Relation)) {
+    $relation = new Relation($db);
+    if (!empty($prefix)) {
+        $relation->prx = $prefix . '_';
+    }
+}$relation->table="speakers";
 $speakers = $relation->showAll('id');
 
 ?>

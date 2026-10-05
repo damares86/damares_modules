@@ -2,7 +2,14 @@
 
 declare(strict_types=1);
 
-$customer->table = 'customers';
+
+
+if (!isset($customer) || !($customer instanceof Customer)) {
+    $customer = new Customer($db);
+    if (!empty($prefix)) {
+        $customer->prx = $prefix . '_';
+    }
+}$customer->table = 'customers';
 $stmt = $customer->showAll('id');
 ?>
 <div class="page-title">

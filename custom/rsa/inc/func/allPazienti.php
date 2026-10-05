@@ -1,5 +1,12 @@
 <?php
-$rsa->table = 'pazienti';
+
+
+if (!isset($rsa) || !($rsa instanceof Rsa)) {
+    $rsa = new Rsa($db);
+    if (!empty($prefix)) {
+        $rsa->prx = $prefix . '_';
+    }
+}$rsa->table = 'pazienti';
 $pazienti = $rsa->showAll('cognome');
 ?>
 

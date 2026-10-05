@@ -1,5 +1,12 @@
 <?php
-$story->table = 'story';
+
+
+if (!isset($story) || !($story instanceof Story)) {
+    $story = new Story($db);
+    if (!empty($prefix)) {
+        $story->prx = $prefix . '_';
+    }
+}$story->table = 'story';
 $stmt = $story->showAll('id');
 
 ?>

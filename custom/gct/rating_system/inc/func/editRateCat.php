@@ -1,6 +1,13 @@
 <?php
 
-require "core/rateItems.php";
+
+
+if (!isset($rate) || !($rate instanceof Rate)) {
+    $rate = new Rate($db);
+    if (!empty($prefix)) {
+        $rate->prx = $prefix . '_';
+    }
+}require "core/rateItems.php";
 
 foreach($rateItems as $item){
 

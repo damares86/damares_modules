@@ -1,6 +1,13 @@
 <?php
 
-use bdk\Debug\Utility\Php;
+
+
+if (!isset($quiz) || !($quiz instanceof Quiz)) {
+    $quiz = new Quiz($db);
+    if (!empty($prefix)) {
+        $quiz->prx = $prefix . '_';
+    }
+}use bdk\Debug\Utility\Php;
 
     $quiz_id = filter_input(INPUT_GET,"idToMod") ;
     $quiz->id = $quiz_id;

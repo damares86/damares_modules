@@ -1,5 +1,12 @@
 <?php
-$archive->table = "archive_years";
+
+
+if (!isset($archive) || !($archive instanceof Archive)) {
+    $archive = new Archive($db);
+    if (!empty($prefix)) {
+        $archive->prx = $prefix . '_';
+    }
+}$archive->table = "archive_years";
 $allarchive = $archive->showAll('id');
 ?>
 

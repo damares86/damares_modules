@@ -1,5 +1,12 @@
 <?php
-$session->table="people";
+
+
+if (!isset($session) || !($session instanceof Session)) {
+    $session = new Session($db);
+    if (!empty($prefix)) {
+        $session->prx = $prefix . '_';
+    }
+}$session->table="people";
 $people = $session->showAll('id');
 
 ?>

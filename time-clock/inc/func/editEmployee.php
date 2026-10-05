@@ -1,5 +1,12 @@
 <?php
-$employee->table = 'employee';
+
+
+if (!isset($employee) || !($employee instanceof Employee)) {
+    $employee = new Employee($db);
+    if (!empty($prefix)) {
+        $employee->prx = $prefix . '_';
+    }
+}$employee->table = 'employee';
 $id = filter_input(INPUT_GET, "idToMod");
 $emp = $employee->getById($id);
 

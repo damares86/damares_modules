@@ -1,4 +1,11 @@
-<script type="text/javascript" src="script/coloris.min.js"></script>
+<script type="tex
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}t/javascript" src="script/coloris.min.js"></script>
 
 <div class="page-title">
   <div class="row">

@@ -1,5 +1,12 @@
 <?php
-$gamresources->table = 'resource_cat' ;
+
+
+if (!isset($gamresources) || !($gamresources instanceof GAMResources)) {
+    $gamresources = new GAMResources($db);
+    if (!empty($prefix)) {
+        $gamresources->prx = $prefix . '_';
+    }
+}$gamresources->table = 'resource_cat' ;
 $stmt = $gamresources->showAll('id');
 
 ?>

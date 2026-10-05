@@ -1,5 +1,12 @@
 <?php 
-  $cfa->table = 'pag_compagnia' ;
+  
+
+if (!isset($cfa) || !($cfa instanceof Cfa)) {
+    $cfa = new Cfa($db);
+    if (!empty($prefix)) {
+        $cfa->prx = $prefix . '_';
+    }
+}$cfa->table = 'pag_compagnia' ;
   $compagnie = $cfa->showAll('id');
 ?>
 

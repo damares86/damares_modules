@@ -1,6 +1,13 @@
 <?php
 
-$idToMod = filter_input(INPUT_GET, "idToMod");
+
+
+if (!isset($post) || !($post instanceof Post)) {
+    $post = new Post($db);
+    if (!empty($prefix)) {
+        $post->prx = $prefix . '_';
+    }
+}$idToMod = filter_input(INPUT_GET, "idToMod");
 $post->id = $idToMod;
 $post->table = 'post_categories';
 $stmt1 = $post->showAllWhere('id', ['id']);

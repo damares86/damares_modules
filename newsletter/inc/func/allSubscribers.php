@@ -1,5 +1,12 @@
 <?php
-$newsletter->table = "newsletter_subscribers";
+
+
+if (!isset($newsletter) || !($newsletter instanceof Newsletter)) {
+    $newsletter = new Newsletter($db);
+    if (!empty($prefix)) {
+        $newsletter->prx = $prefix . '_';
+    }
+}$newsletter->table = "newsletter_subscribers";
 $subscribers = $newsletter->showAll('subscribed_at');
 
 $newsletter->table = "newsletter_settings";

@@ -1,5 +1,12 @@
 <?php
-$mc->table = 'mc_settings';
+
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}$mc->table = 'mc_settings';
 $stmt = $mc->showAll('id');
 
 $mc_settings = [];

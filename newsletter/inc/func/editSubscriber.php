@@ -1,5 +1,12 @@
 <?php
-    $idToMod = filter_input(INPUT_GET,'idToMod') ;
+    
+
+if (!isset($newsletter) || !($newsletter instanceof Newsletter)) {
+    $newsletter = new Newsletter($db);
+    if (!empty($prefix)) {
+        $newsletter->prx = $prefix . '_';
+    }
+}$idToMod = filter_input(INPUT_GET,'idToMod') ;
     $newsletter->table = 'newsletter_subscribers' ;
     $newsletter->id = $idToMod ;
 

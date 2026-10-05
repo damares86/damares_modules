@@ -1,5 +1,12 @@
 <?php
-$mc->table = 'mc_quotes';
+
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}$mc->table = 'mc_quotes';
 $quotes = $mc->showAll('id');
 ?>
 

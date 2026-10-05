@@ -1,6 +1,13 @@
 <div class="page-heading">
     <div class="page-title">
-        <div class="row">
+        <
+
+if (!isset($archive) || !($archive instanceof Archive)) {
+    $archive = new Archive($db);
+    if (!empty($prefix)) {
+        $archive->prx = $prefix . '_';
+    }
+}div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3><?=$addarchive_header?></h3>
             </div>

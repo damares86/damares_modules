@@ -1,6 +1,13 @@
 <?php
 
-$relation_id= filter_input(INPUT_GET,"idToMod");
+
+
+if (!isset($relation) || !($relation instanceof Relation)) {
+    $relation = new Relation($db);
+    if (!empty($prefix)) {
+        $relation->prx = $prefix . '_';
+    }
+}$relation_id= filter_input(INPUT_GET,"idToMod");
 $relation->id = $relation_id;
 $relation->table="relations";
 $stmt1 = $relation->showAllWhere('id',['id']);

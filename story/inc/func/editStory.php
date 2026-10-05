@@ -1,6 +1,13 @@
 <?php
 
-$story_id = filter_input(INPUT_GET, 'idToMod');
+
+
+if (!isset($story) || !($story instanceof Story)) {
+    $story = new Story($db);
+    if (!empty($prefix)) {
+        $story->prx = $prefix . '_';
+    }
+}$story_id = filter_input(INPUT_GET, 'idToMod');
 $story->id = $story_id;
 $story->table = 'story';
 

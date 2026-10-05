@@ -1,6 +1,13 @@
 <?php
 
-    $locationId = filter_input(INPUT_GET,"idToMod");
+    
+
+if (!isset($session) || !($session instanceof Session)) {
+    $session = new Session($db);
+    if (!empty($prefix)) {
+        $session->prx = $prefix . '_';
+    }
+}$locationId = filter_input(INPUT_GET,"idToMod");
     $session->id = $locationId ;
     $session->table = "location";
     $stmt = $session->showAllWhere('id',['id']);

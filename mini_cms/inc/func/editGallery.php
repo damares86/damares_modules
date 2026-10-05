@@ -1,6 +1,13 @@
 <?php
 
-$mc->id = filter_input(INPUT_GET, "idToMod");
+
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}$mc->id = filter_input(INPUT_GET, "idToMod");
 $mc->table = 'mc_galleries';
 $stmt1 = $mc->showAllWhere('id', ['id']);
 $row1 = $stmt1->fetch(PDO::FETCH_ASSOC);

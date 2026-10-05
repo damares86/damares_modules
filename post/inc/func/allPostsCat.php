@@ -1,5 +1,12 @@
 <?php
-$post->table = 'post_categories';
+
+
+if (!isset($post) || !($post instanceof Post)) {
+    $post = new Post($db);
+    if (!empty($prefix)) {
+        $post->prx = $prefix . '_';
+    }
+}$post->table = 'post_categories';
 $stmt = $post->showAll('id');
 
 $minicms = false ;

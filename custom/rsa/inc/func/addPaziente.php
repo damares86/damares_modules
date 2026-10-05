@@ -1,6 +1,13 @@
 <div class="page-title">
   <div class="row">
-    <div class="col-12 col-md-6 order-md-1 order-last">
+    <div class="col-
+
+if (!isset($rsa) || !($rsa instanceof Rsa)) {
+    $rsa = new Rsa($db);
+    if (!empty($prefix)) {
+        $rsa->prx = $prefix . '_';
+    }
+}12 col-md-6 order-md-1 order-last">
       <h3>Aggiungi un paziente</h3>
     </div>
     <div class="col-12 col-md-6 order-md-2 order-first">

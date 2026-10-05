@@ -1,6 +1,13 @@
 <?php
 
-$session->table = "sessions";
+
+
+if (!isset($session) || !($session instanceof Session)) {
+    $session = new Session($db);
+    if (!empty($prefix)) {
+        $session->prx = $prefix . '_';
+    }
+}$session->table = "sessions";
 $stmt = $session->showAll('date');
 
 ?>
