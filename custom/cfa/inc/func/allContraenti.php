@@ -1,5 +1,12 @@
 <?php 
-  $cfa->table = 'contraente' ;
+  
+
+if (!isset($cfa) || !($cfa instanceof Cfa)) {
+    $cfa = new Cfa($db);
+    if (!empty($prefix)) {
+        $cfa->prx = $prefix . '_';
+    }
+}$cfa->table = 'contraente' ;
   $contr = $cfa->showAll('id');
 ?>
 

@@ -1,5 +1,12 @@
 <?php
-$xsresources->table = 'resource_type' ;
+
+
+if (!isset($xsresources) || !($xsresources instanceof XSResources)) {
+    $xsresources = new XSResources($db);
+    if (!empty($prefix)) {
+        $xsresources->prx = $prefix . '_';
+    }
+}$xsresources->table = 'resource_type' ;
 $stmt = $xsresources->showAll('id');
 
 ?>

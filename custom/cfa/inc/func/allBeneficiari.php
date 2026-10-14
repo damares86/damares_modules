@@ -1,5 +1,12 @@
 <?php 
-  $cfa->table = 'beneficiario' ;
+  
+
+if (!isset($cfa) || !($cfa instanceof Cfa)) {
+    $cfa = new Cfa($db);
+    if (!empty($prefix)) {
+        $cfa->prx = $prefix . '_';
+    }
+}$cfa->table = 'beneficiario' ;
   $benef = $cfa->showAll('id');
 ?>
 

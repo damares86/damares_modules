@@ -1,6 +1,13 @@
 <?php
 
-$rate->id = filter_input(INPUT_GET,"idToMod");
+
+
+if (!isset($rate) || !($rate instanceof Rate)) {
+    $rate = new Rate($db);
+    if (!empty($prefix)) {
+        $rate->prx = $prefix . '_';
+    }
+}$rate->id = filter_input(INPUT_GET,"idToMod");
 $stmt1 = $rate->showAllWhereTable('id','rate_cat',['id']);
 ?>
 <div class="page-heading">

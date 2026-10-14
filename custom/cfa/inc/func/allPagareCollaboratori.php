@@ -1,5 +1,12 @@
 <?php 
-  $cfa->table = 'pag_collaboratore' ;
+  
+
+if (!isset($cfa) || !($cfa instanceof Cfa)) {
+    $cfa = new Cfa($db);
+    if (!empty($prefix)) {
+        $cfa->prx = $prefix . '_';
+    }
+}$cfa->table = 'pag_collaboratore' ;
   $collaboratori = $cfa->showAll('id');
 ?>
 

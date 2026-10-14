@@ -1,6 +1,13 @@
 <?php
 
-$id = filter_input(INPUT_GET,"idToMod") ;
+
+
+if (!isset($cfa) || !($cfa instanceof Cfa)) {
+    $cfa = new Cfa($db);
+    if (!empty($prefix)) {
+        $cfa->prx = $prefix . '_';
+    }
+}$id = filter_input(INPUT_GET,"idToMod") ;
 $cfa->id = $id ;
 $cfa->table = 'collaboratori' ;
 $stmt1 = $cfa->showAllWhere('id',['id']) ;

@@ -1,5 +1,12 @@
 <?php
-$mc->table = 'mc_pages';
+
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}$mc->table = 'mc_pages';
 $mc->no_del = 1;
 $pages = $mc->showAllWhere('id', ['no_del']);
 ?>

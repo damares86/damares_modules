@@ -1,5 +1,12 @@
 <?php
-$newsletter->table = 'newsletter_settings';
+
+
+if (!isset($newsletter) || !($newsletter instanceof Newsletter)) {
+    $newsletter = new Newsletter($db);
+    if (!empty($prefix)) {
+        $newsletter->prx = $prefix . '_';
+    }
+}$newsletter->table = 'newsletter_settings';
 $stmt = $newsletter->showAll('id');
 
 $newsletter_settings = [];

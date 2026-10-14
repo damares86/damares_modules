@@ -1,5 +1,19 @@
 <?php
-$employee->table = 'employee';
+
+
+if (!isset($employee) || !($employee instanceof Employee)) {
+    $employee = new Employee($db);
+    if (!empty($prefix)) {
+        $employee->prx = $prefix . '_';
+    }
+}
+
+if (!isset($punch) || !($punch instanceof Punch)) {
+    $punch = new Punch($db);
+    if (!empty($prefix)) {
+        $punch->prx = $prefix . '_';
+    }
+}$employee->table = 'employee';
 $punch->table = 'punch';
 
 $months = $punch->availableMonths();

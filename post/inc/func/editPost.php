@@ -1,6 +1,13 @@
 <?php
 
-$post_id = filter_input(INPUT_GET, 'idToMod');
+
+
+if (!isset($post) || !($post instanceof Post)) {
+    $post = new Post($db);
+    if (!empty($prefix)) {
+        $post->prx = $prefix . '_';
+    }
+}$post_id = filter_input(INPUT_GET, 'idToMod');
 $post->id = $post_id;
 $post->table = 'post';
 

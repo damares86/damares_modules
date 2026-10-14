@@ -1,6 +1,13 @@
 <?php
 
-$question->table = "questions";
+
+
+if (!isset($question) || !($question instanceof Question)) {
+    $question = new Question($db);
+    if (!empty($prefix)) {
+        $question->prx = $prefix . '_';
+    }
+}$question->table = "questions";
 $question->approved = 0 ;
 $stmt = $question->showAllWhere('id',['approved']);
 

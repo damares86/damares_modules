@@ -1,5 +1,12 @@
 <?php
-require "inc/funcHeader.php";
+
+
+if (!isset($rate) || !($rate instanceof Rate)) {
+    $rate = new Rate($db);
+    if (!empty($prefix)) {
+        $rate->prx = $prefix . '_';
+    }
+}require "inc/funcHeader.php";
 
 $allfiles = $rate->showAllTable('id','file_cat');
 

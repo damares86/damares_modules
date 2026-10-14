@@ -1,5 +1,12 @@
 <?php
-$email_id = filter_input(INPUT_GET, 'idToMod');
+
+
+if (!isset($newsletter) || !($newsletter instanceof Newsletter)) {
+    $newsletter = new Newsletter($db);
+    if (!empty($prefix)) {
+        $newsletter->prx = $prefix . '_';
+    }
+}$email_id = filter_input(INPUT_GET, 'idToMod');
 $newsletter->table = "newsletter_messages";
 $newsletter->id = $email_id;
 $email_stmt = $newsletter->showAllWhere('id', ['id']);

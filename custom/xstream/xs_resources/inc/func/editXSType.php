@@ -1,6 +1,13 @@
 <?php
 
-$type_id = filter_input(INPUT_GET,"idToMod");
+
+
+if (!isset($xsresources) || !($xsresources instanceof XSResources)) {
+    $xsresources = new XSResources($db);
+    if (!empty($prefix)) {
+        $xsresources->prx = $prefix . '_';
+    }
+}$type_id = filter_input(INPUT_GET,"idToMod");
 $xsresources->id = $type_id ;
 $xsresources->table = 'resource_type' ;
 

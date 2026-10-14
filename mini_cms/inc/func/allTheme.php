@@ -1,4 +1,11 @@
-<script type="text/javascript" src="script/coloris.min.js"></script>
+<script type="text/javascript" sr
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}c="script/coloris.min.js"></script>
 <link rel="stylesheet" href="assets/extensions/codemirror/codemirror.min.css">
 <link rel="stylesheet" href="assets/extensions/codemirror/dracula.min.css">
 <script src="assets/extensions/codemirror/codemirror.min.js"></script>

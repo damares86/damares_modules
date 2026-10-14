@@ -1,6 +1,13 @@
 <?php
 
-$stmt = $customer->showAll('id');
+
+
+if (!isset($customer) || !($customer instanceof Customer)) {
+    $customer = new Customer($db);
+    if (!empty($prefix)) {
+        $customer->prx = $prefix . '_';
+    }
+}$stmt = $customer->showAll('id');
 
 ?>
 <div class="page-title">

@@ -1,5 +1,12 @@
 <div class="page-title">
-    <div class="row">
+    <div 
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
             <h3><?= $allmenu_header ?></h3>
         </div>

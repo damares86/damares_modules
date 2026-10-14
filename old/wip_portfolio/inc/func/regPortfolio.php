@@ -1,6 +1,20 @@
 <?php
 
-$operation = "add";
+
+
+if (!isset($portfolio) || !($portfolio instanceof Portfolio)) {
+    $portfolio = new Portfolio($db);
+    if (!empty($prefix)) {
+        $portfolio->prx = $prefix . '_';
+    }
+}
+
+if (!isset($categories_portfolio) || !($categories_portfolio instanceof Categories_Portfolio)) {
+    $categories_portfolio = new Categories_Portfolio($db);
+    if (!empty($prefix)) {
+        $categories_portfolio->prx = $prefix . '_';
+    }
+}$operation = "add";
 $titoloForm = $regport_title_add;
 
 $postToMod="";

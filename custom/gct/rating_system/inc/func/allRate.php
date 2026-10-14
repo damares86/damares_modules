@@ -1,6 +1,13 @@
 <?php
 
-$rate->table = "rate_cat";
+
+
+if (!isset($rate) || !($rate instanceof Rate)) {
+    $rate = new Rate($db);
+    if (!empty($prefix)) {
+        $rate->prx = $prefix . '_';
+    }
+}$rate->table = "rate_cat";
 $stmt = $rate->showAll('id');
 
 ?>

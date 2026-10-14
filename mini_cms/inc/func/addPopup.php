@@ -1,5 +1,12 @@
 <?php
-// $summernote = true;
+
+
+if (!isset($mc) || !($mc instanceof Mc)) {
+    $mc = new Mc($db);
+    if (!empty($prefix)) {
+        $mc->prx = $prefix . '_';
+    }
+}// $summernote = true;
 ?>
 
 <style>

@@ -1,6 +1,13 @@
 <?php
 
-$resource_id = filter_input(INPUT_GET,"idToMod");
+
+
+if (!isset($gamresources) || !($gamresources instanceof GAMResources)) {
+    $gamresources = new GAMResources($db);
+    if (!empty($prefix)) {
+        $gamresources->prx = $prefix . '_';
+    }
+}$resource_id = filter_input(INPUT_GET,"idToMod");
 $gamresources->id = $resource_id ;
 $gamresources->table = 'resources' ;
 

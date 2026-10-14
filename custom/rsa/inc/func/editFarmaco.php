@@ -1,6 +1,13 @@
 <?php
 
-$id = filter_input(INPUT_GET, "idToMod");
+
+
+if (!isset($rsa) || !($rsa instanceof Rsa)) {
+    $rsa = new Rsa($db);
+    if (!empty($prefix)) {
+        $rsa->prx = $prefix . '_';
+    }
+}$id = filter_input(INPUT_GET, "idToMod");
 $rsa->id = $id;
 $rsa->table = 'farmaci';
 $stmt1 = $rsa->showAllWhere('id', ['id']);

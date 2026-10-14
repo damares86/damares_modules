@@ -1,6 +1,13 @@
 <?php
 
-$quiz->table = "quiz";
+
+
+if (!isset($quiz) || !($quiz instanceof Quiz)) {
+    $quiz = new Quiz($db);
+    if (!empty($prefix)) {
+        $quiz->prx = $prefix . '_';
+    }
+}$quiz->table = "quiz";
 $stmt = $quiz->showAll('id');
 
 ?>

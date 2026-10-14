@@ -1,5 +1,12 @@
 <?php
-$xsproduct->table = 'product' ;
+
+
+if (!isset($xsproduct) || !($xsproduct instanceof XSProduct)) {
+    $xsproduct = new XSProduct($db);
+    if (!empty($prefix)) {
+        $xsproduct->prx = $prefix . '_';
+    }
+}$xsproduct->table = 'product' ;
 $stmt = $xsproduct->showAll('id');
 
 ?>
