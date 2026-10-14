@@ -307,14 +307,20 @@ if (!isset($calendar) || !($calendar instanceof Calendar)) {
       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
 
+    const isMobile = window.matchMedia('(max-width: 767.98px)').matches;
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
       locale: '<?= htmlspecialchars((string) ($lang ?? 'en'), ENT_QUOTES, 'UTF-8') ?>',
-      headerToolbar: {
-        left: 'prevYear,prev,next,nextYear today',
+      initialView: isMobile ? 'timeGridDay' : 'timeGridWeek',
+      headerToolbar: isMobile ? {
+        left: 'prev,next',
         center: 'title',
-        right: 'dayGridMonth,dayGridWeek,dayGridDay'
+        right: 'today,timeGridDay,timeGridWeek,dayGridMonth'
+      } : {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'timeGridWeek,timeGridDay,dayGridMonth'
       },
-      initialView: 'dayGridMonth',
       selectable: true,
       events: 'core/get_events.php',
 
@@ -501,8 +507,8 @@ if (!isset($calendar) || !($calendar instanceof Calendar)) {
   });
 </script>
 
-<div class="card">
-  <div class="card-header text-center">
+<div class="card shadow-sm border-0">
+  <div class="card-body p-2 p-md-3">
     <div id='calendar'></div>
   </div>
 </div>
